@@ -1,0 +1,116 @@
+import { CountryConfig } from '../../types';
+
+export const ukFeeConfig: CountryConfig = {
+  code: 'UK',
+  name: 'United Kingdom',
+  domain: 'ebay.co.uk',
+  currency: {
+    code: 'GBP',
+    symbol: '£',
+    position: 'before',
+  },
+  flag: '🇬🇧',
+  defaultFixedFee: 0.30,
+  defaultStandardRate: 0.128, // 12.8% for standard business sellers (private sellers 0% in eligible consumer categories)
+  internationalFeeRate: 0.018, // 1.8% - 2.4% for cross-border
+  currencyConversionRate: 0.03,
+  defaultVatOrTaxRate: 0.20, // 20% standard UK VAT
+  hasBuyerVat: true,
+  vatName: 'UK VAT',
+  officialSource: 'eBay UK Seller Centre — Fees for Business & Private Sellers',
+  officialSourceUrl: 'https://www.ebay.co.uk/help/selling/fees-credits-invoices/fees-business-sellers?id=4364',
+  lastVerified: 'August 2026',
+  effectiveDate: '2024-10-01',
+  disclaimer: 'Calculations reflect the latest UK Fee Structure, including 0% selling fee option for private non-business sellers and standard commercial rate tiers.',
+  topRatedDiscountRate: 0.10,
+  belowStandardPenaltyRate: 0.05,
+  storeDiscounts: {
+    none: { discountMultiplier: 1.0, insertionFreeLimit: 100, name: 'Standard / Private Seller' },
+    starter: { discountMultiplier: 0.95, insertionFreeLimit: 250, name: 'Basic Shop (£27/mo)' },
+    basic: { discountMultiplier: 0.90, insertionFreeLimit: 1500, name: 'Featured Shop (£77/mo)' },
+    premium: { discountMultiplier: 0.85, insertionFreeLimit: 5000, name: 'Anchor Shop (£439/mo)' },
+    anchor: { discountMultiplier: 0.80, insertionFreeLimit: 10000, name: 'Enterprise Shop' },
+    enterprise: { discountMultiplier: 0.75, insertionFreeLimit: 50000, name: 'Custom Enterprise' },
+  },
+  categories: [
+    {
+      id: 'private_seller_all',
+      name: 'Private Seller — Most Categories (0% FVF)',
+      standardRate: 0.00,
+      fixedFee: 0.00,
+      insertionFee: 0.00,
+      notes: 'Under eBay UK updated policy, private individual sellers pay 0% final value fees across most consumer categories.',
+    },
+    {
+      id: 'business_most_categories',
+      name: 'Business Seller — Most Categories',
+      standardRate: 0.128,
+      tiers: [
+        { threshold: 5000, rate: 0.128 },
+        { rate: 0.03 },
+      ],
+      storeRate: 0.119,
+      fixedFee: 0.30,
+      insertionFee: 0.30,
+      notes: '12.8% on total amount up to £5,000; 3% on portion over £5,000 for registered business sellers.',
+    },
+    {
+      id: 'business_fashion_clothing',
+      name: 'Business Seller — Clothes, Shoes & Accessories',
+      standardRate: 0.119,
+      tiers: [
+        { threshold: 5000, rate: 0.119 },
+        { rate: 0.03 },
+      ],
+      storeRate: 0.109,
+      fixedFee: 0.30,
+      insertionFee: 0.30,
+      notes: '11.9% on total amount up to £5,000; 3% thereafter.',
+    },
+    {
+      id: 'business_tech_electronics',
+      name: 'Business Seller — Sound & Vision / Computers / Phones',
+      standardRate: 0.099,
+      tiers: [
+        { threshold: 2500, rate: 0.099 },
+        { rate: 0.025 },
+      ],
+      storeRate: 0.079,
+      fixedFee: 0.30,
+      insertionFee: 0.30,
+      notes: '9.9% (or 7.9% with shop) up to £2,500.',
+    },
+    {
+      id: 'business_watches_jewellery',
+      name: 'Business Seller — Watches & Jewellery',
+      standardRate: 0.139,
+      tiers: [
+        { threshold: 750, rate: 0.139 },
+        { threshold: 4000, rate: 0.06 },
+        { rate: 0.03 },
+      ],
+      storeRate: 0.119,
+      fixedFee: 0.30,
+      insertionFee: 0.30,
+      notes: '13.9% up to £750; 6% £750–£4,000; 3% over £4,000.',
+    },
+    {
+      id: 'business_motors_parts',
+      name: 'Vehicle Parts & Accessories',
+      standardRate: 0.109,
+      tiers: [
+        { threshold: 1000, rate: 0.109 },
+        { rate: 0.025 },
+      ],
+      storeRate: 0.099,
+      fixedFee: 0.30,
+      insertionFee: 0.30,
+      notes: '10.9% up to £1,000; 2.5% for the portion above.',
+    },
+  ],
+  notes: [
+    'Private individual sellers in the UK enjoy 0% final value fees on eligible general merchandise.',
+    'Business sellers pay standard tiered rates + £0.30 fixed fee per order (+20% UK VAT on fee invoice).',
+    'International sales outside the UK incur an international fee (1.8% to 2.4%).',
+  ],
+};
