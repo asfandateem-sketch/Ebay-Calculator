@@ -1,24 +1,30 @@
 import React from 'react';
+import { formatHref, normalizePath, useRouting } from '../hooks/useRouting';
 
-interface RouterLinkProps
-  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+export interface RouterLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   to: string;
+  children?: React.ReactNode;
+  activeClassName?: string;
+  ariaLabel?: string;
 }
 
-const BASE_PATH = '/Ebay-Calculator';
-
-export function RouterLink({
+export const RouterLink: React.FC<RouterLinkProps> = ({
   to,
   children,
+  className = '',
+  activeClassName = 'active',
   onClick,
+  ariaLabel,
+  target,
+  rel,
   ...props
-}: RouterLinkProps) {
-  const normalizedPath = to.startsWith('/') ? to : `/${to}`;
-
-  const href =
-    normalizedPath === '/'
-      ? `${BASE_PATH}/`
-      : `${BASE_PATH}${normalizedPath}`;
+}) => {
+  const { currentPath, navigate } = useRouting();
+  const isExternal = to.startsWith('http://') || to.startsWith('https://') || to.startsWith('mailto:');
+  const normalizedTarget = normalizePath(to);
+  const isActive = !isExternal && (currentPath === normalizedTarget || (normalizedTarget !== '/' && currentPath.startsWith(normalizedTarget)));
+  const combinedClassName = `${className} ${isActive && activeClassName ? activeClassName : ''}`.trim();
+  const href = formatHref(to);
 
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     // Allow browser's normal behavior for new tabs,
@@ -28,32 +34,31 @@ export function RouterLink({
       event.metaKey ||
       event.shiftKey ||
       event.altKey ||
-      event.button !== 0
+      event.button !== 0 ||
+      isExternal ||
+      target === '_blank'
     ) {
+      onClick?.(event);
       return;
     }
 
     event.preventDefault();
-
-    window.history.pushState({}, '', href);
-
-    window.dispatchEvent(new PopStateEvent('popstate'));
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-
+    navigate(to);
     onClick?.(event);
   };
 
   return (
     <a
       href={href}
+      className={combinedClassName}
       onClick={handleClick}
+      aria-label={ariaLabel || (typeof children === 'string' ? children : undefined)}
+      target={target}
+      rel={rel || (target === '_blank' ? 'noopener noreferrer' : undefined)}
       {...props}
     >
       {children}
     </a>
   );
-}
+};
+
