@@ -3,6 +3,8 @@ import { getArticleBySlug } from '../data/articles';
 import { ArticleDetail } from '../components/SellerGuides/ArticleDetail';
 import { useSEO } from '../hooks/useSEO';
 import { NotFoundPage } from './NotFoundPage';
+import { SITE_CONFIG } from '../config/site';
+import { getCanonicalUrl } from '../hooks/useRouting';
 
 interface ArticlePageProps {
   slug: string;
@@ -17,9 +19,9 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ slug, onNavigate }) =>
   }
 
   useSEO({
-    title: `${article.title} — ProfitIQ`,
+    title: `${article.title} — ${SITE_CONFIG.name}`,
     description: article.directAnswer.slice(0, 160),
-    canonical: `https://profitiq.app/articles/${article.slug}`,
+    canonical: `/articles/${article.slug}`,
     schemaJson: {
       '@context': 'https://schema.org',
       '@type': 'Article',
@@ -29,17 +31,17 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ slug, onNavigate }) =>
       dateModified: article.lastUpdated,
       author: {
         '@type': 'Organization',
-        name: 'ProfitIQ Intelligence Team',
-        url: 'https://profitiq.app',
+        name: `${SITE_CONFIG.name} Research Team`,
+        url: getCanonicalUrl('/'),
       },
       publisher: {
         '@type': 'Organization',
-        name: 'ProfitIQ',
-        url: 'https://profitiq.app',
+        name: SITE_CONFIG.name,
+        url: getCanonicalUrl('/'),
       },
       mainEntityOfPage: {
         '@type': 'WebPage',
-        '@id': `https://profitiq.app/articles/${article.slug}`,
+        '@id': getCanonicalUrl(`/articles/${article.slug}`),
       },
     },
   });

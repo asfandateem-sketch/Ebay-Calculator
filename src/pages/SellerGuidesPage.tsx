@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { ArticleList } from '../components/SellerGuides/ArticleList';
 import { useSEO } from '../hooks/useSEO';
-import { BookOpen, ArrowLeft, Filter } from 'lucide-react';
+import { BookOpen, ArrowLeft } from 'lucide-react';
+import { RouterLink } from '../components/RouterLink';
+import { SITE_CONFIG } from '../config/site';
 
 interface PageProps {
   onNavigate: (path: string) => void;
@@ -11,9 +13,9 @@ export const SellerGuidesPage: React.FC<PageProps> = ({ onNavigate }) => {
   const [activeCategory, setActiveCategory] = useState<string>('all');
 
   useSEO({
-    title: 'eBay Seller Fee & Profit Intelligence Guides (2026)',
+    title: `eBay Seller Fee & Profit Intelligence Guides (2026) | ${SITE_CONFIG.name}`,
     description: 'Expert mathematical breakdowns and actionable strategy guides on eBay final value fees, shipping margins, promoted ads ROI, and store subscriptions.',
-    canonical: 'https://profitiq.app/ebay-seller-guides',
+    canonical: '/ebay-seller-guides',
   });
 
   const categories = [
@@ -26,15 +28,14 @@ export const SellerGuidesPage: React.FC<PageProps> = ({ onNavigate }) => {
   return (
     <div style={{ paddingTop: '96px', paddingBottom: '96px', background: 'var(--color-white)' }}>
       <div className="container">
-        <button
-          type="button"
+        <RouterLink
+          to="/"
           className="nav-tag-pill"
-          onClick={() => onNavigate('/')}
           style={{ marginBottom: '24px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
         >
           <ArrowLeft size={13} />
           <span>Home</span>
-        </button>
+        </RouterLink>
 
         <div style={{ marginBottom: '36px' }}>
           <div className="section-eyebrow">

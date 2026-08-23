@@ -1,5 +1,6 @@
 import React from 'react';
 import { SITE_CONFIG } from '../../config/site';
+import { RouterLink } from '../RouterLink';
 
 interface LogoProps {
   onClick?: () => void;
@@ -8,15 +9,10 @@ interface LogoProps {
 
 export const Logo: React.FC<LogoProps> = ({ onClick, className = '' }) => {
   return (
-    <a
+    <RouterLink
       id="brand-logo"
-      href="/"
-      onClick={(e) => {
-        if (onClick) {
-          e.preventDefault();
-          onClick();
-        }
-      }}
+      to="/"
+      onClick={onClick}
       className={`brand-logo ${className}`}
       aria-label={`${SITE_CONFIG.name} Home`}
     >
@@ -27,7 +23,7 @@ export const Logo: React.FC<LogoProps> = ({ onClick, className = '' }) => {
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
-        {/* Two rotated rounded rectangles at -35 degrees */}
+        {/* Two rotated rounded rectangles at -35 degrees representing balance & profit */}
         <g transform="rotate(-35 16 16)">
           <rect
             x="7"
@@ -48,6 +44,6 @@ export const Logo: React.FC<LogoProps> = ({ onClick, className = '' }) => {
         </g>
       </svg>
       <span className="brand-name-text">{SITE_CONFIG.name}</span>
-    </a>
+    </RouterLink>
   );
 };

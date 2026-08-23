@@ -7,7 +7,9 @@ import { Calculator } from '../components/Calculator/Calculator';
 import { BreakEvenTool } from '../components/PricingTools/BreakEvenTool';
 import { FeeComparisonMatrix } from '../components/FeeComparison/FeeComparisonMatrix';
 import { FAQSection } from '../components/FAQ/FAQSection';
-import { ShieldCheck, ExternalLink, Globe, ArrowLeft, BookOpen } from 'lucide-react';
+import { ShieldCheck, ExternalLink, Globe, ArrowLeft } from 'lucide-react';
+import { RouterLink } from '../components/RouterLink';
+import { getCanonicalUrl } from '../hooks/useRouting';
 
 interface CountryCalculatorPageProps {
   countryCode: CountryCode;
@@ -18,20 +20,33 @@ export const CountryCalculatorPage: React.FC<CountryCalculatorPageProps> = ({ co
   const config = getCountryConfig(countryCode);
   const { inputs, results, updateInput, setInputs } = useCalculator(countryCode);
 
+  const countrySlugMap: Record<CountryCode, string> = {
+    US: 'usa-ebay-calculator',
+    UK: 'uk-ebay-calculator',
+    AU: 'australia-ebay-calculator',
+    CA: 'canada-ebay-calculator',
+    DE: 'germany-ebay-calculator',
+    FR: 'france-ebay-calculator',
+    IT: 'italy-ebay-calculator',
+    ES: 'spain-ebay-calculator',
+  };
+
+  const pageSlug = countrySlugMap[countryCode] || 'usa-ebay-calculator';
+
   useSEO({
     title: `${config.name} eBay Fee Calculator (2026) — ${config.domain} Profit Solver`,
     description: `Accurate 2026 eBay ${config.name} fee & profit calculator. Calculate ${config.currency.code} final value fees, ${config.vatName}, store plans, and net margins.`,
-    canonical: `https://profitiq.app/${config.name.toLowerCase().replace(/\s+/g, '-')}-ebay-calculator`,
+    canonical: `/${pageSlug}`,
     schemaJson: {
       '@context': 'https://schema.org',
       '@type': 'WebPage',
       name: `${config.name} eBay Fee Calculator`,
-      description: `Official fee calculation tool for eBay ${config.name} sellers.`,
+      description: `Verified 2026 fee calculation tool for eBay ${config.name} sellers.`,
       breadcrumb: {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://profitiq.app/' },
-          { '@type': 'ListItem', position: 2, name: `${config.name} Calculator`, item: `https://profitiq.app/${config.name.toLowerCase()}-ebay-calculator` },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
+          { '@type': 'ListItem', position: 2, name: `${config.name} Calculator`, item: getCanonicalUrl(`/${pageSlug}`) },
         ],
       },
     },
@@ -41,15 +56,14 @@ export const CountryCalculatorPage: React.FC<CountryCalculatorPageProps> = ({ co
     <div style={{ paddingTop: '96px', paddingBottom: '96px', background: 'var(--color-white)' }}>
       <div className="container">
         {/* Back Link */}
-        <button
-          type="button"
+        <RouterLink
+          to="/"
           className="nav-tag-pill"
-          onClick={() => onNavigate('/')}
           style={{ marginBottom: '24px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
         >
           <ArrowLeft size={13} />
           <span>Back to Global Overview</span>
-        </button>
+        </RouterLink>
 
         {/* Page Header */}
         <div style={{ marginBottom: '40px' }}>

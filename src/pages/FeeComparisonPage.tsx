@@ -3,30 +3,31 @@ import { FeeComparisonMatrix } from '../components/FeeComparison/FeeComparisonMa
 import { CountryGrid } from '../components/CountrySelector/CountryGrid';
 import { useSEO } from '../hooks/useSEO';
 import { Layers, ArrowLeft } from 'lucide-react';
+import { RouterLink } from '../components/RouterLink';
+import { SITE_CONFIG } from '../config/site';
 
 interface PageProps {
-  onNavigate: (path: string) => void;
+  onNavigate?: (path: string) => void;
 }
 
-export const FeeComparisonPage: React.FC<PageProps> = ({ onNavigate }) => {
+export const FeeComparisonPage: React.FC<PageProps> = () => {
   useSEO({
-    title: 'International eBay Fee Comparison Matrix (2026)',
+    title: `International eBay Fee Comparison Matrix (2026) | ${SITE_CONFIG.name}`,
     description: 'Compare eBay seller fee schedules across US, UK, Australia, Canada, Germany, France, Italy & Spain. Detailed breakdown of rates, fixed fees, and VAT.',
-    canonical: 'https://profitiq.app/ebay-fee-comparison',
+    canonical: '/ebay-fee-comparison',
   });
 
   return (
     <div style={{ paddingTop: '96px', paddingBottom: '96px', background: 'var(--color-white)' }}>
       <div className="container">
-        <button
-          type="button"
+        <RouterLink
+          to="/"
           className="nav-tag-pill"
-          onClick={() => onNavigate('/')}
           style={{ marginBottom: '24px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
         >
           <ArrowLeft size={13} />
           <span>Home</span>
-        </button>
+        </RouterLink>
 
         <div style={{ marginBottom: '36px' }}>
           <div className="section-eyebrow">
@@ -40,10 +41,10 @@ export const FeeComparisonPage: React.FC<PageProps> = ({ onNavigate }) => {
         </div>
 
         <div style={{ marginBottom: '64px' }}>
-          <FeeComparisonMatrix onSelectCountry={onNavigate} />
+          <FeeComparisonMatrix />
         </div>
 
-        <CountryGrid onSelectCountry={onNavigate} />
+        <CountryGrid />
       </div>
     </div>
   );

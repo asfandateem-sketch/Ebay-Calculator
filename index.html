@@ -17,22 +17,42 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-KMQ9LRH8');</script>
     <!-- End Google Tag Manager -->
+
+    <!-- Single Page Apps for GitHub Pages redirect decode -->
+    <script type="text/javascript">
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&');
+          }).join('?');
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location));
+    </script>
+
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     <meta name="google-site-verification" content="T-Yoh5fE30QNqCT-I8n4s2KIPGJymh9fP1cyj7GVqsc" />
-    <title>ProfitEbay — eBay Fee & Profit Intelligence Calculator</title>
-    <meta name="description" content="Calculate accurate eBay final value fees, shipping, taxes, promoted listings, profit margins, and break-even pricing across US, UK, Australia, Canada, Germany, France, Italy & Spain." />
+    <title>ProfitEbay — eBay Fee & Profit Intelligence Calculator (2026)</title>
+    <meta name="description" content="Know your profit before you list. Calculate accurate eBay final value fees, shipping, taxes, promoted listings, profit margins, and break-even pricing across 8 international marketplaces." />
+    
+    <!-- Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    
+    <!-- Open Graph & Social -->
     <meta property="og:title" content="ProfitEbay — Know Your Profit. Before You List." />
     <meta property="og:description" content="Calculate eBay fees, costs, margins and break-even price in seconds with verified international marketplace fee formulas." />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="ProfitEbay" />
+    <meta property="og:url" content="https://asfandateem-sketch.github.io/Ebay-Calculator/" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="ProfitEbay — eBay Fee Calculator & Seller Intelligence" />
     <meta name="twitter:description" content="Know your profit before you list. Calculate eBay seller fees, break-even price, and profit margins." />
-    <link rel="canonical" href="https://profitebay.ai.studio/" />
+    <link rel="canonical" href="https://asfandateem-sketch.github.io/Ebay-Calculator/" />
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -43,4 +63,3 @@
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

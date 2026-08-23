@@ -5,6 +5,8 @@ import { useCalculator } from '../hooks/useCalculator';
 import { useSEO } from '../hooks/useSEO';
 import { FAQSection } from '../components/FAQ/FAQSection';
 import { TrendingUp, ArrowLeft } from 'lucide-react';
+import { RouterLink } from '../components/RouterLink';
+import { SITE_CONFIG } from '../config/site';
 
 interface PageProps {
   onNavigate: (path: string) => void;
@@ -14,23 +16,22 @@ export const PromotedListingsPage: React.FC<PageProps> = ({ onNavigate }) => {
   const { inputs, results, updateInput, setInputs } = useCalculator();
 
   useSEO({
-    title: 'eBay Promoted Listings Calculator — Ad Rate & ROAS Optimizer',
+    title: `eBay Promoted Listings Calculator — Ad Rate & ROAS Optimizer | ${SITE_CONFIG.name}`,
     description: 'Calculate eBay Promoted Listings Standard ad fees, evaluate margin impact across ad rates (2% - 15%), and compute required sales velocity multipliers.',
-    canonical: 'https://profitiq.app/ebay-promoted-listings-calculator',
+    canonical: '/ebay-promoted-listings-calculator',
   });
 
   return (
     <div style={{ paddingTop: '96px', paddingBottom: '96px', background: 'var(--color-white)' }}>
       <div className="container">
-        <button
-          type="button"
+        <RouterLink
+          to="/"
           className="nav-tag-pill"
-          onClick={() => onNavigate('/')}
           style={{ marginBottom: '24px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
         >
           <ArrowLeft size={13} />
           <span>Home</span>
-        </button>
+        </RouterLink>
 
         <div style={{ marginBottom: '36px' }}>
           <div className="section-eyebrow">

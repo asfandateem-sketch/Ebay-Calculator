@@ -20,12 +20,12 @@ export const FeeBreakdown: React.FC<FeeBreakdownProps> = ({ inputs, results }) =
           <h3 style={{ fontSize: '15px', fontWeight: 600 }}>Fee Computation & Authoritative Policy</h3>
         </div>
         <div style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>
-          Last Verified: <strong>{countryConfig.lastVerified}</strong>
+          Fee data last verified: <strong>{countryConfig.lastVerified}</strong>
         </div>
       </div>
 
-      <div style={{ fontSize: '13px', lineHeight: 1.6, color: 'var(--color-text-muted)', marginBottom: '16px' }}>
-        {countryConfig.disclaimer}
+      <div style={{ fontSize: '13px', lineHeight: 1.6, color: 'var(--color-text-body)', marginBottom: '12px' }}>
+        <strong>Estimated eBay selling fees based on published eBay fee schedules.</strong> {countryConfig.disclaimer}
       </div>
 
       {/* Official Source Link */}
@@ -39,11 +39,13 @@ export const FeeBreakdown: React.FC<FeeBreakdownProps> = ({ inputs, results }) =
           borderRadius: 'var(--radius-sm)',
           fontSize: '13px',
           marginBottom: '16px',
+          flexWrap: 'wrap',
+          gap: '8px',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Info size={16} />
-          <span>Primary Data Source: <strong>{countryConfig.officialSource}</strong></span>
+          <span>Official Source: <strong>{countryConfig.officialSource}</strong></span>
         </div>
         <a
           href={countryConfig.officialSourceUrl}
@@ -51,9 +53,30 @@ export const FeeBreakdown: React.FC<FeeBreakdownProps> = ({ inputs, results }) =
           rel="noopener noreferrer"
           style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontWeight: 600, color: 'var(--color-primary)' }}
         >
-          <span>View eBay Docs</span>
+          <span>View official eBay fee source</span>
           <ExternalLink size={13} />
         </a>
+      </div>
+
+      {/* Trust & Tax Caution Notice */}
+      <div
+        style={{
+          padding: '12px 16px',
+          background: 'rgba(0, 0, 0, 0.03)',
+          borderLeft: '3px solid var(--color-primary)',
+          borderRadius: '0 var(--radius-sm) var(--radius-sm) 0',
+          fontSize: '12px',
+          color: 'var(--color-text-muted)',
+          lineHeight: 1.5,
+          marginBottom: '16px',
+        }}
+      >
+        <p style={{ marginBottom: '6px' }}>
+          <strong>Important Verification:</strong> Always confirm your final fees in eBay Seller Hub before making pricing decisions.
+        </p>
+        <p>
+          Tax treatment can vary by seller location, registration status, product, and jurisdiction. Consult a qualified tax professional for tax advice.
+        </p>
       </div>
 
       {/* Fee Rules Specific Notes */}

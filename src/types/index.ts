@@ -39,6 +39,7 @@ export interface CountryConfig {
   defaultVatOrTaxRate: number;
   hasBuyerVat: boolean;
   vatName: string; // e.g. "Sales Tax", "VAT", "GST"
+  regulatoryOperatingFeeRate?: number; // e.g. 0.0035 for UK / EU regulatory operating fee
   officialSource: string;
   officialSourceUrl: string;
   lastVerified: string;
@@ -84,6 +85,7 @@ export interface CalculatorResults {
   
   promotedListingFee: number;
   internationalFee: number;
+  regulatoryOperatingFee: number;
   insertionFee: number;
   
   totalEbayFees: number;

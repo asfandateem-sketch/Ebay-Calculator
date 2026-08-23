@@ -101,6 +101,12 @@ export const CalculatorResults: React.FC<CalculatorResultsProps> = ({ inputs, re
               <span className="breakdown-value">-{formatCurrency(results.internationalFee, inputs.country)}</span>
             </div>
           )}
+          {results.regulatoryOperatingFee > 0 && (
+            <div className="breakdown-row">
+              <span className="breakdown-label">Regulatory Operating Fee</span>
+              <span className="breakdown-value">-{formatCurrency(results.regulatoryOperatingFee, inputs.country)}</span>
+            </div>
+          )}
           <div className="breakdown-row">
             <span className="breakdown-label">Total Item Cost (COGS)</span>
             <span className="breakdown-value">-{formatCurrency(results.totalItemCost, inputs.country)}</span>

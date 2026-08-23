@@ -1,15 +1,17 @@
 import React from 'react';
 import { useSEO } from '../hooks/useSEO';
-import { Calculator, ArrowRight } from 'lucide-react';
+import { Calculator } from 'lucide-react';
+import { RouterLink } from '../components/RouterLink';
+import { SITE_CONFIG } from '../config/site';
 
 interface PageProps {
-  onNavigate: (path: string) => void;
+  onNavigate?: (path: string) => void;
 }
 
-export const NotFoundPage: React.FC<PageProps> = ({ onNavigate }) => {
+export const NotFoundPage: React.FC<PageProps> = () => {
   useSEO({
-    title: '404 Page Not Found — ProfitIQ',
-    description: 'The requested page could not be found. Return to the ProfitIQ eBay Fee & Profit Calculator.',
+    title: `404 Page Not Found — ${SITE_CONFIG.name}`,
+    description: `The requested page could not be found. Return to the ${SITE_CONFIG.name} eBay Fee & Profit Calculator.`,
   });
 
   return (
@@ -25,15 +27,14 @@ export const NotFoundPage: React.FC<PageProps> = ({ onNavigate }) => {
           The calculator, guide, or resource page you requested does not exist or has been moved.
         </p>
 
-        <button
-          type="button"
+        <RouterLink
+          to="/"
           className="btn-primary"
-          style={{ margin: '0 auto' }}
-          onClick={() => onNavigate('/')}
+          style={{ margin: '0 auto', display: 'inline-flex' }}
         >
           <Calculator size={16} />
           <span>Return to Fee Calculator</span>
-        </button>
+        </RouterLink>
       </div>
     </div>
   );

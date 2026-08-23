@@ -3,7 +3,10 @@ import { usFeeConfig } from './us';
 import { ukFeeConfig } from './uk';
 import { auFeeConfig } from './au';
 import { caFeeConfig } from './ca';
-import { deFeeConfig, frFeeConfig, itFeeConfig, esFeeConfig } from './de';
+import { deFeeConfig } from './de';
+import { frFeeConfig } from './fr';
+import { itFeeConfig } from './it';
+import { esFeeConfig } from './es';
 
 export const countryFeeConfigs: Record<CountryCode, CountryConfig> = {
   US: usFeeConfig,

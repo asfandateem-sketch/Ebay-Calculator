@@ -17,6 +17,7 @@ import { ResourcesPage } from './pages/ResourcesPage';
 import { EmbedPage } from './pages/EmbedPage';
 import { MethodologyPage } from './pages/MethodologyPage';
 import { LegalPage } from './pages/LegalPage';
+import { ContactPage } from './pages/ContactPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { EmbedWidget } from './components/Embed/EmbedWidget';
 import { CountryCode } from './types';
@@ -102,12 +103,15 @@ export default function App() {
       return <EmbedPage onNavigate={navigate} />;
     }
 
-    // 7. Trust & Legal
+    // 7. Trust & Legal & Contact
+    if (path === '/contact') {
+      return <ContactPage onNavigate={navigate} />;
+    }
     if (path === '/methodology') {
       return <MethodologyPage onNavigate={navigate} />;
     }
-    if (['/privacy', '/terms', '/disclaimer', '/about', '/contact'].includes(path)) {
-      const type = path.replace('/', '') as 'privacy' | 'terms' | 'disclaimer' | 'about' | 'contact';
+    if (['/privacy', '/terms', '/disclaimer', '/about'].includes(path)) {
+      const type = path.replace('/', '') as 'privacy' | 'terms' | 'disclaimer' | 'about';
       return <LegalPage type={type} onNavigate={navigate} />;
     }
 

@@ -11,6 +11,8 @@ import { ArticleList } from '../components/SellerGuides/ArticleList';
 import { FAQSection } from '../components/FAQ/FAQSection';
 import { useCalculator } from '../hooks/useCalculator';
 import { useSEO } from '../hooks/useSEO';
+import { SITE_CONFIG } from '../config/site';
+import { getCanonicalUrl } from '../hooks/useRouting';
 
 interface HomePageProps {
   onNavigate: (path: string) => void;
@@ -20,18 +22,18 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const { inputs, results, updateInput, setInputs } = useCalculator();
 
   useSEO({
-    title: 'ProfitEbay — Advanced eBay Fee & Profit Intelligence Calculator (2026)',
+    title: `${SITE_CONFIG.name} — Advanced eBay Fee & Profit Intelligence Calculator (2026)`,
     description:
-      'Calculate exact eBay seller fees, shipping costs, promoted ad ROI, and break-even pricing across US, UK, Australia, Canada, Germany, France, Italy & Spain.',
-    canonical: 'https://profitebay.ai.studio/',
+      'Calculate estimated eBay seller fees, shipping costs, promoted ad ROI, and break-even pricing across US, UK, Australia, Canada, Germany, France, Italy & Spain based on published fee schedules.',
+    canonical: '/',
     schemaJson: {
       '@context': 'https://schema.org',
       '@type': 'WebApplication',
-      name: 'ProfitEbay',
-      url: 'https://profitebay.ai.studio',
+      name: SITE_CONFIG.name,
+      url: getCanonicalUrl('/'),
       applicationCategory: 'FinanceApplication',
       operatingSystem: 'All',
-      description: 'Advanced eBay fee & profit intelligence calculator platform.',
+      description: SITE_CONFIG.description,
       offers: {
         '@type': 'Offer',
         price: '0',
@@ -56,7 +58,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
   return (
     <div id="home-page-container">
-      {/* 1. Full-Height Minimalist Hero Video Stage */}
+      {/* 1. Full-Height Hero Video Stage */}
       <Hero
         onCalculateClick={scrollToCalculator}
         onHowItWorksClick={scrollToHowItWorks}
@@ -71,8 +73,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               eBay Fee & Profit Intelligence Engine
             </h2>
             <p className="section-subtitle">
-              Real-time calculations for final value fees, insertion charges, promoted listing ROI,
-              and net seller profit margins.
+              Calculations for final value fees, insertion charges, promoted listing ROI,
+              and net seller profit margins based on published eBay policies.
             </p>
           </div>
 
@@ -141,6 +143,89 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
       {/* 8. Frequently Asked Questions Section */}
       <FAQSection />
+
+      {/* 9. Contact / Feedback CTA Section */}
+      <section id="homepage-contact-cta" className="section-padding bg-subtle">
+        <div className="container">
+          <div
+            className="calc-card"
+            style={{
+              background: 'var(--color-white)',
+              borderRadius: 'var(--radius-xl)',
+              padding: '40px 24px',
+              textAlign: 'center',
+              maxWidth: '840px',
+              margin: '0 auto',
+              border: '1px solid var(--color-border)',
+            }}
+          >
+            <h2
+              style={{
+                fontSize: '24px',
+                fontWeight: 700,
+                color: 'var(--color-text-title)',
+                marginBottom: '12px',
+                letterSpacing: '-0.02em',
+              }}
+            >
+              Have a question or spotted a fee-data issue?
+            </h2>
+            <p
+              style={{
+                fontSize: '15px',
+                color: 'var(--color-text-body)',
+                maxWidth: '600px',
+                margin: '0 auto 24px',
+                lineHeight: 1.6,
+              }}
+            >
+              Help us keep ProfitEbay useful. Contact us for questions, corrections, feature requests, partnerships or business inquiries.
+            </p>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '12px',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => onNavigate('/contact')}
+                className="btn-primary"
+                style={{
+                  minHeight: '44px',
+                  padding: '10px 24px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  borderRadius: '8px',
+                }}
+              >
+                <span>Contact ProfitEbay</span>
+              </button>
+              <a
+                href="mailto:asfandateem@gmail.com"
+                className="btn-secondary"
+                style={{
+                  minHeight: '44px',
+                  padding: '10px 24px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontWeight: 600,
+                  textDecoration: 'none',
+                }}
+              >
+                <span>Email Us</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

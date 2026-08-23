@@ -2,21 +2,23 @@ import React, { useState } from 'react';
 import { useSEO } from '../hooks/useSEO';
 import { EmbedWidget } from '../components/Embed/EmbedWidget';
 import { Code, Copy, Check, ArrowLeft } from 'lucide-react';
+import { RouterLink } from '../components/RouterLink';
+import { SITE_CONFIG } from '../config/site';
 
 interface PageProps {
-  onNavigate: (path: string) => void;
+  onNavigate?: (path: string) => void;
 }
 
-export const EmbedPage: React.FC<PageProps> = ({ onNavigate }) => {
+export const EmbedPage: React.FC<PageProps> = () => {
   const [copied, setCopied] = useState(false);
 
   useSEO({
-    title: 'Free Embeddable eBay Fee Calculator Widget for Websites & Blogs',
-    description: 'Embed the ProfitIQ eBay Fee Calculator widget onto your blog, reseller forum, or e-commerce website with a single line of responsive HTML.',
-    canonical: 'https://profitiq.app/embed/ebay-fee-calculator',
+    title: `Free Embeddable eBay Fee Calculator Widget | ${SITE_CONFIG.name}`,
+    description: `Embed the ${SITE_CONFIG.name} eBay Fee Calculator widget onto your blog, reseller forum, or e-commerce website with a single line of responsive HTML.`,
+    canonical: '/embed/ebay-fee-calculator',
   });
 
-  const embedCode = `<iframe \n  src="https://profitiq.app/embed-widget" \n  width="100%" \n  height="360" \n  style="border:none; border-radius:12px; max-width:480px; box-shadow:0 4px 20px rgba(0,0,0,0.08);" \n  title="eBay Fee Calculator by ProfitIQ"\n></iframe>`;
+  const embedCode = `<iframe \n  src="${SITE_CONFIG.url}/embed-widget" \n  width="100%" \n  height="360" \n  style="border:none; border-radius:12px; max-width:480px; box-shadow:0 4px 20px rgba(0,0,0,0.08);" \n  title="eBay Fee Calculator by ${SITE_CONFIG.name}"\n></iframe>`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(embedCode).then(() => {
@@ -28,15 +30,14 @@ export const EmbedPage: React.FC<PageProps> = ({ onNavigate }) => {
   return (
     <div style={{ paddingTop: '96px', paddingBottom: '96px', background: 'var(--color-white)' }}>
       <div className="container" style={{ maxWidth: '840px' }}>
-        <button
-          type="button"
+        <RouterLink
+          to="/"
           className="nav-tag-pill"
-          onClick={() => onNavigate('/')}
           style={{ marginBottom: '24px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
         >
           <ArrowLeft size={13} />
           <span>Home</span>
-        </button>
+        </RouterLink>
 
         <div style={{ marginBottom: '36px' }}>
           <div className="section-eyebrow">

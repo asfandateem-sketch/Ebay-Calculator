@@ -2,15 +2,27 @@ import React, { useState } from 'react';
 import { allCountryCodes, getCountryConfig } from '../../data/fee-rules';
 import { calculateEbayFees } from '../../utils/calculator/engine';
 import { formatCurrency, formatPercent } from '../../utils/currency';
-import { Globe, Layers, ArrowRight } from 'lucide-react';
+import { Layers, ArrowRight, ShieldCheck } from 'lucide-react';
+import { RouterLink } from '../RouterLink';
 
 interface FeeComparisonMatrixProps {
   onSelectCountry?: (path: string) => void;
 }
 
-export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = ({ onSelectCountry }) => {
+export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = () => {
   const [benchmarkPrice, setBenchmarkPrice] = useState<number>(100);
   const [benchmarkCost, setBenchmarkCost] = useState<number>(35);
+
+  const countryPaths: Record<string, string> = {
+    US: '/usa-ebay-calculator',
+    UK: '/uk-ebay-calculator',
+    AU: '/australia-ebay-calculator',
+    CA: '/canada-ebay-calculator',
+    DE: '/germany-ebay-calculator',
+    FR: '/france-ebay-calculator',
+    IT: '/italy-ebay-calculator',
+    ES: '/spain-ebay-calculator',
+  };
 
   const comparisons = allCountryCodes.map((code) => {
     const config = getCountryConfig(code);
@@ -43,6 +55,8 @@ export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = ({ onSele
       effectiveRate: formatPercent(results.effectiveFeeRate),
       netProfit: formatCurrency(results.netProfit, code),
       margin: formatPercent(results.profitMargin),
+      path: countryPaths[code] || '/usa-ebay-calculator',
+      lastVerified: config.lastVerified,
     };
   });
 
@@ -54,13 +68,13 @@ export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = ({ onSele
           <div>
             <h3 className="calc-title">International eBay Fee Comparison Matrix</h3>
             <p style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>
-              Standard benchmark comparison across 8 global eBay marketplaces.
+              Side-by-side benchmark comparison across 8 global eBay marketplaces.
             </p>
           </div>
         </div>
 
         {/* Benchmark Price Selector */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
           <span style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>Benchmark Sale:</span>
           {[50, 100, 250, 500, 1000].map((amt) => (
             <button
@@ -90,16 +104,20 @@ export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = ({ onSele
               <th>Effective Fee %</th>
               <th>Net Profit</th>
               <th>Profit Margin</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {comparisons.map((row) => (
               <tr key={row.code}>
                 <td>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontWeight: 600 }}>
+                  <RouterLink
+                    to={row.path}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontWeight: 600, color: 'inherit', textDecoration: 'none' }}
+                  >
                     <span>{row.flag}</span>
                     <span>{row.name}</span>
-                  </span>
+                  </RouterLink>
                 </td>
                 <td>{row.standardRate}</td>
                 <td>{row.fixedFee}</td>
@@ -107,10 +125,25 @@ export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = ({ onSele
                 <td><strong>{row.effectiveRate}</strong></td>
                 <td style={{ color: '#10b981', fontWeight: 600 }}>{row.netProfit}</td>
                 <td>{row.margin}</td>
+                <td>
+                  <RouterLink
+                    to={row.path}
+                    className="country-card-link"
+                    style={{ fontSize: '11px', whiteSpace: 'nowrap' }}
+                  >
+                    <span>Calculate</span>
+                    <ArrowRight size={12} />
+                  </RouterLink>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'var(--color-text-muted)' }}>
+        <ShieldCheck size={14} />
+        <span>Estimated figures based on published 2026 fee schedules. Verified across all 8 international domains.</span>
       </div>
     </div>
   );

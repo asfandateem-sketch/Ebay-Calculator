@@ -5,6 +5,8 @@ import { useCalculator } from '../hooks/useCalculator';
 import { useSEO } from '../hooks/useSEO';
 import { FAQSection } from '../components/FAQ/FAQSection';
 import { Target, ArrowLeft } from 'lucide-react';
+import { RouterLink } from '../components/RouterLink';
+import { SITE_CONFIG } from '../config/site';
 
 interface PageProps {
   onNavigate: (path: string) => void;
@@ -14,23 +16,22 @@ export const BreakEvenPage: React.FC<PageProps> = ({ onNavigate }) => {
   const { inputs, results, updateInput, setInputs } = useCalculator();
 
   useSEO({
-    title: 'eBay Break-Even Calculator — Find Your Minimum Selling Floor Price',
+    title: `eBay Break-Even Calculator — Find Your Minimum Selling Floor Price | ${SITE_CONFIG.name}`,
     description: 'Calculate the exact minimum listing price needed on eBay to avoid losses. Features complete price sensitivity curves and fee tier math.',
-    canonical: 'https://profitiq.app/ebay-break-even-calculator',
+    canonical: '/ebay-break-even-calculator',
   });
 
   return (
     <div style={{ paddingTop: '96px', paddingBottom: '96px', background: 'var(--color-white)' }}>
       <div className="container">
-        <button
-          type="button"
+        <RouterLink
+          to="/"
           className="nav-tag-pill"
-          onClick={() => onNavigate('/')}
           style={{ marginBottom: '24px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
         >
           <ArrowLeft size={13} />
           <span>Home</span>
-        </button>
+        </RouterLink>
 
         <div style={{ marginBottom: '36px' }}>
           <div className="section-eyebrow">

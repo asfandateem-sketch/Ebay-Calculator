@@ -78,10 +78,12 @@ export function calculateEbayFees(inputs: CalculatorInputs): CalculatorResults {
     fvfRateAmount = categoryRule.maxFee * qty;
   }
   
-  // Fixed order fee ($0.30 standard, $0.40 under $10 in US, or country default)
+  // Fixed order fee ($0.30 standard, $0.40 under $10 in US; £0.30 under £10, £0.40 over £10 in UK business; or country default)
   let fixedFeePerOrder = categoryRule.fixedFee;
-  if (inputs.country === 'US') {
+  if (inputs.country === 'US' && categoryRule.fixedFee > 0) {
     fixedFeePerOrder = totalChargeBasis <= 10.0 ? 0.40 : 0.30;
+  } else if (inputs.country === 'UK' && categoryRule.fixedFee > 0) {
+    fixedFeePerOrder = totalChargeBasis <= 10.0 ? 0.30 : 0.40;
   }
   const finalValueFixedFee = grossRevenue > 0 ? fixedFeePerOrder * qty : 0;
   
@@ -100,17 +102,21 @@ export function calculateEbayFees(inputs: CalculatorInputs): CalculatorResults {
   // Net final value fee
   const totalFinalValueFee = Math.max(0, fvfRateAmount - topRatedDiscountAmount + belowStandardPenaltyAmount + finalValueFixedFee);
   
-  // Promoted Listings fee (applied to total sale price + shipping, excluding tax in US standard)
+  // Promoted Listings fee (applied to total sale price + shipping)
   const promotedListingFee = grossRevenue * promotedRate;
   
   // International transaction fee
   const internationalFee = inputs.isInternational ? totalChargeBasis * country.internationalFeeRate : 0;
+
+  // Regulatory Operating Fee (UK & EU specific - applies to commercial/paying transactions)
+  const isZeroFeeCategory = categoryRule.standardRate === 0 && categoryRule.fixedFee === 0;
+  const regulatoryOperatingFee = (country.regulatoryOperatingFeeRate && !isZeroFeeCategory) ? totalChargeBasis * country.regulatoryOperatingFeeRate : 0;
   
   // Insertion fee (0 if free listings available)
   const insertionFee = inputs.freeMonthlyListingsUsed ? categoryRule.insertionFee * qty : 0;
   
   // Total eBay fees
-  const totalEbayFees = totalFinalValueFee + promotedListingFee + internationalFee + insertionFee;
+  const totalEbayFees = totalFinalValueFee + promotedListingFee + internationalFee + regulatoryOperatingFee + insertionFee;
   
   // Direct Costs
   const totalItemCost = itemCost * qty;
@@ -131,7 +137,8 @@ export function calculateEbayFees(inputs: CalculatorInputs): CalculatorResults {
   // Rate Factor = (baseRate * (1 - topRated + belowStandard)) + promotedRate + (isInternational ? intlRate : 0) + (rate * taxRate)
   const effectiveRateDecimal = (baseRateUsed * (1 - (inputs.sellerLevel === 'top_rated' ? country.topRatedDiscountRate : 0) + (inputs.sellerLevel === 'below_standard' ? country.belowStandardPenaltyRate : 0))) +
     promotedRate +
-    (inputs.isInternational ? country.internationalFeeRate : 0);
+    (inputs.isInternational ? country.internationalFeeRate : 0) +
+    (country.regulatoryOperatingFeeRate || 0);
   
   // Accounts for sales tax on fee basis
   const feeMultiplierWithTax = effectiveRateDecimal * (1 + taxRate);
@@ -163,6 +170,7 @@ export function calculateEbayFees(inputs: CalculatorInputs): CalculatorResults {
     belowStandardPenaltyAmount: round2(belowStandardPenaltyAmount),
     promotedListingFee: round2(promotedListingFee),
     internationalFee: round2(internationalFee),
+    regulatoryOperatingFee: round2(regulatoryOperatingFee),
     insertionFee: round2(insertionFee),
     totalEbayFees: round2(totalEbayFees),
     effectiveFeeRate: round2(effectiveFeeRate),
@@ -179,6 +187,87 @@ export function calculateEbayFees(inputs: CalculatorInputs): CalculatorResults {
     recommendedPrice30PercentMargin: isNaN(recommendedPrice30) ? 0 : recommendedPrice30,
     promotedRoas: round2(promotedRoas),
   };
+}
+
+export function calculateBreakEvenPrice(inputs: CalculatorInputs): number {
+  const country = getCountryConfig(inputs.country);
+  const itemCost = Math.max(0, Number(inputs.itemCost) || 0);
+  const shippingCost = Math.max(0, Number(inputs.shippingCost) || 0);
+  const otherCosts = Math.max(0, Number(inputs.otherCosts) || 0);
+  const shippingCharged = Math.max(0, Number(inputs.shippingCharged) || 0);
+  const promotedRate = Math.min(100, Math.max(0, Number(inputs.promotedListingRate) || 0)) / 100;
+  const taxRate = Math.max(0, Number(inputs.salesTaxOrVatRate) || 0) / 100;
+
+  const categoryRule =
+    country.categories.find((cat) => cat.id === inputs.categoryId) ||
+    country.categories[0];
+
+  const hasStore = inputs.storeSubscription !== 'none';
+  const baseRate = hasStore && categoryRule.storeRate !== undefined ? categoryRule.storeRate : categoryRule.standardRate;
+
+  let rateMultiplier = 1.0;
+  if (inputs.sellerLevel === 'top_rated') {
+    rateMultiplier -= (country.topRatedDiscountRate || 0.10);
+  }
+  let penaltyRate = 0;
+  if (inputs.sellerLevel === 'below_standard') {
+    penaltyRate = (country.belowStandardPenaltyRate || 0.05);
+  }
+
+  const intlRate = inputs.isInternational ? country.internationalFeeRate + (country.currencyConversionRate || 0) : 0;
+  const regulatoryRate = country.regulatoryOperatingFeeRate || 0;
+
+  const effectiveRate = (baseRate * rateMultiplier) + penaltyRate + promotedRate + intlRate + regulatoryRate;
+  const feeFactor = effectiveRate * (1 + taxRate);
+  const denom = Math.max(0.001, 1 - feeFactor);
+
+  const fixedFee = categoryRule.fixedFee;
+  const insertion = inputs.freeMonthlyListingsUsed ? categoryRule.insertionFee : 0;
+  const fixedCosts = itemCost + shippingCost + otherCosts + fixedFee + insertion - shippingCharged;
+
+  const raw = fixedCosts / denom;
+  return Math.max(0, Math.round(raw * 100) / 100);
+}
+
+export function calculateTargetMarginPrice(inputs: CalculatorInputs, targetMarginPercent: number): number {
+  const country = getCountryConfig(inputs.country);
+  const itemCost = Math.max(0, Number(inputs.itemCost) || 0);
+  const shippingCost = Math.max(0, Number(inputs.shippingCost) || 0);
+  const otherCosts = Math.max(0, Number(inputs.otherCosts) || 0);
+  const shippingCharged = Math.max(0, Number(inputs.shippingCharged) || 0);
+  const promotedRate = Math.min(100, Math.max(0, Number(inputs.promotedListingRate) || 0)) / 100;
+  const taxRate = Math.max(0, Number(inputs.salesTaxOrVatRate) || 0) / 100;
+
+  const categoryRule =
+    country.categories.find((cat) => cat.id === inputs.categoryId) ||
+    country.categories[0];
+
+  const hasStore = inputs.storeSubscription !== 'none';
+  const baseRate = hasStore && categoryRule.storeRate !== undefined ? categoryRule.storeRate : categoryRule.standardRate;
+
+  let rateMultiplier = 1.0;
+  if (inputs.sellerLevel === 'top_rated') {
+    rateMultiplier -= (country.topRatedDiscountRate || 0.10);
+  }
+  let penaltyRate = 0;
+  if (inputs.sellerLevel === 'below_standard') {
+    penaltyRate = (country.belowStandardPenaltyRate || 0.05);
+  }
+
+  const intlRate = inputs.isInternational ? country.internationalFeeRate + (country.currencyConversionRate || 0) : 0;
+  const regulatoryRate = country.regulatoryOperatingFeeRate || 0;
+
+  const effectiveRate = (baseRate * rateMultiplier) + penaltyRate + promotedRate + intlRate + regulatoryRate;
+  const feeFactor = effectiveRate * (1 + taxRate);
+  const marginDecimal = targetMarginPercent / 100;
+  const denom = Math.max(0.001, 1 - feeFactor - marginDecimal);
+
+  const fixedFee = categoryRule.fixedFee;
+  const insertion = inputs.freeMonthlyListingsUsed ? categoryRule.insertionFee : 0;
+  const fixedCosts = itemCost + shippingCost + otherCosts + fixedFee + insertion - shippingCharged;
+
+  const raw = fixedCosts / denom;
+  return Math.max(0, Math.round(raw * 100) / 100);
 }
 
 function round2(num: number): number {

@@ -3,18 +3,20 @@ import { useSEO } from '../hooks/useSEO';
 import { useGTM } from '../hooks/useGTM';
 import { downloadCsv } from '../utils/export';
 import { FileSpreadsheet, Download, CheckCircle, ArrowLeft } from 'lucide-react';
+import { RouterLink } from '../components/RouterLink';
+import { SITE_CONFIG } from '../config/site';
 
 interface PageProps {
-  onNavigate: (path: string) => void;
+  onNavigate?: (path: string) => void;
 }
 
-export const ResourcesPage: React.FC<PageProps> = ({ onNavigate }) => {
+export const ResourcesPage: React.FC<PageProps> = () => {
   const { trackFormSubmit } = useGTM();
 
   useSEO({
-    title: 'Free eBay Fee & Profit Spreadsheet Templates (Excel / Google Sheets)',
-    description: 'Download free eBay profit tracking templates, batch fee calculators, and break-even spreadsheets compatible with Excel and Google Sheets.',
-    canonical: 'https://profitebay.ai.studio/tools/downloadable-resources',
+    title: `Free eBay Fee & Profit Spreadsheet Templates (Excel / Google Sheets) | ${SITE_CONFIG.name}`,
+    description: `Download free eBay profit tracking templates, batch fee calculators, and break-even spreadsheets compatible with Excel and Google Sheets from ${SITE_CONFIG.name}.`,
+    canonical: '/tools/downloadable-resources',
   });
 
   const handleDownloadTemplate = () => {
@@ -36,15 +38,14 @@ export const ResourcesPage: React.FC<PageProps> = ({ onNavigate }) => {
   return (
     <div style={{ paddingTop: '96px', paddingBottom: '96px', background: 'var(--color-white)' }}>
       <div className="container" style={{ maxWidth: '840px' }}>
-        <button
-          type="button"
+        <RouterLink
+          to="/"
           className="nav-tag-pill"
-          onClick={() => onNavigate('/')}
           style={{ marginBottom: '24px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
         >
           <ArrowLeft size={13} />
           <span>Home</span>
-        </button>
+        </RouterLink>
 
         <div style={{ marginBottom: '36px' }}>
           <div className="section-eyebrow">

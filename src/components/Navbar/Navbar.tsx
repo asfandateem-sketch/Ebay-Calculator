@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Globe } from 'lucide-react';
+import { Plus, Globe, Menu } from 'lucide-react';
 import { Logo } from './Logo';
 import { NavMenuModal } from './NavMenuModal';
+import { RouterLink } from '../RouterLink';
 
 interface NavbarProps {
   onNavigate: (path: string) => void;
@@ -13,7 +14,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 15);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -25,62 +26,75 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate }) => {
         id="main-navbar"
         className={`navbar-wrapper ${isScrolled ? 'navbar-scrolled' : ''}`}
       >
-        {/* Left Section: Menu button */}
-        <div className="navbar-left">
-          <button
-            id="navbar-menu-btn"
-            type="button"
-            className="nav-menu-btn"
-            onClick={() => setIsMenuOpen(true)}
-            aria-label="Open Navigation Menu"
-          >
-            <div className="nav-menu-icon-circle">
-              <Plus size={16} />
-            </div>
-            <span>Menu</span>
-          </button>
-        </div>
+        <div className="navbar-inner container">
+          {/* Left: Brand Logo (Always visible on mobile & desktop) */}
+          <div className="navbar-brand-container">
+            <Logo onClick={() => onNavigate('/')} />
+          </div>
 
-        {/* Center Section: Brand Logo */}
-        <div className="navbar-center">
-          <Logo onClick={() => onNavigate('/')} />
-        </div>
-
-        {/* Right Section: Tags */}
-        <div className="navbar-right">
-          <div className="nav-tags-group">
-            <button
-              type="button"
+          {/* Center: Desktop Quick Calculator Links (Hidden on mobile) */}
+          <nav className="navbar-center-nav" aria-label="Quick Calculators">
+            <RouterLink
+              id="nav-quick-fee"
+              to="/ebay-fee-calculator"
               className="nav-tag-pill"
-              onClick={() => onNavigate('/ebay-fee-calculator')}
             >
               Fee Calculator
-            </button>
-            <button
-              type="button"
+            </RouterLink>
+            <RouterLink
+              id="nav-quick-profit"
+              to="/ebay-profit-calculator"
               className="nav-tag-pill"
-              onClick={() => onNavigate('/ebay-profit-calculator')}
             >
               Profit & Margins
-            </button>
-            <button
-              type="button"
+            </RouterLink>
+            <RouterLink
+              id="nav-quick-breakeven"
+              to="/ebay-break-even-calculator"
               className="nav-tag-pill"
-              onClick={() => onNavigate('/ebay-break-even-calculator')}
             >
               Break-Even
+            </RouterLink>
+            <RouterLink
+              id="nav-quick-contact"
+              to="/contact"
+              className="nav-tag-pill"
+            >
+              Contact
+            </RouterLink>
+          </nav>
+
+          {/* Right: Country Hub & Menu Button */}
+          <div className="navbar-actions">
+            {/* Country indicator (Desktop only) */}
+            <RouterLink
+              id="nav-country-pill"
+              to="/ebay-fee-comparison"
+              className="nav-country-btn"
+              title="Compare 8 international marketplace fee schedules"
+            >
+              <span>8 Countries</span>
+              <div className="nav-country-icon">
+                <Globe size={13} />
+              </div>
+            </RouterLink>
+
+            {/* Menu Trigger Button (Always visible) */}
+            <button
+              id="navbar-menu-btn"
+              type="button"
+              className="nav-menu-btn"
+              onClick={() => setIsMenuOpen(true)}
+              aria-label="Open Navigation Menu"
+              aria-expanded={isMenuOpen}
+            >
+              <div className="nav-menu-icon-circle">
+                <Menu size={16} className="nav-menu-icon-bars" />
+                <Plus size={16} className="nav-menu-icon-plus" />
+              </div>
+              <span className="nav-menu-text">Menu</span>
             </button>
           </div>
-          <button
-            type="button"
-            className="nav-right-pill"
-            onClick={() => onNavigate('/global-matrix')}
-          >
-            <span>8 Countries</span>
-            <div className="nav-right-circle-btn">
-              <Globe size={13} />
-            </div>
-          </button>
         </div>
       </header>
 

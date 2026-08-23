@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://asfandateem-sketch.github.io/Ebay-Calculator/sitemap.xml

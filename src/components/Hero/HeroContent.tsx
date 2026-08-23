@@ -23,7 +23,7 @@ export const HeroContent: React.FC<HeroContentProps> = ({ onCalculateClick, onHo
               transition={{ delay: 0.4, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
               <span className="hero-subtitle-dot" />
-              <span>Real-time eBay fee & profit calculator</span>
+              <span>Published 2026 eBay fee & profit calculation engine</span>
             </motion.div>
 
             {/* H1 Heading */}

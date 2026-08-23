@@ -12,16 +12,17 @@ export const ukFeeConfig: CountryConfig = {
   flag: '🇬🇧',
   defaultFixedFee: 0.30,
   defaultStandardRate: 0.128, // 12.8% for standard business sellers (private sellers 0% in eligible consumer categories)
+  regulatoryOperatingFeeRate: 0.0035, // 0.35% UK Regulatory Operating Fee on total transaction value
   internationalFeeRate: 0.018, // 1.8% - 2.4% for cross-border
   currencyConversionRate: 0.03,
   defaultVatOrTaxRate: 0.20, // 20% standard UK VAT
   hasBuyerVat: true,
   vatName: 'UK VAT',
-  officialSource: 'eBay UK Seller Centre — Fees for Business & Private Sellers',
+  officialSource: 'eBay UK Seller Centre — Fees for Business Sellers',
   officialSourceUrl: 'https://www.ebay.co.uk/help/selling/fees-credits-invoices/fees-business-sellers?id=4364',
   lastVerified: 'August 2026',
   effectiveDate: '2024-10-01',
-  disclaimer: 'Calculations reflect the latest UK Fee Structure, including 0% selling fee option for private non-business sellers and standard commercial rate tiers.',
+  disclaimer: 'Calculations reflect the latest UK Fee Structure, including 0% selling fees for private consumer sellers, tiered business rates, £0.30/£0.40 order fee thresholds, and the UK Regulatory Operating Fee.',
   topRatedDiscountRate: 0.10,
   belowStandardPenaltyRate: 0.05,
   storeDiscounts: {

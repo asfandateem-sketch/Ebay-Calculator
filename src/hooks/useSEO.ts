@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { trackPageView } from '../utils/analytics';
+import { getCanonicalUrl } from './useRouting';
 
 export interface SEOProps {
   title: string;
@@ -33,15 +34,22 @@ export function useSEO({ title, description, canonical, ogType = 'website', sche
     let ogTypeEl = document.querySelector('meta[property="og:type"]');
     if (ogTypeEl) ogTypeEl.setAttribute('content', ogType);
 
-    // Set Canonical
-    if (canonical) {
-      let linkCanonical = document.querySelector('link[rel="canonical"]');
-      if (!linkCanonical) {
-        linkCanonical = document.createElement('link');
-        linkCanonical.setAttribute('rel', 'canonical');
-        document.head.appendChild(linkCanonical);
-      }
-      linkCanonical.setAttribute('href', canonical);
+    // Canonical calculation: if relative or missing, format with getCanonicalUrl
+    const effectiveCanonical = canonical
+      ? (canonical.startsWith('http') ? canonical : getCanonicalUrl(canonical))
+      : getCanonicalUrl(window.location.pathname);
+
+    let linkCanonical = document.querySelector('link[rel="canonical"]');
+    if (!linkCanonical) {
+      linkCanonical = document.createElement('link');
+      linkCanonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(linkCanonical);
+    }
+    linkCanonical.setAttribute('href', effectiveCanonical);
+
+    let ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) {
+      ogUrl.setAttribute('content', effectiveCanonical);
     }
 
     // Set Structured Data JSON-LD

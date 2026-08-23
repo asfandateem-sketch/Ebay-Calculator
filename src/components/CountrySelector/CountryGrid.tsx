@@ -1,12 +1,13 @@
 import React from 'react';
 import { allCountryCodes, getCountryConfig } from '../../data/fee-rules';
 import { ArrowRight, Globe } from 'lucide-react';
+import { RouterLink } from '../RouterLink';
 
 interface CountryGridProps {
-  onSelectCountry: (path: string) => void;
+  onSelectCountry?: (path: string) => void;
 }
 
-export const CountryGrid: React.FC<CountryGridProps> = ({ onSelectCountry }) => {
+export const CountryGrid: React.FC<CountryGridProps> = () => {
   const countryUrls: Record<string, string> = {
     US: '/usa-ebay-calculator',
     UK: '/uk-ebay-calculator',
@@ -37,15 +38,11 @@ export const CountryGrid: React.FC<CountryGridProps> = ({ onSelectCountry }) => 
             const config = getCountryConfig(code);
             const path = countryUrls[code] || '/';
             return (
-              <a
+              <RouterLink
                 key={code}
                 id={`country-card-${code.toLowerCase()}`}
-                href={path}
+                to={path}
                 className="country-card"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onSelectCountry(path);
-                }}
               >
                 <div className="country-card-flag">{config.flag}</div>
                 <div className="country-card-name">{config.name}</div>
@@ -59,7 +56,7 @@ export const CountryGrid: React.FC<CountryGridProps> = ({ onSelectCountry }) => 
                   <span>Open {config.name} Hub</span>
                   <ArrowRight size={13} />
                 </div>
-              </a>
+              </RouterLink>
             );
           })}
         </div>
