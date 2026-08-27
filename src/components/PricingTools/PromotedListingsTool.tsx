@@ -2,6 +2,7 @@ import React from 'react';
 import { CalculatorInputs } from '../../types';
 import { comparePromotedRates } from '../../utils/calculator/promoted';
 import { formatCurrency, formatPercent } from '../../utils/currency';
+import { trackEvent } from '../../utils/analytics';
 import { TrendingUp, Award, BarChart3, HelpCircle } from 'lucide-react';
 
 interface PromotedListingsToolProps {
@@ -11,6 +12,15 @@ interface PromotedListingsToolProps {
 
 export const PromotedListingsTool: React.FC<PromotedListingsToolProps> = ({ inputs, onUpdateInput }) => {
   const comparisonTiers = comparePromotedRates(inputs, [0, 2, 4, 6, 8, 10, 12, 15]);
+
+  const handleSelectRate = (rate: number, fee: number) => {
+    trackEvent('promoted_listing_estimated', {
+      country: inputs.country,
+      ad_rate: rate,
+      estimated_ad_fee: fee,
+    });
+    onUpdateInput('promotedListingRate', rate);
+  };
 
   return (
     <div id="promoted-listings-tool-wrapper" className="calc-card">
@@ -77,7 +87,7 @@ export const PromotedListingsTool: React.FC<PromotedListingsToolProps> = ({ inpu
                       type="button"
                       className="nav-tag-pill"
                       style={{ fontSize: '11px', padding: '4px 10px' }}
-                      onClick={() => onUpdateInput('promotedListingRate', tier.adRate)}
+                      onClick={() => handleSelectRate(tier.adRate, tier.adFee)}
                     >
                       Use Rate
                     </button>

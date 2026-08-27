@@ -47,6 +47,7 @@ export function useCalculator(initialCountry?: CountryCode) {
       
       // Auto adjust category if country changed
       if (key === 'country' && value !== prev.country) {
+        trackEvent('marketplace_selected', { country: value, previous_country: prev.country });
         trackEvent('country_selected', { country: value });
         if (value === 'UK') {
           next.categoryId = 'private_seller_all';
@@ -75,8 +76,40 @@ export function useCalculator(initialCountry?: CountryCode) {
         }
       }
       
+      if (key === 'sellerLevel' && value !== prev.sellerLevel) {
+        trackEvent('seller_type_selected', {
+          seller_level: value,
+          store_subscription: prev.storeSubscription,
+          country: prev.country,
+        });
+      }
+
+      if (key === 'storeSubscription' && value !== prev.storeSubscription) {
+        trackEvent('seller_type_selected', {
+          seller_level: prev.sellerLevel,
+          store_subscription: value,
+          country: prev.country,
+        });
+      }
+
+      if (key === 'promotedListingRate' && value !== prev.promotedListingRate) {
+        trackEvent('promoted_listing_estimated', {
+          country: prev.country,
+          ad_rate: value,
+        });
+      }
+
       if (key === 'categoryId') {
         trackEvent('category_selected', { category: value });
+      }
+
+      // Track calculator used for substantive parameter interactions
+      if (['soldPrice', 'shippingCharged', 'itemCost', 'shippingCost', 'otherCosts', 'quantitySold'].includes(key as string)) {
+        trackEvent('calculator_used', {
+          country: prev.country,
+          category_id: prev.categoryId,
+          is_store: prev.storeSubscription !== 'none',
+        });
       }
       
       return next;

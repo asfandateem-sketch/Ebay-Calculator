@@ -6,7 +6,7 @@ export const SITE_CONFIG = {
   url: import.meta.env.VITE_SITE_URL || 'https://asfandateem-sketch.github.io/Ebay-Calculator',
   basePath: '/Ebay-Calculator',
   // Active GA4 Measurement ID
-  googleAnalyticsId: envGA && envGA !== 'G-P4N1XE6JFW' ? envGA : 'G-ZL44FN3N1L',
+  googleAnalyticsId: envGA || 'G-P4N1XE6JFW',
   // Active GTM Container ID
   googleTagManagerId: envGTM || 'GTM-KMQ9LRH8',
   tagManagerId: envGTM || 'GTM-KMQ9LRH8',

@@ -2,6 +2,7 @@ import React from 'react';
 import { allCountryCodes, getCountryConfig } from '../../data/fee-rules';
 import { ArrowRight, Globe } from 'lucide-react';
 import { RouterLink } from '../RouterLink';
+import { trackEvent } from '../../utils/analytics';
 
 interface CountryGridProps {
   onSelectCountry?: (path: string) => void;
@@ -43,6 +44,7 @@ export const CountryGrid: React.FC<CountryGridProps> = () => {
                 id={`country-card-${code.toLowerCase()}`}
                 to={path}
                 className="country-card"
+                onClick={() => trackEvent('marketplace_selected', { country: code, selection_source: 'country_grid' })}
               >
                 <div className="country-card-flag">{config.flag}</div>
                 <div className="country-card-name">{config.name}</div>

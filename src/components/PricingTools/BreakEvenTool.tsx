@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CalculatorInputs } from '../../types';
 import { generateBreakEvenCurve } from '../../utils/calculator/breakEven';
 import { calculateEbayFees } from '../../utils/calculator/engine';
 import { formatCurrency, formatPercent } from '../../utils/currency';
+import { trackEvent } from '../../utils/analytics';
 import { Target, TrendingUp, AlertTriangle } from 'lucide-react';
 
 interface BreakEvenToolProps {
@@ -13,6 +14,14 @@ interface BreakEvenToolProps {
 export const BreakEvenTool: React.FC<BreakEvenToolProps> = ({ inputs, onUpdateInput }) => {
   const baseResults = calculateEbayFees(inputs);
   const scenarios = generateBreakEvenCurve(inputs);
+
+  useEffect(() => {
+    trackEvent('break_even_calculated', {
+      country: inputs.country,
+      break_even_price: baseResults.breakEvenPrice,
+      net_profit: baseResults.netProfit,
+    });
+  }, [baseResults.breakEvenPrice, inputs.country]);
 
   return (
     <div id="breakeven-tool-wrapper" className="calc-card">

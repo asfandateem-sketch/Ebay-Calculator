@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CalculatorInputs } from '../../types';
 import { solveTargetPriceForProfit, solveTargetPriceForMargin } from '../../utils/calculator/breakEven';
 import { formatCurrency, formatPercent } from '../../utils/currency';
+import { trackEvent } from '../../utils/analytics';
 import { DollarSign, Percent, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 interface TargetPricingToolProps {
@@ -18,6 +19,15 @@ export const TargetPricingTool: React.FC<TargetPricingToolProps> = ({ inputs, on
   const solvedMargin = solveTargetPriceForMargin(inputs, targetMarginValue);
 
   const activeSolution = targetType === 'profit' ? solvedProfit : solvedMargin;
+
+  useEffect(() => {
+    trackEvent('target_margin_calculated', {
+      country: inputs.country,
+      target_type: targetType,
+      target_value: targetType === 'profit' ? targetProfitValue : targetMarginValue,
+      required_price: activeSolution.requiredPrice,
+    });
+  }, [targetType, targetProfitValue, targetMarginValue, activeSolution.requiredPrice, inputs.country]);
 
   return (
     <div id="target-pricing-tool-wrapper" className="calc-card">

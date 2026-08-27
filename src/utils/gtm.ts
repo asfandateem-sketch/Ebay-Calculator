@@ -92,8 +92,34 @@ export function pushToDataLayer(payload: Record<string, unknown>): void {
   });
 }
 
+declare global {
+  interface Window {
+    dataLayer?: Array<Record<string, unknown>>;
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 /**
- * Tracks a Single Page Application (SPA) Virtual Page View in GTM
+ * Sends a sanitized event to Google Analytics 4 (gtag.js)
+ */
+export function sendToGA4(
+  eventName: string,
+  parameters: Record<string, unknown> = {}
+): void {
+  if (typeof window === 'undefined') return;
+
+  const sanitizedParams = sanitizeNonPII(parameters);
+
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', eventName, sanitizedParams);
+  }
+}
+
+let lastTrackedPath = '';
+let lastTrackedTime = 0;
+
+/**
+ * Tracks a Single Page Application (SPA) Virtual Page View in GTM & GA4 with deduplication
  */
 export function trackGtmPageView(
   pagePath?: string,
@@ -105,13 +131,32 @@ export function trackGtmPageView(
   const path = pagePath || (window.location.pathname + window.location.search);
   const title = pageTitle || document.title;
   const location = window.location.href;
+  const now = Date.now();
 
-  pushToDataLayer({
-    event: 'page_view',
+  // Deduplicate rapid duplicate calls for the exact same path within 300ms
+  if (path === lastTrackedPath && (now - lastTrackedTime) < 300) {
+    return;
+  }
+
+  lastTrackedPath = path;
+  lastTrackedTime = now;
+
+  const pageViewPayload = {
     page_path: path,
     page_title: title,
     page_location: location,
     ...extraMetadata,
+  };
+
+  // 1. Send page_view to GA4 via gtag
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', 'page_view', pageViewPayload);
+  }
+
+  // 2. Push page_view to GTM dataLayer
+  pushToDataLayer({
+    event: 'page_view',
+    ...pageViewPayload,
   });
 }
 
@@ -150,12 +195,16 @@ export function trackGtmFormSubmit({
 }
 
 /**
- * Generic GTM custom event dispatcher with automatic non-PII filtering
+ * Generic GTM and GA4 custom event dispatcher with automatic non-PII filtering
  */
 export function trackGtmCustomEvent(
   eventName: string,
   parameters: Record<string, unknown> = {}
 ): void {
+  // 1. Send directly to GA4
+  sendToGA4(eventName, parameters);
+
+  // 2. Push to GTM dataLayer
   pushToDataLayer({
     event: eventName,
     ...parameters,
