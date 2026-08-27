@@ -15,49 +15,25 @@ export const HeroContent: React.FC<HeroContentProps> = ({ onCalculateClick, onHo
           {/* Main Left Column */}
           <div className="hero-main-col">
             {/* Subtitle */}
-            <motion.div
-              id="hero-subtitle"
-              className="hero-subtitle"
-              initial={{ y: 14, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            >
+            <div id="hero-subtitle" className="hero-subtitle">
               <span className="hero-subtitle-dot" />
               <span>Published 2026 eBay fee & profit calculation engine</span>
-            </motion.div>
+            </div>
 
-            {/* H1 Heading */}
-            <motion.h1
-              id="hero-h1-heading"
-              className="hero-heading"
-              initial={{ y: 18, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.6, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            >
+            {/* H1 Heading - Instant Paint without JS delay for optimal LCP */}
+            <h1 id="hero-h1-heading" className="hero-heading">
               Know Your Profit.
               <br />
               Before You List.
-            </motion.h1>
+            </h1>
 
             {/* Description */}
-            <motion.p
-              id="hero-description"
-              className="hero-description"
-              initial={{ y: 14, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.75, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            >
+            <p id="hero-description" className="hero-description">
               Calculate eBay fees, costs, margins and break-even price in seconds.
-            </motion.p>
+            </p>
 
             {/* CTA Buttons */}
-            <motion.div
-              id="hero-cta-group"
-              className="hero-cta-group"
-              initial={{ y: 14, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.9, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            >
+            <div id="hero-cta-group" className="hero-cta-group">
               <button
                 id="hero-btn-calculate"
                 className="btn-primary"
@@ -75,7 +51,7 @@ export const HeroContent: React.FC<HeroContentProps> = ({ onCalculateClick, onHo
                 <HelpCircle size={15} />
                 <span>How It Works</span>
               </button>
-            </motion.div>
+            </div>
           </div>
 
           {/* Right Tags Column */}

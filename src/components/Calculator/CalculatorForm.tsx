@@ -294,10 +294,12 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <input
                   id="slider-promoted-rate"
+                  name="promotedRateSlider"
                   type="range"
                   min="0"
                   max="30"
                   step="0.5"
+                  aria-label="Promoted Listings Standard Ad Rate Slider"
                   value={inputs.promotedListingRate}
                   onChange={(e) => onUpdateInput('promotedListingRate', parseFloat(e.target.value) || 0)}
                   style={{ flex: 1, accentColor: 'var(--color-primary)' }}
@@ -305,12 +307,14 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 <div className="input-with-adornment" style={{ width: '90px' }}>
                   <input
                     id="input-promoted-rate"
+                    name="promotedRate"
                     type="number"
                     min="0"
                     max="100"
                     step="0.1"
                     className="form-input has-suffix"
                     style={{ height: '36px', fontSize: '13px' }}
+                    aria-label="Promoted Listings Standard Ad Rate Percentage"
                     value={inputs.promotedListingRate}
                     onChange={(e) => onUpdateInput('promotedListingRate', parseFloat(e.target.value) || 0)}
                   />
@@ -329,11 +333,13 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 <div className="input-with-adornment">
                   <input
                     id="input-sales-tax"
+                    name="salesTaxOrVatRate"
                     type="number"
                     min="0"
                     max="50"
                     step="0.5"
                     className="form-input has-suffix"
+                    aria-label={`Estimated Buyer ${countryConfig.vatName} Rate`}
                     value={inputs.salesTaxOrVatRate}
                     onChange={(e) => onUpdateInput('salesTaxOrVatRate', parseFloat(e.target.value) || 0)}
                   />
@@ -348,10 +354,12 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({
                     <span className="switch-title">International Sale</span>
                     <span className="switch-desc">Adds {Math.round(countryConfig.internationalFeeRate * 1000) / 10}% cross-border fee</span>
                   </div>
-                  <label className="custom-switch">
+                  <label className="custom-switch" htmlFor="switch-international" aria-label="International Cross-Border Fee Switch">
                     <input
                       id="switch-international"
+                      name="isInternational"
                       type="checkbox"
+                      aria-label="Toggle International Sale Cross-Border Fee"
                       checked={inputs.isInternational}
                       onChange={(e) => onUpdateInput('isInternational', e.target.checked)}
                     />

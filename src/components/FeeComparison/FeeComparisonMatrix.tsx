@@ -130,6 +130,7 @@ export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = () => {
                     to={row.path}
                     className="country-card-link"
                     style={{ fontSize: '11px', whiteSpace: 'nowrap' }}
+                    aria-label={`Calculate eBay fees for ${row.name}`}
                   >
                     <span>Calculate</span>
                     <ArrowRight size={12} />

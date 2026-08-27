@@ -68,7 +68,10 @@ export const TargetPricingTool: React.FC<TargetPricingToolProps> = ({ inputs, on
 
       {/* Goal Input */}
       <div className="form-group" style={{ maxWidth: '320px', marginBottom: '24px' }}>
-        <label className="form-label">
+        <label
+          htmlFor={targetType === 'profit' ? 'input-target-profit-amount' : 'input-target-margin-percent'}
+          className="form-label"
+        >
           {targetType === 'profit' ? 'Desired Net Profit Amount:' : 'Desired Net Margin Percentage:'}
         </label>
         <div className="input-with-adornment">
@@ -76,10 +79,13 @@ export const TargetPricingTool: React.FC<TargetPricingToolProps> = ({ inputs, on
             <>
               <span className="input-adornment-prefix">$</span>
               <input
+                id="input-target-profit-amount"
+                name="targetProfitAmount"
                 type="number"
                 min="1"
                 step="1"
                 className="form-input has-prefix"
+                aria-label="Desired Net Profit Dollar Amount"
                 value={targetProfitValue}
                 onChange={(e) => setTargetProfitValue(parseFloat(e.target.value) || 1)}
               />
@@ -87,11 +93,14 @@ export const TargetPricingTool: React.FC<TargetPricingToolProps> = ({ inputs, on
           ) : (
             <>
               <input
+                id="input-target-margin-percent"
+                name="targetMarginPercent"
                 type="number"
                 min="1"
                 max="90"
                 step="1"
                 className="form-input has-suffix"
+                aria-label="Desired Net Profit Margin Percentage"
                 value={targetMarginValue}
                 onChange={(e) => setTargetMarginValue(parseFloat(e.target.value) || 1)}
               />

@@ -1,24 +1,57 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P4N1XE6JFW"></script>
+    <!-- Analytics & Tag Management Layer (Buffered Early, Deferred Network Fetch for Core Web Vitals) -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-P4N1XE6JFW', {
         send_page_view: false
       });
+
+      // Defer external tracking bundle download until idle / post-LCP
+      (function() {
+        var gtmLoaded = false;
+        function loadAnalytics() {
+          if (gtmLoaded) return;
+          gtmLoaded = true;
+
+          // 1. Google Tag Manager
+          (function(w,d,s,l,i){
+            w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
+            var f=d.getElementsByTagName(s)[0], j=d.createElement(s), dl=l!='dataLayer'?'&l='+l:'';
+            j.async=true;
+            j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+            f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-KMQ9LRH8');
+
+          // 2. Google Analytics 4 (gtag.js)
+          var gtagScript = document.createElement('script');
+          gtagScript.async = true;
+          gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-P4N1XE6JFW';
+          document.head.appendChild(gtagScript);
+        }
+
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(function() {
+            setTimeout(loadAnalytics, 1500);
+          }, { timeout: 3500 });
+        } else {
+          window.addEventListener('load', function() {
+            setTimeout(loadAnalytics, 1500);
+          });
+        }
+
+        // Fast user interaction trigger: load immediately if user interacts early
+        var events = ['pointerdown', 'touchstart', 'keydown', 'scroll'];
+        function triggerOnInteraction() {
+          loadAnalytics();
+          events.forEach(function(e) { window.removeEventListener(e, triggerOnInteraction, { passive: true }); });
+        }
+        events.forEach(function(e) { window.addEventListener(e, triggerOnInteraction, { passive: true, once: true }); });
+      })();
     </script>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-KMQ9LRH8');</script>
-    <!-- End Google Tag Manager -->
 
     <!-- Single Page Apps for GitHub Pages redirect decode -->
     <script type="text/javascript">
@@ -40,10 +73,13 @@
     <title>ProfitEbay — eBay Fee & Profit Intelligence Calculator (2026)</title>
     <meta name="description" content="Know your profit before you list. Calculate accurate eBay final value fees, shipping, taxes, promoted listings, profit margins, and break-even pricing across 8 international marketplaces." />
     
-    <!-- Typography -->
+    <!-- Typography with non-blocking CSS and preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" />
+    </noscript>
     
     <!-- Open Graph & Social -->
     <meta property="og:title" content="ProfitEbay — Know Your Profit. Before You List." />

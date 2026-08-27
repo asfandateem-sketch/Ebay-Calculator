@@ -124,13 +124,17 @@ export function useCalculator(initialCountry?: CountryCode) {
     }
   };
 
-  // Sync url when key numeric inputs change
+  // Debounced analytics tracking when calculated results stabilize
   useEffect(() => {
-    trackEvent('profit_calculated', {
-      country: inputs.country,
-      netProfit: results.netProfit,
-      margin: results.profitMargin,
-    });
+    const timer = setTimeout(() => {
+      trackEvent('profit_calculated', {
+        country: inputs.country,
+        netProfit: results.netProfit,
+        margin: results.profitMargin,
+      });
+    }, 400);
+
+    return () => clearTimeout(timer);
   }, [results.netProfit, results.profitMargin, inputs.country]);
 
   return {

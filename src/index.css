@@ -10,8 +10,8 @@
   --color-light-gray: #ececef;
   --color-border: rgba(0, 0, 0, 0.12);
   --color-border-dark: rgba(0, 0, 0, 0.35);
-  --color-text-muted: rgba(0, 0, 0, 0.55);
-  --color-text-subtle: rgba(0, 0, 0, 0.40);
+  --color-text-muted: rgba(0, 0, 0, 0.65);
+  --color-text-subtle: rgba(0, 0, 0, 0.58);
   --color-text-heading: #000000;
   --color-text-body: #111111;
   --color-card-bg: #ffffff;
@@ -339,7 +339,7 @@ input, select, textarea {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  min-height: 40px;
+  min-height: 44px;
   min-width: 44px;
   touch-action: manipulation;
   flex-shrink: 0;
@@ -382,8 +382,9 @@ input, select, textarea {
     height: 30px;
   }
   .nav-menu-btn {
-    padding: 3px 12px 3px 3px;
+    padding: 3px 14px 3px 3px;
     font-size: 11px;
+    min-height: 44px;
   }
 }
 
@@ -1656,7 +1657,7 @@ input, select, textarea {
 .footer-brand-text {
   font-size: 13px;
   line-height: 1.6;
-  opacity: 0.6;
+  opacity: 0.78;
   margin-top: 14px;
   margin-bottom: 20px;
 }
@@ -1666,7 +1667,7 @@ input, select, textarea {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  opacity: 0.5;
+  opacity: 0.72;
   margin-bottom: 16px;
 }
 
@@ -1679,7 +1680,7 @@ input, select, textarea {
 
 .footer-link {
   font-size: 13px;
-  opacity: 0.75;
+  opacity: 0.82;
   transition: opacity var(--transition-fast);
 }
 
@@ -1696,7 +1697,7 @@ input, select, textarea {
   flex-wrap: wrap;
   gap: 16px;
   font-size: 12px;
-  opacity: 0.55;
+  opacity: 0.75;
 }
 
 .footer-disclaimer-banner {

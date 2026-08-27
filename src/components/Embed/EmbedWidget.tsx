@@ -18,15 +18,18 @@ export const EmbedWidget: React.FC = () => {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
         <div className="form-group" style={{ marginBottom: 0 }}>
-          <label className="form-label" style={{ fontSize: '11px' }}>Sold Price</label>
+          <label htmlFor="input-embed-sold-price" className="form-label" style={{ fontSize: '11px' }}>Sold Price</label>
           <div className="input-with-adornment">
             <span className="input-adornment-prefix" style={{ fontSize: '13px' }}>$</span>
             <input
+              id="input-embed-sold-price"
+              name="soldPrice"
               type="number"
               min="0"
               step="0.01"
               className="form-input has-prefix"
               style={{ height: '38px', fontSize: '14px' }}
+              aria-label="Item Sold Price"
               value={inputs.soldPrice || ''}
               onChange={(e) => updateInput('soldPrice', parseFloat(e.target.value) || 0)}
             />
@@ -34,15 +37,18 @@ export const EmbedWidget: React.FC = () => {
         </div>
 
         <div className="form-group" style={{ marginBottom: 0 }}>
-          <label className="form-label" style={{ fontSize: '11px' }}>Item Cost (COGS)</label>
+          <label htmlFor="input-embed-item-cost" className="form-label" style={{ fontSize: '11px' }}>Item Cost (COGS)</label>
           <div className="input-with-adornment">
             <span className="input-adornment-prefix" style={{ fontSize: '13px' }}>$</span>
             <input
+              id="input-embed-item-cost"
+              name="itemCost"
               type="number"
               min="0"
               step="0.01"
               className="form-input has-prefix"
               style={{ height: '38px', fontSize: '14px' }}
+              aria-label="Item Purchase Cost (COGS)"
               value={inputs.itemCost || ''}
               onChange={(e) => updateInput('itemCost', parseFloat(e.target.value) || 0)}
             />
