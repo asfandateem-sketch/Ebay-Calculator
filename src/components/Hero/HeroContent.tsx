@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import { ArrowDown, HelpCircle, Sparkles, TrendingUp, Calculator } from 'lucide-react';
 
 interface HeroContentProps {
@@ -55,12 +54,9 @@ export const HeroContent: React.FC<HeroContentProps> = ({ onCalculateClick, onHo
           </div>
 
           {/* Right Tags Column */}
-          <motion.div
+          <div
             id="hero-tags-col"
             className="hero-tags-col"
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.0, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <span className="hero-tag-badge">
               <Calculator size={13} className="text-zinc-600" />
@@ -74,7 +70,7 @@ export const HeroContent: React.FC<HeroContentProps> = ({ onCalculateClick, onHo
               <Sparkles size={13} className="text-amber-500" />
               <span>Seller Tools</span>
             </span>
-          </motion.div>
+          </div>
         </div>
       </div>
     </footer>

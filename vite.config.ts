@@ -35,8 +35,8 @@ export default defineConfig({
             if (id.includes('lucide-react')) {
               return 'vendor-icons';
             }
-            if (id.includes('motion') || id.includes('react') || id.includes('react-dom')) {
-              return 'vendor-core';
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'vendor-react';
             }
           }
         },

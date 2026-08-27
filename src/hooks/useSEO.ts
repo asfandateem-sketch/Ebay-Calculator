@@ -115,8 +115,5 @@ export function useSEO({ title, description, canonical, ogType = 'website', sche
     } else if (scriptEl) {
       scriptEl.remove();
     }
-
-    // GA4 SPA Page View tracking
-    trackPageView(window.location.pathname + window.location.search, title);
   }, [title, description, canonical, ogType, schemaJson, noIndex]);
 }

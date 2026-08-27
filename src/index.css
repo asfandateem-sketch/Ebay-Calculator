@@ -10,8 +10,8 @@
   --color-light-gray: #ececef;
   --color-border: rgba(0, 0, 0, 0.12);
   --color-border-dark: rgba(0, 0, 0, 0.35);
-  --color-text-muted: rgba(0, 0, 0, 0.65);
-  --color-text-subtle: rgba(0, 0, 0, 0.58);
+  --color-text-muted: #4b5563;
+  --color-text-subtle: #374151;
   --color-text-heading: #000000;
   --color-text-body: #111111;
   --color-card-bg: #ffffff;
@@ -402,6 +402,7 @@ input, select, textarea {
   z-index: 100;
   display: flex;
   justify-content: flex-end;
+  animation: navMenuFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .nav-menu-drawer {
@@ -413,6 +414,17 @@ input, select, textarea {
   flex-direction: column;
   box-shadow: -8px 0 32px rgba(0, 0, 0, 0.15);
   overflow: hidden;
+  animation: navMenuSlideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes navMenuFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes navMenuSlideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
 }
 
 .nav-drawer-scrollable {
