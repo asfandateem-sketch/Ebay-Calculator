@@ -33,14 +33,14 @@ export function generateCsvExport(inputs: CalculatorInputs, results: CalculatorR
     ['Break-Even Selling Price', formatCurrency(results.breakEvenPrice, inputs.country)],
     ['Target 20% Margin Price', formatCurrency(results.recommendedPrice20PercentMargin, inputs.country)],
     ['Target 30% Margin Price', formatCurrency(results.recommendedPrice30PercentMargin, inputs.country)],
-    ['Exported Via', 'ProfitIQ (https://profitiq.app)'],
+    ['Exported Via', 'ProfitEbay (https://asfandateem-sketch.github.io/Ebay-Calculator/)'],
     ['Generated At', new Date().toISOString()],
   ];
 
   return rows.map((r) => r.map((cell) => `"${cell.replace(/"/g, '""')}"`).join(',')).join('\n');
 }
 
-export function downloadCsv(content: string, filename = 'profitiq-ebay-calculation.csv'): void {
+export function downloadCsv(content: string, filename = 'profitebay-ebay-calculation.csv'): void {
   const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');

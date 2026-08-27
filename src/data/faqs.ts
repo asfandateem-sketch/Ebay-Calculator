@@ -8,8 +8,8 @@ export interface FAQItem {
 export const generalFAQs: FAQItem[] = [
   {
     id: 'faq-1',
-    question: 'How accurate is the ProfitIQ eBay Fee Calculator?',
-    answer: 'ProfitIQ is built on official eBay 2026 fee schedules for each supported international marketplace (US, UK, AU, CA, DE, FR, IT, ES). It calculates exact Final Value Fees including category tier breakpoints, buyer sales taxes / VAT on payment processing basis, store subscription discounts, Top Rated Plus 10% rebates, below-standard penalties, and promoted listings.',
+    question: 'How accurate is the ProfitEbay eBay Fee Calculator?',
+    answer: 'ProfitEbay is built on official eBay 2026 fee schedules for each supported international marketplace (US, UK, AU, CA, DE, FR, IT, ES). It calculates exact Final Value Fees including category tier breakpoints, buyer sales taxes / VAT on payment processing basis, store subscription discounts, Top Rated Plus 10% rebates, below-standard penalties, and promoted listings.',
   },
   {
     id: 'faq-2',
@@ -29,7 +29,7 @@ export const generalFAQs: FAQItem[] = [
   {
     id: 'faq-5',
     question: 'How does eBay UK 0% private seller fee work?',
-    answer: 'eBay UK eliminated final value fees for private individual non-business sellers across most consumer categories. However, registered Business Sellers continue to pay standard category commercial rates (11.9% to 14.9% + £0.30 + VAT). You can toggle between private and business modes in ProfitIQ.',
+    answer: 'eBay UK eliminated final value fees for private individual non-business sellers across most consumer categories. However, registered Business Sellers continue to pay standard category commercial rates (11.9% to 14.9% + £0.30 + VAT). You can toggle between private and business modes in ProfitEbay.',
   },
   {
     id: 'faq-6',

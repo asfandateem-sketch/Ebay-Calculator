@@ -12,24 +12,45 @@ export function getAppBasePath(): string {
   if (pathname.startsWith(BASE_PATH)) {
     return BASE_PATH;
   }
+  if (pathname.toLowerCase().startsWith(BASE_PATH.toLowerCase())) {
+    return pathname.slice(0, BASE_PATH.length);
+  }
   return '';
 }
 
 /**
- * Normalizes a full browser path by stripping the base path prefix
+ * Normalizes a full browser path by stripping the base path prefix,
+ * removing trailing slashes, stripping hash/query, and handling lowercased paths.
  */
 export function normalizePath(fullPath: string): string {
+  if (!fullPath) return '/';
+  
+  // Strip query string and hash if present
+  let normalized = fullPath.split('?')[0].split('#')[0];
+
   const basePath = getAppBasePath();
-  let normalized = fullPath;
-  if (basePath && normalized.startsWith(basePath)) {
+  if (basePath && normalized.toLowerCase().startsWith(basePath.toLowerCase())) {
     normalized = normalized.slice(basePath.length);
   }
+  
   if (!normalized || normalized === '') {
-    normalized = '/';
+    return '/';
   }
-  // Remove duplicate slashes if any
+  
+  // Remove duplicate consecutive slashes
   normalized = normalized.replace(/\/+/g, '/');
-  return normalized;
+  
+  // Strip trailing slash unless root
+  if (normalized.length > 1 && normalized.endsWith('/')) {
+    normalized = normalized.slice(0, -1);
+  }
+  
+  // For standard non-article paths, normalize lowercase
+  if (!normalized.startsWith('/articles/')) {
+    normalized = normalized.toLowerCase();
+  }
+  
+  return normalized || '/';
 }
 
 /**

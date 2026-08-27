@@ -38,16 +38,39 @@ export default function App() {
     );
   }
 
-  // Country calculator route mapping
+  // Country calculator route mapping (canonical + aliases)
   const countryRouteMap: Record<string, CountryCode> = {
+    '/us': 'US',
+    '/usa': 'US',
     '/usa-ebay-calculator': 'US',
+    '/ebay-fee-calculator-us': 'US',
+    '/uk': 'UK',
     '/uk-ebay-calculator': 'UK',
+    '/ebay-fee-calculator-uk': 'UK',
+    '/au': 'AU',
+    '/australia': 'AU',
     '/australia-ebay-calculator': 'AU',
+    '/ebay-fee-calculator-au': 'AU',
+    '/ca': 'CA',
+    '/canada': 'CA',
     '/canada-ebay-calculator': 'CA',
+    '/ebay-fee-calculator-ca': 'CA',
+    '/de': 'DE',
+    '/germany': 'DE',
     '/germany-ebay-calculator': 'DE',
+    '/ebay-fee-calculator-de': 'DE',
+    '/fr': 'FR',
+    '/france': 'FR',
     '/france-ebay-calculator': 'FR',
+    '/ebay-fee-calculator-fr': 'FR',
+    '/it': 'IT',
+    '/italy': 'IT',
     '/italy-ebay-calculator': 'IT',
+    '/ebay-fee-calculator-it': 'IT',
+    '/es': 'ES',
+    '/spain': 'ES',
     '/spain-ebay-calculator': 'ES',
+    '/ebay-fee-calculator-es': 'ES',
   };
 
   const renderContent = () => {
@@ -57,19 +80,19 @@ export default function App() {
     }
 
     // 2. Specialized Core Calculators
-    if (path === '/ebay-fee-calculator') {
+    if (path === '/ebay-fee-calculator' || path === '/calculator') {
       return <CalculatorPage onNavigate={navigate} />;
     }
-    if (path === '/ebay-profit-calculator') {
+    if (path === '/ebay-profit-calculator' || path === '/profit') {
       return <ProfitCalculatorPage onNavigate={navigate} />;
     }
-    if (path === '/ebay-break-even-calculator') {
+    if (path === '/ebay-break-even-calculator' || path === '/breakeven' || path === '/break-even') {
       return <BreakEvenPage onNavigate={navigate} />;
     }
-    if (path === '/ebay-pricing-calculator') {
+    if (path === '/ebay-pricing-calculator' || path === '/pricing') {
       return <PricingCalculatorPage onNavigate={navigate} />;
     }
-    if (path === '/ebay-promoted-listings-calculator') {
+    if (path === '/ebay-promoted-listings-calculator' || path === '/promoted-listings' || path === '/promoted') {
       return <PromotedListingsPage onNavigate={navigate} />;
     }
 
@@ -79,15 +102,15 @@ export default function App() {
     }
 
     // 4. Comparison & History
-    if (path === '/ebay-fee-comparison') {
+    if (path === '/ebay-fee-comparison' || path === '/comparison') {
       return <FeeComparisonPage onNavigate={navigate} />;
     }
-    if (path === '/ebay-fee-history') {
+    if (path === '/ebay-fee-history' || path === '/history') {
       return <FeeHistoryPage onNavigate={navigate} />;
     }
 
     // 5. Guides & Knowledge Base
-    if (path === '/ebay-seller-guides') {
+    if (path === '/ebay-seller-guides' || path === '/guides' || path === '/articles') {
       return <SellerGuidesPage onNavigate={navigate} />;
     }
     if (path.startsWith('/articles/')) {
@@ -96,10 +119,10 @@ export default function App() {
     }
 
     // 6. Resources & Embed
-    if (path === '/tools/downloadable-resources') {
+    if (path === '/tools/downloadable-resources' || path === '/resources') {
       return <ResourcesPage onNavigate={navigate} />;
     }
-    if (path === '/embed/ebay-fee-calculator') {
+    if (path === '/embed/ebay-fee-calculator' || path === '/embed') {
       return <EmbedPage onNavigate={navigate} />;
     }
 

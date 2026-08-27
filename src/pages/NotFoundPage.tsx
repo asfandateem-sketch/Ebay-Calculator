@@ -12,6 +12,7 @@ export const NotFoundPage: React.FC<PageProps> = () => {
   useSEO({
     title: `404 Page Not Found — ${SITE_CONFIG.name}`,
     description: `The requested page could not be found. Return to the ${SITE_CONFIG.name} eBay Fee & Profit Calculator.`,
+    noIndex: true,
   });
 
   return (

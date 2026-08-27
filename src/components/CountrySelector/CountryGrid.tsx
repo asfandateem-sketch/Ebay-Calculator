@@ -10,14 +10,14 @@ interface CountryGridProps {
 
 export const CountryGrid: React.FC<CountryGridProps> = () => {
   const countryUrls: Record<string, string> = {
-    US: '/usa-ebay-calculator',
-    UK: '/uk-ebay-calculator',
-    AU: '/australia-ebay-calculator',
-    CA: '/canada-ebay-calculator',
-    DE: '/germany-ebay-calculator',
-    FR: '/france-ebay-calculator',
-    IT: '/italy-ebay-calculator',
-    ES: '/spain-ebay-calculator',
+    US: '/us',
+    UK: '/uk',
+    AU: '/au',
+    CA: '/ca',
+    DE: '/de',
+    FR: '/fr',
+    IT: '/it',
+    ES: '/es',
   };
 
   return (

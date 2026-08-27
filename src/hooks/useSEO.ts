@@ -8,9 +8,10 @@ export interface SEOProps {
   canonical?: string;
   ogType?: 'website' | 'article';
   schemaJson?: object | object[];
+  noIndex?: boolean;
 }
 
-export function useSEO({ title, description, canonical, ogType = 'website', schemaJson }: SEOProps) {
+export function useSEO({ title, description, canonical, ogType = 'website', schemaJson, noIndex = false }: SEOProps) {
   useEffect(() => {
     // Set page title
     document.title = title;
@@ -24,15 +25,64 @@ export function useSEO({ title, description, canonical, ogType = 'website', sche
     }
     metaDesc.setAttribute('content', description);
 
-    // Set OpenGraph
+    // Set robots meta tag
+    let robotsMeta = document.querySelector('meta[name="robots"]');
+    if (!robotsMeta) {
+      robotsMeta = document.createElement('meta');
+      robotsMeta.setAttribute('name', 'robots');
+      document.head.appendChild(robotsMeta);
+    }
+    robotsMeta.setAttribute('content', noIndex ? 'noindex, follow' : 'index, follow');
+
+    // Set OpenGraph tags
     let ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', title);
+    if (!ogTitle) {
+      ogTitle = document.createElement('meta');
+      ogTitle.setAttribute('property', 'og:title');
+      document.head.appendChild(ogTitle);
+    }
+    ogTitle.setAttribute('content', title);
 
     let ogDesc = document.querySelector('meta[property="og:description"]');
-    if (ogDesc) ogDesc.setAttribute('content', description);
+    if (!ogDesc) {
+      ogDesc = document.createElement('meta');
+      ogDesc.setAttribute('property', 'og:description');
+      document.head.appendChild(ogDesc);
+    }
+    ogDesc.setAttribute('content', description);
 
     let ogTypeEl = document.querySelector('meta[property="og:type"]');
-    if (ogTypeEl) ogTypeEl.setAttribute('content', ogType);
+    if (!ogTypeEl) {
+      ogTypeEl = document.createElement('meta');
+      ogTypeEl.setAttribute('property', 'og:type');
+      document.head.appendChild(ogTypeEl);
+    }
+    ogTypeEl.setAttribute('content', ogType);
+
+    let ogSiteName = document.querySelector('meta[property="og:site_name"]');
+    if (!ogSiteName) {
+      ogSiteName = document.createElement('meta');
+      ogSiteName.setAttribute('property', 'og:site_name');
+      document.head.appendChild(ogSiteName);
+    }
+    ogSiteName.setAttribute('content', 'ProfitEbay');
+
+    // Set Twitter tags
+    let twTitle = document.querySelector('meta[name="twitter:title"]');
+    if (!twTitle) {
+      twTitle = document.createElement('meta');
+      twTitle.setAttribute('name', 'twitter:title');
+      document.head.appendChild(twTitle);
+    }
+    twTitle.setAttribute('content', title);
+
+    let twDesc = document.querySelector('meta[name="twitter:description"]');
+    if (!twDesc) {
+      twDesc = document.createElement('meta');
+      twDesc.setAttribute('name', 'twitter:description');
+      document.head.appendChild(twDesc);
+    }
+    twDesc.setAttribute('content', description);
 
     // Canonical calculation: if relative or missing, format with getCanonicalUrl
     const effectiveCanonical = canonical
@@ -68,5 +118,5 @@ export function useSEO({ title, description, canonical, ogType = 'website', sche
 
     // GA4 SPA Page View tracking
     trackPageView(window.location.pathname + window.location.search, title);
-  }, [title, description, canonical, ogType, schemaJson]);
+  }, [title, description, canonical, ogType, schemaJson, noIndex]);
 }

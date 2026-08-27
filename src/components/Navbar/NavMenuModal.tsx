@@ -133,7 +133,7 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                 <div className="nav-drawer-grid-links">
                   <RouterLink
                     id="drawer-country-us"
-                    to="/usa-ebay-calculator"
+                    to="/us"
                     className="nav-drawer-link-pill"
                     onClick={() => onClose()}
                   >
@@ -141,7 +141,7 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                   </RouterLink>
                   <RouterLink
                     id="drawer-country-uk"
-                    to="/uk-ebay-calculator"
+                    to="/uk"
                     className="nav-drawer-link-pill"
                     onClick={() => onClose()}
                   >
@@ -149,7 +149,7 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                   </RouterLink>
                   <RouterLink
                     id="drawer-country-au"
-                    to="/australia-ebay-calculator"
+                    to="/au"
                     className="nav-drawer-link-pill"
                     onClick={() => onClose()}
                   >
@@ -157,7 +157,7 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                   </RouterLink>
                   <RouterLink
                     id="drawer-country-ca"
-                    to="/canada-ebay-calculator"
+                    to="/ca"
                     className="nav-drawer-link-pill"
                     onClick={() => onClose()}
                   >
@@ -165,7 +165,7 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                   </RouterLink>
                   <RouterLink
                     id="drawer-country-de"
-                    to="/germany-ebay-calculator"
+                    to="/de"
                     className="nav-drawer-link-pill"
                     onClick={() => onClose()}
                   >
@@ -173,7 +173,7 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                   </RouterLink>
                   <RouterLink
                     id="drawer-country-fr"
-                    to="/france-ebay-calculator"
+                    to="/fr"
                     className="nav-drawer-link-pill"
                     onClick={() => onClose()}
                   >
@@ -181,7 +181,7 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                   </RouterLink>
                   <RouterLink
                     id="drawer-country-it"
-                    to="/italy-ebay-calculator"
+                    to="/it"
                     className="nav-drawer-link-pill"
                     onClick={() => onClose()}
                   >
@@ -189,7 +189,7 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                   </RouterLink>
                   <RouterLink
                     id="drawer-country-es"
-                    to="/spain-ebay-calculator"
+                    to="/es"
                     className="nav-drawer-link-pill"
                     onClick={() => onClose()}
                   >

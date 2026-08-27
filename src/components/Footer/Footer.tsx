@@ -70,42 +70,42 @@ export const Footer: React.FC<FooterProps> = () => {
             <div className="footer-col-title">8 Marketplaces</div>
             <ul className="footer-links-list">
               <li>
-                <RouterLink to="/usa-ebay-calculator" className="footer-link">
+                <RouterLink to="/us" className="footer-link">
                   🇺🇸 United States
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/uk-ebay-calculator" className="footer-link">
+                <RouterLink to="/uk" className="footer-link">
                   🇬🇧 United Kingdom
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/australia-ebay-calculator" className="footer-link">
+                <RouterLink to="/au" className="footer-link">
                   🇦🇺 Australia
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/canada-ebay-calculator" className="footer-link">
+                <RouterLink to="/ca" className="footer-link">
                   🇨🇦 Canada
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/germany-ebay-calculator" className="footer-link">
+                <RouterLink to="/de" className="footer-link">
                   🇩🇪 Germany
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/france-ebay-calculator" className="footer-link">
+                <RouterLink to="/fr" className="footer-link">
                   🇫🇷 France
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/italy-ebay-calculator" className="footer-link">
+                <RouterLink to="/it" className="footer-link">
                   🇮🇹 Italy
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/spain-ebay-calculator" className="footer-link">
+                <RouterLink to="/es" className="footer-link">
                   🇪🇸 Spain
                 </RouterLink>
               </li>

@@ -76,12 +76,12 @@ export const EmbedWidget: React.FC = () => {
       </div>
 
       <a
-        href="https://profitiq.app"
+        href="https://asfandateem-sketch.github.io/Ebay-Calculator/"
         target="_blank"
         rel="noopener noreferrer"
         className="embed-badge-link"
       >
-        <span>Powered by <strong>ProfitIQ</strong> Seller Intelligence</span>
+        <span>Powered by <strong>ProfitEbay</strong> Seller Intelligence</span>
         <ExternalLink size={12} />
       </a>
     </div>
