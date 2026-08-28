@@ -100,19 +100,17 @@ declare global {
 }
 
 /**
- * Sends a sanitized event to Google Analytics 4 (gtag.js)
+ * Sends a sanitized event to Google Analytics 4 / GTM dataLayer
  */
 export function sendToGA4(
   eventName: string,
   parameters: Record<string, unknown> = {}
 ): void {
   if (typeof window === 'undefined') return;
-
-  const sanitizedParams = sanitizeNonPII(parameters);
-
-  if (typeof window.gtag === 'function') {
-    window.gtag('event', eventName, sanitizedParams);
-  }
+  pushToDataLayer({
+    event: eventName,
+    ...parameters,
+  });
 }
 
 let lastTrackedPath = '';
@@ -148,12 +146,7 @@ export function trackGtmPageView(
     ...extraMetadata,
   };
 
-  // 1. Send page_view to GA4 via gtag
-  if (typeof window.gtag === 'function') {
-    window.gtag('event', 'page_view', pageViewPayload);
-  }
-
-  // 2. Push page_view to GTM dataLayer
+  // Single-source push to GTM & GA4 dataLayer
   pushToDataLayer({
     event: 'page_view',
     ...pageViewPayload,
@@ -201,10 +194,6 @@ export function trackGtmCustomEvent(
   eventName: string,
   parameters: Record<string, unknown> = {}
 ): void {
-  // 1. Send directly to GA4
-  sendToGA4(eventName, parameters);
-
-  // 2. Push to GTM dataLayer
   pushToDataLayer({
     event: eventName,
     ...parameters,

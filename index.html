@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Analytics & Tag Management Layer (Buffered Early, Deferred Network Fetch for Core Web Vitals) -->
+    <!-- Analytics & Tag Management Layer (Early dataLayer queue, non-blocking deferred network load) -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -10,10 +10,10 @@
         send_page_view: false
       });
 
-      // Defer GTM container download until idle / post-LCP to eliminate main-thread blocking
+      // Defer GTM container download to eliminate main-thread blocking on initial load
       (function() {
         var gtmLoaded = false;
-        function loadAnalytics() {
+        function loadGTM() {
           if (gtmLoaded) return;
           gtmLoaded = true;
 
@@ -27,23 +27,30 @@
           })(window,document,'script','dataLayer','GTM-KMQ9LRH8');
         }
 
-        if ('requestIdleCallback' in window) {
-          window.requestIdleCallback(function() {
-            setTimeout(loadAnalytics, 2000);
-          }, { timeout: 4000 });
-        } else {
-          window.addEventListener('load', function() {
-            setTimeout(loadAnalytics, 2000);
+        // Fast user interaction trigger: load immediately upon any user engagement
+        var userEvents = ['pointerdown', 'touchstart', 'keydown', 'scroll', 'click'];
+        function onUserInteraction() {
+          loadGTM();
+          userEvents.forEach(function(e) {
+            window.removeEventListener(e, onUserInteraction, { passive: true });
           });
         }
+        userEvents.forEach(function(e) {
+          window.addEventListener(e, onUserInteraction, { passive: true, once: true });
+        });
 
-        // Fast user interaction trigger: load immediately if user interacts early
-        var events = ['pointerdown', 'touchstart', 'keydown', 'scroll'];
-        function triggerOnInteraction() {
-          loadAnalytics();
-          events.forEach(function(e) { window.removeEventListener(e, triggerOnInteraction, { passive: true }); });
+        // Background idle fallback after full initial paint and interaction readiness
+        if ('requestIdleCallback' in window) {
+          window.addEventListener('load', function() {
+            window.requestIdleCallback(function() {
+              setTimeout(loadGTM, 3500);
+            }, { timeout: 7000 });
+          });
+        } else {
+          window.addEventListener('load', function() {
+            setTimeout(loadGTM, 4000);
+          });
         }
-        events.forEach(function(e) { window.addEventListener(e, triggerOnInteraction, { passive: true, once: true }); });
       })();
     </script>
 

@@ -583,7 +583,7 @@ input, select, textarea {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: rgba(0, 0, 0, 0.65);
+  color: #374151;
   margin-bottom: 16px;
 }
 
@@ -621,7 +621,7 @@ input, select, textarea {
   line-height: 1.6;
   letter-spacing: -0.01em;
   font-weight: 400;
-  color: rgba(0, 0, 0, 0.68);
+  color: #374151;
   max-width: 540px;
   margin-bottom: 32px;
 }
