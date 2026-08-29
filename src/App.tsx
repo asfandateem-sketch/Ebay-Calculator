@@ -13,6 +13,7 @@ const ProfitCalculatorPage = lazy(() => import('./pages/ProfitCalculatorPage').t
 const BreakEvenPage = lazy(() => import('./pages/BreakEvenPage').then(m => ({ default: m.BreakEvenPage })));
 const PricingCalculatorPage = lazy(() => import('./pages/PricingCalculatorPage').then(m => ({ default: m.PricingCalculatorPage })));
 const PromotedListingsPage = lazy(() => import('./pages/PromotedListingsPage').then(m => ({ default: m.PromotedListingsPage })));
+const EcommerceInvestmentCalculatorPage = lazy(() => import('./pages/EcommerceInvestmentCalculatorPage').then(m => ({ default: m.EcommerceInvestmentCalculatorPage })));
 const CountryCalculatorPage = lazy(() => import('./pages/CountryCalculatorPage').then(m => ({ default: m.CountryCalculatorPage })));
 const FeeComparisonPage = lazy(() => import('./pages/FeeComparisonPage').then(m => ({ default: m.FeeComparisonPage })));
 const FeeHistoryPage = lazy(() => import('./pages/FeeHistoryPage').then(m => ({ default: m.FeeHistoryPage })));
@@ -107,6 +108,9 @@ export default function App() {
         {(path === '/ebay-promoted-listings-calculator' || path === '/promoted-listings' || path === '/promoted') && (
           <PromotedListingsPage onNavigate={navigate} />
         )}
+        {(path === '/ecommerce-investment-profit-calculator' || path === '/ecommerce-calculator' || path === '/investment-calculator') && (
+          <EcommerceInvestmentCalculatorPage onNavigate={navigate} />
+        )}
 
         {/* 3. Country Marketplaces */}
         {countryRouteMap[path] && (
@@ -151,6 +155,7 @@ export default function App() {
           path === '/ebay-break-even-calculator' || path === '/breakeven' || path === '/break-even' ||
           path === '/ebay-pricing-calculator' || path === '/pricing' ||
           path === '/ebay-promoted-listings-calculator' || path === '/promoted-listings' || path === '/promoted' ||
+          path === '/ecommerce-investment-profit-calculator' || path === '/ecommerce-calculator' || path === '/investment-calculator' ||
           countryRouteMap[path] ||
           path === '/ebay-fee-comparison' || path === '/comparison' ||
           path === '/ebay-fee-history' || path === '/history' ||

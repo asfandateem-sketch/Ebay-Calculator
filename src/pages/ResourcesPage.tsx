@@ -5,6 +5,7 @@ import { downloadCsv } from '../utils/export';
 import { FileSpreadsheet, Download, CheckCircle, ArrowLeft } from 'lucide-react';
 import { RouterLink } from '../components/RouterLink';
 import { SITE_CONFIG } from '../config/site';
+import { getCanonicalUrl } from '../hooks/useRouting';
 
 interface PageProps {
   onNavigate?: (path: string) => void;
@@ -14,9 +15,32 @@ export const ResourcesPage: React.FC<PageProps> = () => {
   const { trackFormSubmit } = useGTM();
 
   useSEO({
-    title: `Free eBay Fee & Profit Spreadsheet Templates (Excel / Google Sheets) | ${SITE_CONFIG.name}`,
+    title: `Free eBay Fee & Profit Spreadsheet Templates (Excel / Sheets) | ${SITE_CONFIG.name}`,
     description: `Download free eBay profit tracking templates, batch fee calculators, and break-even spreadsheets compatible with Excel and Google Sheets from ${SITE_CONFIG.name}.`,
+    keywords: 'free ebay fee spreadsheet, ebay profit spreadsheet template, ebay inventory tracking excel, google sheets ebay calculator',
     canonical: '/tools/downloadable-resources',
+    schemaJson: {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'DigitalDocument',
+          name: 'eBay Inventory & Profit Master Sheet Spreadsheet Template',
+          fileFormat: 'text/csv',
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+          },
+        },
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
+            { '@type': 'ListItem', position: 2, name: 'Downloadable Resources', item: getCanonicalUrl('/tools/downloadable-resources') },
+          ],
+        },
+      ],
+    },
   });
 
   const handleDownloadTemplate = () => {

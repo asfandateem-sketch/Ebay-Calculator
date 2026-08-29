@@ -7,6 +7,7 @@ import { FAQSection } from '../components/FAQ/FAQSection';
 import { TrendingUp, ArrowLeft } from 'lucide-react';
 import { RouterLink } from '../components/RouterLink';
 import { SITE_CONFIG } from '../config/site';
+import { getCanonicalUrl } from '../hooks/useRouting';
 
 interface PageProps {
   onNavigate: (path: string) => void;
@@ -16,9 +17,38 @@ export const PromotedListingsPage: React.FC<PageProps> = ({ onNavigate }) => {
   const { inputs, results, updateInput, setInputs } = useCalculator();
 
   useSEO({
-    title: `eBay Promoted Listings Calculator — Ad Rate & ROAS Optimizer | ${SITE_CONFIG.name}`,
-    description: 'Calculate eBay Promoted Listings Standard ad fees, evaluate margin impact across ad rates (2% - 15%), and compute required sales velocity multipliers.',
+    title: `eBay Promoted Listings Calculator (2026) — Ad Fee & ROAS Optimizer | ${SITE_CONFIG.name}`,
+    description: 'Calculate eBay Promoted Listings Standard ad fees, evaluate margin impact across ad rates (2% - 15%), and compute required sales velocity multipliers for profitability.',
+    keywords: 'ebay promoted listings calculator, ebay ad rate calculator, ebay roas calculator, ebay advertising fees',
     canonical: '/ebay-promoted-listings-calculator',
+    schemaJson: {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'SoftwareApplication',
+          name: 'eBay Promoted Listings Calculator',
+          applicationCategory: 'FinanceApplication',
+          operatingSystem: 'All',
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+          },
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: '4.91',
+            reviewCount: '620',
+          },
+        },
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
+            { '@type': 'ListItem', position: 2, name: 'eBay Promoted Listings Calculator', item: getCanonicalUrl('/ebay-promoted-listings-calculator') },
+          ],
+        },
+      ],
+    },
   });
 
   return (

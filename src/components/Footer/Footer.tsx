@@ -3,6 +3,7 @@ import { Logo } from '../Navbar/Logo';
 import { ShieldCheck, ExternalLink, Globe, Scale } from 'lucide-react';
 import { SITE_CONFIG } from '../../config/site';
 import { RouterLink } from '../RouterLink';
+import { CountryFlag } from '../CountrySelector/CountryFlag';
 
 interface FooterProps {
   onNavigate?: (path: string) => void;
@@ -62,6 +63,11 @@ export const Footer: React.FC<FooterProps> = () => {
                   Promoted Ad Optimizer
                 </RouterLink>
               </li>
+              <li>
+                <RouterLink to="/ecommerce-investment-profit-calculator" className="footer-link">
+                  E-commerce Investment & Profit
+                </RouterLink>
+              </li>
             </ul>
           </div>
 
@@ -70,43 +76,51 @@ export const Footer: React.FC<FooterProps> = () => {
             <div className="footer-col-title">8 Marketplaces</div>
             <ul className="footer-links-list">
               <li>
-                <RouterLink to="/us" className="footer-link">
-                  🇺🇸 United States
+                <RouterLink to="/us" className="footer-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <CountryFlag code="US" width={16} height={11} ariaLabel="United States flag" />
+                  <span>United States</span>
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/uk" className="footer-link">
-                  🇬🇧 United Kingdom
+                <RouterLink to="/uk" className="footer-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <CountryFlag code="UK" width={16} height={11} ariaLabel="United Kingdom flag" />
+                  <span>United Kingdom</span>
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/au" className="footer-link">
-                  🇦🇺 Australia
+                <RouterLink to="/au" className="footer-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <CountryFlag code="AU" width={16} height={11} ariaLabel="Australia flag" />
+                  <span>Australia</span>
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/ca" className="footer-link">
-                  🇨🇦 Canada
+                <RouterLink to="/ca" className="footer-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <CountryFlag code="CA" width={16} height={11} ariaLabel="Canada flag" />
+                  <span>Canada</span>
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/de" className="footer-link">
-                  🇩🇪 Germany
+                <RouterLink to="/de" className="footer-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <CountryFlag code="DE" width={16} height={11} ariaLabel="Germany flag" />
+                  <span>Germany</span>
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/fr" className="footer-link">
-                  🇫🇷 France
+                <RouterLink to="/fr" className="footer-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <CountryFlag code="FR" width={16} height={11} ariaLabel="France flag" />
+                  <span>France</span>
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/it" className="footer-link">
-                  🇮🇹 Italy
+                <RouterLink to="/it" className="footer-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <CountryFlag code="IT" width={16} height={11} ariaLabel="Italy flag" />
+                  <span>Italy</span>
                 </RouterLink>
               </li>
               <li>
-                <RouterLink to="/es" className="footer-link">
-                  🇪🇸 Spain
+                <RouterLink to="/es" className="footer-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <CountryFlag code="ES" width={16} height={11} ariaLabel="Spain flag" />
+                  <span>Spain</span>
                 </RouterLink>
               </li>
             </ul>

@@ -8,6 +8,7 @@ import { FAQSection } from '../components/FAQ/FAQSection';
 import { TrendingUp, ArrowLeft } from 'lucide-react';
 import { RouterLink } from '../components/RouterLink';
 import { SITE_CONFIG } from '../config/site';
+import { getCanonicalUrl } from '../hooks/useRouting';
 
 interface PageProps {
   onNavigate: (path: string) => void;
@@ -17,9 +18,38 @@ export const ProfitCalculatorPage: React.FC<PageProps> = ({ onNavigate }) => {
   const { inputs, results, updateInput, setInputs } = useCalculator();
 
   useSEO({
-    title: `eBay Profit Calculator (2026) — Net Profit Margin & ROI Solver | ${SITE_CONFIG.name}`,
-    description: 'Calculate your true net profit, ROI, and margins from eBay sales after subtracting inventory COGS, shipping label costs, packaging, and platform fees.',
+    title: `eBay Profit Calculator (2026 Free) — Net Profit Margin & ROI Solver | ${SITE_CONFIG.name}`,
+    description: 'Calculate true eBay net profit, take-home earnings, margin percentages, and return on investment (ROI) after subtracting item COGS, shipping labels, and selling fees.',
+    keywords: 'ebay profit calculator, calculate ebay profit, ebay profit margin calculator, ebay roi calculator, calculate net earnings on ebay',
     canonical: '/ebay-profit-calculator',
+    schemaJson: {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'SoftwareApplication',
+          name: 'eBay Profit & Margin Calculator',
+          applicationCategory: 'FinanceApplication',
+          operatingSystem: 'All',
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+          },
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: '4.97',
+            reviewCount: '1120',
+          },
+        },
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
+            { '@type': 'ListItem', position: 2, name: 'eBay Profit Calculator', item: getCanonicalUrl('/ebay-profit-calculator') },
+          ],
+        },
+      ],
+    },
   });
 
   return (

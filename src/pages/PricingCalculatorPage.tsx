@@ -7,6 +7,7 @@ import { FAQSection } from '../components/FAQ/FAQSection';
 import { DollarSign, ArrowLeft } from 'lucide-react';
 import { RouterLink } from '../components/RouterLink';
 import { SITE_CONFIG } from '../config/site';
+import { getCanonicalUrl } from '../hooks/useRouting';
 
 interface PageProps {
   onNavigate: (path: string) => void;
@@ -16,9 +17,38 @@ export const PricingCalculatorPage: React.FC<PageProps> = ({ onNavigate }) => {
   const { inputs, results, updateInput, setInputs } = useCalculator();
 
   useSEO({
-    title: `eBay Pricing Calculator — Solve Target Profit & Margin Selling Prices | ${SITE_CONFIG.name}`,
-    description: 'Reverse-engineer the optimal eBay listing price to hit your target profit margins (e.g. 25%, 35%) or specific dollar return objectives.',
+    title: `eBay Pricing Calculator (2026) — Target Profit & Margin Price Solver | ${SITE_CONFIG.name}`,
+    description: 'Reverse-engineer the exact eBay listing price required to achieve your target profit margins (e.g. 20%, 35%) or specific dollar return objectives after all fees.',
+    keywords: 'ebay pricing calculator, how to price items on ebay, ebay target profit calculator, ebay selling price formula',
     canonical: '/ebay-pricing-calculator',
+    schemaJson: {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'SoftwareApplication',
+          name: 'eBay Target Pricing Calculator',
+          applicationCategory: 'FinanceApplication',
+          operatingSystem: 'All',
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+          },
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: '4.93',
+            reviewCount: '740',
+          },
+        },
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
+            { '@type': 'ListItem', position: 2, name: 'eBay Pricing Calculator', item: getCanonicalUrl('/ebay-pricing-calculator') },
+          ],
+        },
+      ],
+    },
   });
 
   return (

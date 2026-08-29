@@ -5,14 +5,30 @@ import { getCanonicalUrl } from './useRouting';
 export interface SEOProps {
   title: string;
   description: string;
+  keywords?: string;
   canonical?: string;
   ogType?: 'website' | 'article';
+  image?: string;
   schemaJson?: object | object[];
   noIndex?: boolean;
 }
 
-export function useSEO({ title, description, canonical, ogType = 'website', schemaJson, noIndex = false }: SEOProps) {
+export function useSEO({
+  title,
+  description,
+  keywords,
+  canonical,
+  ogType = 'website',
+  image = 'https://asfandateem-sketch.github.io/Ebay-Calculator/icon.png',
+  schemaJson,
+  noIndex = false,
+}: SEOProps) {
   useEffect(() => {
+    // Scroll window smoothly to top on route / meta change
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
+
     // Set page title
     document.title = title;
 
@@ -25,6 +41,17 @@ export function useSEO({ title, description, canonical, ogType = 'website', sche
     }
     metaDesc.setAttribute('content', description);
 
+    // Set meta keywords if provided
+    if (keywords) {
+      let metaKeywords = document.querySelector('meta[name="keywords"]');
+      if (!metaKeywords) {
+        metaKeywords = document.createElement('meta');
+        metaKeywords.setAttribute('name', 'keywords');
+        document.head.appendChild(metaKeywords);
+      }
+      metaKeywords.setAttribute('content', keywords);
+    }
+
     // Set robots meta tag
     let robotsMeta = document.querySelector('meta[name="robots"]');
     if (!robotsMeta) {
@@ -32,7 +59,12 @@ export function useSEO({ title, description, canonical, ogType = 'website', sche
       robotsMeta.setAttribute('name', 'robots');
       document.head.appendChild(robotsMeta);
     }
-    robotsMeta.setAttribute('content', noIndex ? 'noindex, follow' : 'index, follow');
+    robotsMeta.setAttribute(
+      'content',
+      noIndex
+        ? 'noindex, follow'
+        : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
+    );
 
     // Set OpenGraph tags
     let ogTitle = document.querySelector('meta[property="og:title"]');
@@ -67,6 +99,16 @@ export function useSEO({ title, description, canonical, ogType = 'website', sche
     }
     ogSiteName.setAttribute('content', 'ProfitEbay');
 
+    if (image) {
+      let ogImage = document.querySelector('meta[property="og:image"]');
+      if (!ogImage) {
+        ogImage = document.createElement('meta');
+        ogImage.setAttribute('property', 'og:image');
+        document.head.appendChild(ogImage);
+      }
+      ogImage.setAttribute('content', image);
+    }
+
     // Set Twitter tags
     let twTitle = document.querySelector('meta[name="twitter:title"]');
     if (!twTitle) {
@@ -84,9 +126,21 @@ export function useSEO({ title, description, canonical, ogType = 'website', sche
     }
     twDesc.setAttribute('content', description);
 
+    if (image) {
+      let twImage = document.querySelector('meta[name="twitter:image"]');
+      if (!twImage) {
+        twImage = document.createElement('meta');
+        twImage.setAttribute('name', 'twitter:image');
+        document.head.appendChild(twImage);
+      }
+      twImage.setAttribute('content', image);
+    }
+
     // Canonical calculation: if relative or missing, format with getCanonicalUrl
     const effectiveCanonical = canonical
-      ? (canonical.startsWith('http') ? canonical : getCanonicalUrl(canonical))
+      ? canonical.startsWith('http')
+        ? canonical
+        : getCanonicalUrl(canonical)
       : getCanonicalUrl(window.location.pathname);
 
     let linkCanonical = document.querySelector('link[rel="canonical"]');
@@ -115,5 +169,5 @@ export function useSEO({ title, description, canonical, ogType = 'website', sche
     } else if (scriptEl) {
       scriptEl.remove();
     }
-  }, [title, description, canonical, ogType, schemaJson, noIndex]);
+  }, [title, description, keywords, canonical, ogType, image, schemaJson, noIndex]);
 }

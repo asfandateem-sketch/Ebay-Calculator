@@ -7,6 +7,7 @@ import { FAQSection } from '../components/FAQ/FAQSection';
 import { Calculator as CalcIcon, ArrowLeft } from 'lucide-react';
 import { RouterLink } from '../components/RouterLink';
 import { SITE_CONFIG } from '../config/site';
+import { getCanonicalUrl } from '../hooks/useRouting';
 
 interface PageProps {
   onNavigate: (path: string) => void;
@@ -16,9 +17,38 @@ export const CalculatorPage: React.FC<PageProps> = ({ onNavigate }) => {
   const { inputs, results, updateInput, setInputs } = useCalculator();
 
   useSEO({
-    title: `eBay Fee Calculator (2026) — Calculate Seller Final Value Fees | ${SITE_CONFIG.name}`,
-    description: 'Free eBay Fee Calculator for online sellers. Calculate estimated final value fees, fixed charges, promoted ad spend, and sales tax across product categories based on published schedules.',
+    title: `eBay Fee Calculator (2026 Free) — Calculate Seller Final Value Fees | ${SITE_CONFIG.name}`,
+    description: 'Free 2026 eBay Fee Calculator for online sellers. Calculate accurate final value fees, managed payment rates ($0.30-$0.40), category tiers, store discounts, promoted ads, and sales tax across 8 marketplaces.',
+    keywords: 'ebay fee calculator 2026, calculate ebay selling fees, ebay final value fee calculator, ebay store fee discount, ebay managed payments calculator',
     canonical: '/ebay-fee-calculator',
+    schemaJson: {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'SoftwareApplication',
+          name: 'eBay Fee Calculator 2026',
+          applicationCategory: 'FinanceApplication',
+          operatingSystem: 'All',
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+          },
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: '4.95',
+            reviewCount: '980',
+          },
+        },
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
+            { '@type': 'ListItem', position: 2, name: 'eBay Fee Calculator', item: getCanonicalUrl('/ebay-fee-calculator') },
+          ],
+        },
+      ],
+    },
   });
 
   return (

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { X, ArrowRight, Calculator, Globe, BookOpen, Layers, History, FileSpreadsheet, ShieldCheck, Scale, Percent, DollarSign, ExternalLink } from 'lucide-react';
 import { SITE_CONFIG } from '../../config/site';
 import { RouterLink } from '../RouterLink';
+import { CountryFlag } from '../CountrySelector/CountryFlag';
 
 interface NavMenuModalProps {
   isOpen: boolean;
@@ -116,6 +117,15 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                 <span>Promoted Listings ROAS Optimizer</span>
                 <ArrowRight size={14} opacity={0.4} />
               </RouterLink>
+              <RouterLink
+                id="drawer-ecommerce-calc"
+                to="/ecommerce-investment-profit-calculator"
+                className="nav-drawer-link"
+                onClick={() => onClose()}
+              >
+                <span>E-commerce Investment & Profit Calculator</span>
+                <ArrowRight size={14} opacity={0.4} />
+              </RouterLink>
             </div>
           </div>
 
@@ -132,7 +142,9 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                 className="nav-drawer-link-pill"
                 onClick={() => onClose()}
               >
-                <span>🇺🇸 United States</span>
+                <CountryFlag code="US" width={18} height={13} ariaLabel="United States flag" />
+                <span className="drawer-country-name">United States</span>
+                <span className="drawer-country-cur">USD ($)</span>
               </RouterLink>
               <RouterLink
                 id="drawer-country-uk"
@@ -140,15 +152,9 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                 className="nav-drawer-link-pill"
                 onClick={() => onClose()}
               >
-                <span>🇬🇧 United Kingdom</span>
-              </RouterLink>
-              <RouterLink
-                id="drawer-country-au"
-                to="/au"
-                className="nav-drawer-link-pill"
-                onClick={() => onClose()}
-              >
-                <span>🇦🇺 Australia</span>
+                <CountryFlag code="UK" width={18} height={13} ariaLabel="United Kingdom flag" />
+                <span className="drawer-country-name">United Kingdom</span>
+                <span className="drawer-country-cur">GBP (£)</span>
               </RouterLink>
               <RouterLink
                 id="drawer-country-ca"
@@ -156,7 +162,19 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                 className="nav-drawer-link-pill"
                 onClick={() => onClose()}
               >
-                <span>🇨🇦 Canada</span>
+                <CountryFlag code="CA" width={18} height={13} ariaLabel="Canada flag" />
+                <span className="drawer-country-name">Canada</span>
+                <span className="drawer-country-cur">CAD (CA$)</span>
+              </RouterLink>
+              <RouterLink
+                id="drawer-country-au"
+                to="/au"
+                className="nav-drawer-link-pill"
+                onClick={() => onClose()}
+              >
+                <CountryFlag code="AU" width={18} height={13} ariaLabel="Australia flag" />
+                <span className="drawer-country-name">Australia</span>
+                <span className="drawer-country-cur">AUD (A$)</span>
               </RouterLink>
               <RouterLink
                 id="drawer-country-de"
@@ -164,7 +182,9 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                 className="nav-drawer-link-pill"
                 onClick={() => onClose()}
               >
-                <span>🇩🇪 Germany</span>
+                <CountryFlag code="DE" width={18} height={13} ariaLabel="Germany flag" />
+                <span className="drawer-country-name">Germany</span>
+                <span className="drawer-country-cur">EUR (€)</span>
               </RouterLink>
               <RouterLink
                 id="drawer-country-fr"
@@ -172,7 +192,9 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                 className="nav-drawer-link-pill"
                 onClick={() => onClose()}
               >
-                <span>🇫🇷 France</span>
+                <CountryFlag code="FR" width={18} height={13} ariaLabel="France flag" />
+                <span className="drawer-country-name">France</span>
+                <span className="drawer-country-cur">EUR (€)</span>
               </RouterLink>
               <RouterLink
                 id="drawer-country-it"
@@ -180,7 +202,9 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                 className="nav-drawer-link-pill"
                 onClick={() => onClose()}
               >
-                <span>🇮🇹 Italy</span>
+                <CountryFlag code="IT" width={18} height={13} ariaLabel="Italy flag" />
+                <span className="drawer-country-name">Italy</span>
+                <span className="drawer-country-cur">EUR (€)</span>
               </RouterLink>
               <RouterLink
                 id="drawer-country-es"
@@ -188,7 +212,9 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                 className="nav-drawer-link-pill"
                 onClick={() => onClose()}
               >
-                <span>🇪🇸 Spain</span>
+                <CountryFlag code="ES" width={18} height={13} ariaLabel="Spain flag" />
+                <span className="drawer-country-name">Spain</span>
+                <span className="drawer-country-cur">EUR (€)</span>
               </RouterLink>
             </div>
           </div>

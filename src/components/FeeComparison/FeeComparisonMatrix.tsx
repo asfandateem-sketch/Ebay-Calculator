@@ -4,6 +4,7 @@ import { calculateEbayFees } from '../../utils/calculator/engine';
 import { formatCurrency, formatPercent } from '../../utils/currency';
 import { Layers, ArrowRight, ShieldCheck } from 'lucide-react';
 import { RouterLink } from '../RouterLink';
+import { CountryFlag } from '../CountrySelector/CountryFlag';
 
 interface FeeComparisonMatrixProps {
   onSelectCountry?: (path: string) => void;
@@ -115,7 +116,7 @@ export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = () => {
                     to={row.path}
                     style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontWeight: 600, color: 'inherit', textDecoration: 'none' }}
                   >
-                    <span>{row.flag}</span>
+                    <CountryFlag code={row.code} width={18} height={13} ariaLabel={`${row.name} flag`} />
                     <span>{row.name}</span>
                   </RouterLink>
                 </td>

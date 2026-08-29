@@ -3,6 +3,7 @@ import { useSEO } from '../hooks/useSEO';
 import { ShieldCheck, ArrowLeft, CheckCircle2, Layers } from 'lucide-react';
 import { RouterLink } from '../components/RouterLink';
 import { SITE_CONFIG } from '../config/site';
+import { getCanonicalUrl } from '../hooks/useRouting';
 
 interface PageProps {
   onNavigate?: (path: string) => void;
@@ -10,9 +11,27 @@ interface PageProps {
 
 export const MethodologyPage: React.FC<PageProps> = () => {
   useSEO({
-    title: `Data & Mathematical Methodology — ${SITE_CONFIG.name}`,
-    description: `Detailed explanation of ${SITE_CONFIG.name} calculation algorithms, sales tax base handling, tiered final value fees, and cross-border currency models.`,
+    title: `Calculation Methodology & Accuracy Standards — ${SITE_CONFIG.name}`,
+    description: `Detailed mathematical explanation of ${SITE_CONFIG.name} calculation algorithms, sales tax base handling, tiered final value fees, and cross-border currency models.`,
+    keywords: 'how ebay fees are calculated, ebay fee calculation formula, ebay managed payments fee breakdown math',
     canonical: '/methodology',
+    schemaJson: {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'AboutPage',
+          name: 'Calculation Methodology & Accuracy Standards',
+          description: 'Technical and mathematical specification of eBay fee algorithms.',
+        },
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
+            { '@type': 'ListItem', position: 2, name: 'Methodology', item: getCanonicalUrl('/methodology') },
+          ],
+        },
+      ],
+    },
   });
 
   return (

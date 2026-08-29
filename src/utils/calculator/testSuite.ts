@@ -4,6 +4,8 @@
  */
 
 import { calculateEbayFees, calculateBreakEvenPrice, calculateTargetMarginPrice } from './engine';
+import { calculateEcommerceProfit, calculateEcommerceScenarios } from './ecommerceProfit';
+import { generateEcommerceCsv } from '../ecommerceExport';
 import { CountryCode } from '../../types';
 
 function assert(condition: boolean, message: string) {
@@ -700,6 +702,491 @@ function runTestSuite() {
     assert(Math.abs(resOver.totalFinalValueFee - 114.20) < 0.05, `DE Boundary Over mismatch: ${resOver.totalFinalValueFee}`);
     passedCount++;
     console.log('✓ Case 26: DE €990 boundary test (threshold - 0.01, threshold, threshold + 0.01) passed');
+  }
+
+  // =========================================================================
+  // E-COMMERCE INVESTMENT & PROFIT CALCULATOR TESTS (15 SCENARIOS)
+  // =========================================================================
+  console.log('\n--- E-COMMERCE INVESTMENT & PROFIT CALCULATOR TESTS ---');
+
+  // E-Com Case 1: Basic profitable scenario
+  // 500 units @ $10, $500 shipping, $250 duties, $100 other import = $5,850 landed ($11.70/unit)
+  // Selling @ $35, 100 units/mo = $3,500 rev, $1,170 cogs, 13.25% mkt fee ($463.75), 2.9% pay fee ($101.50), 5% ads ($175), $1.50 pkg ($150), $100 other
+  // Total expenses = 1170 + 463.75 + 101.50 + 175 + 150 + 100 = $2,160.25
+  // Net profit = 3500 - 2160.25 = $1,339.75
+  {
+    const res = calculateEcommerceProfit({
+      unitsPurchased: 500,
+      productCostPerUnit: 10,
+      shippingFreight: 500,
+      customsDuties: 250,
+      otherImportCosts: 100,
+      sellingPricePerUnit: 35,
+      monthlyUnitsSold: 100,
+      marketplaceFeeType: 'percentage',
+      marketplaceFeeValue: 13.25,
+      paymentProcessingFeeType: 'percentage',
+      paymentProcessingFeeValue: 2.9,
+      advertisingFeeType: 'percentage',
+      advertisingFeeValue: 5.0,
+      packagingCostPerUnit: 1.50,
+      otherMonthlyExpenses: 100,
+    });
+    assert(res.totalProductCost === 5000, `E-Com 1 Total Product Cost mismatch: expected 5000, got ${res.totalProductCost}`);
+    assert(res.totalLandedInventoryCost === 5850, `E-Com 1 Landed Cost mismatch: expected 5850, got ${res.totalLandedInventoryCost}`);
+    assert(res.landedCostPerUnit === 11.70, `E-Com 1 Landed/unit mismatch: expected 11.70, got ${res.landedCostPerUnit}`);
+    assert(res.monthlyRevenue === 3500, `E-Com 1 Revenue mismatch: expected 3500, got ${res.monthlyRevenue}`);
+    assert(res.totalMonthlyExpenses === 2160.25, `E-Com 1 Expenses mismatch: expected 2160.25, got ${res.totalMonthlyExpenses}`);
+    assert(res.netProfit === 1339.75, `E-Com 1 Net Profit mismatch: expected 1339.75, got ${res.netProfit}`);
+    assert(res.profitMargin !== null && Math.abs(res.profitMargin - 38.28) < 0.1, `E-Com 1 Margin mismatch: expected 38.28%, got ${res.profitMargin}`);
+    assert(res.profitabilityStatus === 'PROFITABLE', `E-Com 1 status mismatch: expected PROFITABLE, got ${res.profitabilityStatus}`);
+    passedCount++;
+    console.log('✓ E-Com Case 1: Basic profitable scenario passed');
+  }
+
+  // E-Com Case 2: Loss scenario
+  {
+    const res = calculateEcommerceProfit({
+      unitsPurchased: 100,
+      productCostPerUnit: 25,
+      shippingFreight: 500,
+      customsDuties: 200,
+      otherImportCosts: 100, // landed = 2500 + 800 = 3300 ($33/unit)
+      sellingPricePerUnit: 28, // selling below landed cost!
+      monthlyUnitsSold: 50, // rev = 1400, cogs = 1650
+      marketplaceFeeType: 'percentage',
+      marketplaceFeeValue: 15,
+      paymentProcessingFeeType: 'percentage',
+      paymentProcessingFeeValue: 3,
+      advertisingFeeType: 'percentage',
+      advertisingFeeValue: 5,
+      packagingCostPerUnit: 2,
+      otherMonthlyExpenses: 200,
+    });
+    assert(res.netProfit < 0, `E-Com 2 Net Profit expected negative, got ${res.netProfit}`);
+    assert(res.profitabilityStatus === 'LOSS', `E-Com 2 status mismatch: expected LOSS, got ${res.profitabilityStatus}`);
+    passedCount++;
+    console.log('✓ E-Com Case 2: Loss scenario passed');
+  }
+
+  // E-Com Case 3: Break-even scenario (Net Profit ~ 0)
+  {
+    const res = calculateEcommerceProfit({
+      unitsPurchased: 100,
+      productCostPerUnit: 10,
+      shippingFreight: 0,
+      customsDuties: 0,
+      otherImportCosts: 0, // landed = $10/unit
+      sellingPricePerUnit: 20,
+      monthlyUnitsSold: 10, // rev = $200
+      marketplaceFeeType: 'fixed',
+      marketplaceFeeValue: 5, // $5/unit * 10 = $50
+      paymentProcessingFeeType: 'fixed',
+      paymentProcessingFeeValue: 10,
+      advertisingFeeType: 'fixed',
+      advertisingFeeValue: 20,
+      packagingCostPerUnit: 2, // $20
+      otherMonthlyExpenses: 0, // total exp: 100 + 50 + 10 + 20 + 20 = $200
+    });
+    assert(res.netProfit === 0, `E-Com 3 Net Profit expected 0, got ${res.netProfit}`);
+    assert(res.profitabilityStatus === 'BREAK-EVEN', `E-Com 3 status mismatch: expected BREAK-EVEN, got ${res.profitabilityStatus}`);
+    passedCount++;
+    console.log('✓ E-Com Case 3: Break-even scenario passed');
+  }
+
+  // E-Com Case 4: Zero revenue (0 units sold)
+  {
+    const res = calculateEcommerceProfit({
+      unitsPurchased: 100,
+      productCostPerUnit: 10,
+      shippingFreight: 100,
+      customsDuties: 50,
+      otherImportCosts: 0,
+      sellingPricePerUnit: 25,
+      monthlyUnitsSold: 0,
+      marketplaceFeeType: 'percentage',
+      marketplaceFeeValue: 13,
+      paymentProcessingFeeType: 'percentage',
+      paymentProcessingFeeValue: 3,
+      advertisingFeeType: 'percentage',
+      advertisingFeeValue: 5,
+      packagingCostPerUnit: 1,
+      otherMonthlyExpenses: 50,
+    });
+    assert(res.monthlyRevenue === 0, `E-Com 4 Revenue expected 0, got ${res.monthlyRevenue}`);
+    assert(res.profitMargin === null, `E-Com 4 Profit margin expected null, got ${res.profitMargin}`);
+    assert(res.totalMonthlyExpenses === 50, `E-Com 4 Expenses expected 50, got ${res.totalMonthlyExpenses}`);
+    passedCount++;
+    console.log('✓ E-Com Case 4: Zero revenue handled safely passed');
+  }
+
+  // E-Com Case 5: Zero investment (0 cost inventory)
+  {
+    const res = calculateEcommerceProfit({
+      unitsPurchased: 0,
+      productCostPerUnit: 0,
+      shippingFreight: 0,
+      customsDuties: 0,
+      otherImportCosts: 0,
+      sellingPricePerUnit: 20,
+      monthlyUnitsSold: 10,
+      marketplaceFeeType: 'percentage',
+      marketplaceFeeValue: 10,
+      paymentProcessingFeeType: 'percentage',
+      paymentProcessingFeeValue: 0,
+      advertisingFeeType: 'percentage',
+      advertisingFeeValue: 0,
+      packagingCostPerUnit: 0,
+      otherMonthlyExpenses: 0,
+    });
+    assert(res.roi === null, `E-Com 5 ROI expected null, got ${res.roi}`);
+    assert(res.annualizedRoi === null, `E-Com 5 Annualized ROI expected null, got ${res.annualizedRoi}`);
+    passedCount++;
+    console.log('✓ E-Com Case 5: Zero investment handled safely passed');
+  }
+
+  // E-Com Case 6: Zero units purchased
+  {
+    const res = calculateEcommerceProfit({
+      unitsPurchased: 0,
+      productCostPerUnit: 50,
+      shippingFreight: 100,
+      customsDuties: 20,
+      otherImportCosts: 10,
+      sellingPricePerUnit: 100,
+      monthlyUnitsSold: 5,
+      marketplaceFeeType: 'percentage',
+      marketplaceFeeValue: 13,
+      paymentProcessingFeeType: 'percentage',
+      paymentProcessingFeeValue: 3,
+      advertisingFeeType: 'percentage',
+      advertisingFeeValue: 5,
+      packagingCostPerUnit: 2,
+      otherMonthlyExpenses: 0,
+    });
+    assert(res.landedCostPerUnit === 0, `E-Com 6 Landed/unit expected 0, got ${res.landedCostPerUnit}`);
+    assert(!isNaN(res.netProfit), `E-Com 6 Net Profit should not be NaN`);
+    passedCount++;
+    console.log('✓ E-Com Case 6: Zero units purchased handled safely passed');
+  }
+
+  // E-Com Case 7: Marketplace percentage fees accuracy
+  {
+    const res = calculateEcommerceProfit({
+      unitsPurchased: 100,
+      productCostPerUnit: 10,
+      shippingFreight: 0,
+      customsDuties: 0,
+      otherImportCosts: 0,
+      sellingPricePerUnit: 100,
+      monthlyUnitsSold: 10, // $1,000 revenue
+      marketplaceFeeType: 'percentage',
+      marketplaceFeeValue: 13.25, // expected $132.50
+      paymentProcessingFeeType: 'percentage',
+      paymentProcessingFeeValue: 0,
+      advertisingFeeType: 'percentage',
+      advertisingFeeValue: 0,
+      packagingCostPerUnit: 0,
+      otherMonthlyExpenses: 0,
+    });
+    assert(res.marketplaceFees === 132.50, `E-Com 7 Marketplace fee mismatch: expected 132.50, got ${res.marketplaceFees}`);
+    passedCount++;
+    console.log('✓ E-Com Case 7: Marketplace percentage fees accuracy passed');
+  }
+
+  // E-Com Case 8: Payment processing fees (Fixed and Percentage)
+  {
+    const resFixed = calculateEcommerceProfit({
+      unitsPurchased: 100,
+      productCostPerUnit: 5,
+      shippingFreight: 0,
+      customsDuties: 0,
+      otherImportCosts: 0,
+      sellingPricePerUnit: 20,
+      monthlyUnitsSold: 10,
+      marketplaceFeeType: 'percentage',
+      marketplaceFeeValue: 0,
+      paymentProcessingFeeType: 'fixed',
+      paymentProcessingFeeValue: 25.50,
+      advertisingFeeType: 'percentage',
+      advertisingFeeValue: 0,
+      packagingCostPerUnit: 0,
+      otherMonthlyExpenses: 0,
+    });
+    assert(resFixed.paymentProcessingFees === 25.50, `E-Com 8 Fixed payment fee mismatch: expected 25.50, got ${resFixed.paymentProcessingFees}`);
+    passedCount++;
+    console.log('✓ E-Com Case 8: Payment processing fees test passed');
+  }
+
+  // E-Com Case 9: Advertising costs (Fixed vs Percentage)
+  {
+    const resPercent = calculateEcommerceProfit({
+      unitsPurchased: 100,
+      productCostPerUnit: 5,
+      shippingFreight: 0,
+      customsDuties: 0,
+      otherImportCosts: 0,
+      sellingPricePerUnit: 50,
+      monthlyUnitsSold: 10, // $500 revenue
+      marketplaceFeeType: 'percentage',
+      marketplaceFeeValue: 0,
+      paymentProcessingFeeType: 'percentage',
+      paymentProcessingFeeValue: 0,
+      advertisingFeeType: 'percentage',
+      advertisingFeeValue: 8.5, // 8.5% of 500 = $42.50
+      packagingCostPerUnit: 0,
+      otherMonthlyExpenses: 0,
+    });
+    assert(resPercent.advertisingCost === 42.50, `E-Com 9 Ad percent mismatch: expected 42.50, got ${resPercent.advertisingCost}`);
+    passedCount++;
+    console.log('✓ E-Com Case 9: Advertising cost calculations passed');
+  }
+
+  // E-Com Case 10: Packaging costs per unit
+  {
+    const res = calculateEcommerceProfit({
+      unitsPurchased: 200,
+      productCostPerUnit: 5,
+      shippingFreight: 0,
+      customsDuties: 0,
+      otherImportCosts: 0,
+      sellingPricePerUnit: 20,
+      monthlyUnitsSold: 45,
+      marketplaceFeeType: 'percentage',
+      marketplaceFeeValue: 0,
+      paymentProcessingFeeType: 'percentage',
+      paymentProcessingFeeValue: 0,
+      advertisingFeeType: 'percentage',
+      advertisingFeeValue: 0,
+      packagingCostPerUnit: 2.75, // 45 * 2.75 = $123.75
+      otherMonthlyExpenses: 0,
+    });
+    assert(res.packagingCost === 123.75, `E-Com 10 Packaging cost mismatch: expected 123.75, got ${res.packagingCost}`);
+    passedCount++;
+    console.log('✓ E-Com Case 10: Packaging costs test passed');
+  }
+
+  // E-Com Case 11: Landed cost calculation precision
+  {
+    const res = calculateEcommerceProfit({
+      unitsPurchased: 300,
+      productCostPerUnit: 8.33, // 2499
+      shippingFreight: 450.50,
+      customsDuties: 120.75,
+      otherImportCosts: 45.25,
+      sellingPricePerUnit: 25,
+      monthlyUnitsSold: 50,
+      marketplaceFeeType: 'percentage',
+      marketplaceFeeValue: 10,
+      paymentProcessingFeeType: 'percentage',
+      paymentProcessingFeeValue: 3,
+      advertisingFeeType: 'percentage',
+      advertisingFeeValue: 2,
+      packagingCostPerUnit: 1,
+      otherMonthlyExpenses: 0,
+    });
+    // total landed = 2499 + 450.50 + 120.75 + 45.25 = 3115.50
+    assert(res.totalLandedInventoryCost === 3115.50, `E-Com 11 Total Landed mismatch: expected 3115.50, got ${res.totalLandedInventoryCost}`);
+    assert(res.landedCostPerUnit === 10.39, `E-Com 11 Landed/unit mismatch: expected 10.39, got ${res.landedCostPerUnit}`);
+    passedCount++;
+    console.log('✓ E-Com Case 11: Landed cost precision passed');
+  }
+
+  // E-Com Case 12: Operating Break-Even & Contribution Margin
+  // Landed = $12, Packaging = $2, Fees = 15% ($4.50), Ads = 5% ($1.50) -> Var cost = 12 + 2 + 4.50 + 1.50 = $20
+  // Selling = $30 -> Contribution Margin = $10
+  // Fixed monthly overhead = $200
+  // Operating Break-Even = ceil(200 / 10) = 20 units/mo; Revenue = 20 * 30 = $600/mo
+  // Initial inventory = 500 * $12 = $6,000 -> Capital recovery units = 6000 / 10 = 600 units total
+  {
+    const res = calculateEcommerceProfit({
+      unitsPurchased: 500,
+      productCostPerUnit: 12,
+      shippingFreight: 0,
+      customsDuties: 0,
+      otherImportCosts: 0, // total landed = $6,000 ($12/unit)
+      sellingPricePerUnit: 30,
+      monthlyUnitsSold: 50,
+      marketplaceFeeType: 'percentage',
+      marketplaceFeeValue: 15,
+      paymentProcessingFeeType: 'percentage',
+      paymentProcessingFeeValue: 0,
+      advertisingFeeType: 'percentage',
+      advertisingFeeValue: 5,
+      packagingCostPerUnit: 2,
+      otherMonthlyExpenses: 200,
+    });
+    assert(res.contributionMarginPerUnit === 10, `E-Com 12 Contribution margin mismatch: expected 10, got ${res.contributionMarginPerUnit}`);
+    assert(res.operatingBreakEvenUnits === 20, `E-Com 12 Operating Break-even units mismatch: expected 20, got ${res.operatingBreakEvenUnits}`);
+    assert(res.operatingBreakEvenRevenue === 600, `E-Com 12 Operating Break-even revenue mismatch: expected 600, got ${res.operatingBreakEvenRevenue}`);
+    assert(res.capitalRecoveryUnits === 600, `E-Com 12 Capital recovery units mismatch: expected 600, got ${res.capitalRecoveryUnits}`);
+    passedCount++;
+    console.log('✓ E-Com Case 12: Operating Break-Even & Contribution Margin passed');
+  }
+
+  // E-Com Case 13: Negative contribution margin
+  {
+    const res = calculateEcommerceProfit({
+      unitsPurchased: 100,
+      productCostPerUnit: 20,
+      shippingFreight: 500,
+      customsDuties: 0,
+      otherImportCosts: 0, // landed = $25/unit
+      sellingPricePerUnit: 22, // selling below landed cost!
+      monthlyUnitsSold: 10,
+      marketplaceFeeType: 'percentage',
+      marketplaceFeeValue: 15,
+      paymentProcessingFeeType: 'percentage',
+      paymentProcessingFeeValue: 3,
+      advertisingFeeType: 'percentage',
+      advertisingFeeValue: 5,
+      packagingCostPerUnit: 2,
+      otherMonthlyExpenses: 100,
+    });
+    assert(res.contributionMarginPerUnit < 0, `E-Com 13 Contribution margin expected negative, got ${res.contributionMarginPerUnit}`);
+    assert(res.operatingBreakEvenUnits === null, `E-Com 13 Operating break-even units expected null, got ${res.operatingBreakEvenUnits}`);
+    assert(res.operatingBreakEvenRevenue === null, `E-Com 13 Operating break-even revenue expected null, got ${res.operatingBreakEvenRevenue}`);
+    assert(res.breakEvenMessage !== undefined, `E-Com 13 Break-even message expected`);
+    passedCount++;
+    console.log('✓ E-Com Case 13: Negative contribution margin handled safely passed');
+  }
+
+  // E-Com Case 14: Decimal values handling
+  {
+    const res = calculateEcommerceProfit({
+      unitsPurchased: 137,
+      productCostPerUnit: 4.87,
+      shippingFreight: 62.45,
+      customsDuties: 18.99,
+      otherImportCosts: 7.50,
+      sellingPricePerUnit: 14.99,
+      monthlyUnitsSold: 42,
+      marketplaceFeeType: 'percentage',
+      marketplaceFeeValue: 13.25,
+      paymentProcessingFeeType: 'percentage',
+      paymentProcessingFeeValue: 2.9,
+      advertisingFeeType: 'percentage',
+      advertisingFeeValue: 4.5,
+      packagingCostPerUnit: 0.85,
+      otherMonthlyExpenses: 35.00,
+    });
+    assert(!isNaN(res.netProfit), `E-Com 14 Net Profit is NaN`);
+    assert(!isNaN(res.landedCostPerUnit), `E-Com 14 Landed is NaN`);
+    passedCount++;
+    console.log('✓ E-Com Case 14: Decimal values handling passed');
+  }
+
+  // E-Com Case 15: Large values and scenario generation
+  {
+    const inputs = {
+      unitsPurchased: 10000,
+      productCostPerUnit: 45,
+      shippingFreight: 15000,
+      customsDuties: 5000,
+      otherImportCosts: 2500,
+      sellingPricePerUnit: 120,
+      monthlyUnitsSold: 1200,
+      marketplaceFeeType: 'percentage' as const,
+      marketplaceFeeValue: 12.5,
+      paymentProcessingFeeType: 'percentage' as const,
+      paymentProcessingFeeValue: 2.5,
+      advertisingFeeType: 'percentage' as const,
+      advertisingFeeValue: 6.0,
+      packagingCostPerUnit: 3.50,
+      otherMonthlyExpenses: 2500,
+    };
+    const res = calculateEcommerceProfit(inputs);
+    assert(res.monthlyRevenue === 144000, `E-Com 15 Revenue mismatch: ${res.monthlyRevenue}`);
+    assert(res.profitabilityStatus === 'PROFITABLE', `E-Com 15 status mismatch`);
+
+    const scenarios = calculateEcommerceScenarios(inputs);
+    assert(scenarios.length === 3, `E-Com 15 Scenarios count mismatch: expected 3, got ${scenarios.length}`);
+    assert(scenarios[0].name === 'Conservative', `E-Com 15 Conservative scenario missing`);
+    assert(scenarios[1].name === 'Expected', `E-Com 15 Expected scenario missing`);
+    assert(scenarios[2].name === 'Optimistic', `E-Com 15 Optimistic scenario missing`);
+    passedCount++;
+    console.log('✓ E-Com Case 15: Large values and scenario generation passed');
+  }
+
+  // E-Com Case 16: Independent Mathematical Verification Scenario
+  // Selling price = $35/unit, Monthly sales = 100 units
+  // Units purchased = 500 @ $10.00 + $500 shipping + $250 customs + $100 other = $5,850 total landed ($11.70/unit)
+  // Marketplace fees = 13.25% ($463.75), Payment = 2.9% ($101.50), Ads = 5.0% ($175.00)
+  // Packaging = $1.50/unit ($150.00), Fixed overhead = $100.00
+  {
+    const res = calculateEcommerceProfit({
+      unitsPurchased: 500,
+      productCostPerUnit: 10,
+      shippingFreight: 500,
+      customsDuties: 250,
+      otherImportCosts: 100, // Total Landed = $5,850 -> Landed/unit = $11.70
+      sellingPricePerUnit: 35,
+      monthlyUnitsSold: 100,
+      marketplaceFeeType: 'percentage',
+      marketplaceFeeValue: 13.25, // 13.25% of 3500 = $463.75
+      paymentProcessingFeeType: 'percentage',
+      paymentProcessingFeeValue: 2.9, // 2.9% of 3500 = $101.50
+      advertisingFeeType: 'percentage',
+      advertisingFeeValue: 5.0, // 5% of 3500 = $175.00
+      packagingCostPerUnit: 1.50, // 100 * 1.50 = $150.00
+      otherMonthlyExpenses: 100, // Fixed overhead = $100.00
+    });
+
+    assert(res.monthlyRevenue === 3500.00, `E-Com 16 Revenue mismatch: expected 3500.00, got ${res.monthlyRevenue}`);
+    assert(res.monthlyProductCost === 1170.00, `E-Com 16 COGS mismatch: expected 1170.00, got ${res.monthlyProductCost}`);
+    assert(res.marketplaceFees === 463.75, `E-Com 16 Marketplace fees mismatch: expected 463.75, got ${res.marketplaceFees}`);
+    assert(res.paymentProcessingFees === 101.50, `E-Com 16 Payment processing mismatch: expected 101.50, got ${res.paymentProcessingFees}`);
+    assert(res.advertisingCost === 175.00, `E-Com 16 Advertising mismatch: expected 175.00, got ${res.advertisingCost}`);
+    assert(res.packagingCost === 150.00, `E-Com 16 Packaging mismatch: expected 150.00, got ${res.packagingCost}`);
+    assert(res.totalMonthlyExpenses === 2160.25, `E-Com 16 Total Expenses mismatch: expected 2160.25, got ${res.totalMonthlyExpenses}`);
+    assert(res.netProfit === 1339.75, `E-Com 16 Net Profit mismatch: expected 1339.75, got ${res.netProfit}`);
+    assert(res.profitMargin === 38.28, `E-Com 16 Profit Margin mismatch: expected 38.28, got ${res.profitMargin}`);
+    assert(res.roi === 22.90, `E-Com 16 Monthly ROI mismatch: expected 22.90, got ${res.roi}`);
+    assert(res.annualizedRoi === 274.82, `E-Com 16 Annualized ROI mismatch: expected 274.82, got ${res.annualizedRoi}`);
+    assert(res.contributionMarginPerUnit === 14.40, `E-Com 16 Contribution margin mismatch: expected 14.40, got ${res.contributionMarginPerUnit}`);
+    assert(res.operatingBreakEvenUnits === 7, `E-Com 16 Operating Break-even units mismatch: expected 7, got ${res.operatingBreakEvenUnits}`);
+    assert(res.operatingBreakEvenRevenue === 245.00, `E-Com 16 Operating Break-even revenue mismatch: expected 245.00, got ${res.operatingBreakEvenRevenue}`);
+    assert(res.monthsToRecoverInvestment === 4.37, `E-Com 16 Payback period mismatch: expected 4.37, got ${res.monthsToRecoverInvestment}`);
+    assert(res.capitalRecoveryUnits === 407, `E-Com 16 Capital recovery units mismatch: expected 407, got ${res.capitalRecoveryUnits}`);
+    passedCount++;
+    console.log('✓ E-Com Case 16: Independent Mathematical Verification Scenario passed');
+  }
+
+  // E-Com Case 17: CSV Export Generation & Formatting
+  {
+    const inputs = {
+      unitsPurchased: 500,
+      productCostPerUnit: 10,
+      shippingFreight: 500,
+      customsDuties: 250,
+      otherImportCosts: 100,
+      sellingPricePerUnit: 35,
+      monthlyUnitsSold: 100,
+      marketplaceFeeType: 'percentage' as const,
+      marketplaceFeeValue: 13.25,
+      paymentProcessingFeeType: 'percentage' as const,
+      paymentProcessingFeeValue: 2.9,
+      advertisingFeeType: 'percentage' as const,
+      advertisingFeeValue: 5.0,
+      packagingCostPerUnit: 1.50,
+      otherMonthlyExpenses: 100,
+    };
+    const results = calculateEcommerceProfit(inputs);
+    const csv = generateEcommerceCsv(inputs, results);
+
+    assert(csv.includes('E-COMMERCE INVESTMENT & PROFIT BREAKDOWN REPORT'), 'CSV header missing');
+    assert(csv.includes('"$3500.00"'), 'CSV gross revenue mismatch');
+    assert(csv.includes('"$1339.75"'), 'CSV net profit mismatch');
+    assert(csv.includes('"$5850.00"'), 'CSV total initial outlay mismatch');
+    assert(csv.includes('"$11.70"'), 'CSV landed cost mismatch');
+    assert(csv.includes('"38.28%"'), 'CSV profit margin mismatch');
+    assert(csv.includes('"22.90%"'), 'CSV monthly ROI mismatch');
+    assert(csv.includes('"$14.40 / unit"'), 'CSV contribution margin mismatch');
+    assert(csv.includes('"7 units/month"'), 'CSV operating break-even units mismatch');
+    assert(csv.includes('"407 units"'), 'CSV capital recovery units mismatch');
+    assert(csv.includes('"4.4 months"'), 'CSV payback period mismatch');
+    passedCount++;
+    console.log('✓ E-Com Case 17: CSV Export Generation passed');
   }
 
   console.log(`\n========================================`);

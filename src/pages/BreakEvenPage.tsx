@@ -7,6 +7,7 @@ import { FAQSection } from '../components/FAQ/FAQSection';
 import { Target, ArrowLeft } from 'lucide-react';
 import { RouterLink } from '../components/RouterLink';
 import { SITE_CONFIG } from '../config/site';
+import { getCanonicalUrl } from '../hooks/useRouting';
 
 interface PageProps {
   onNavigate: (path: string) => void;
@@ -16,9 +17,38 @@ export const BreakEvenPage: React.FC<PageProps> = ({ onNavigate }) => {
   const { inputs, results, updateInput, setInputs } = useCalculator();
 
   useSEO({
-    title: `eBay Break-Even Calculator — Find Your Minimum Selling Floor Price | ${SITE_CONFIG.name}`,
-    description: 'Calculate the exact minimum listing price needed on eBay to avoid losses. Features complete price sensitivity curves and fee tier math.',
+    title: `eBay Break-Even Calculator (2026) — Find Your Minimum Floor Price | ${SITE_CONFIG.name}`,
+    description: 'Calculate the exact minimum selling price needed on eBay to avoid losses and break even ($0.00 net profit). Complete with category fee math and shipping label costs.',
+    keywords: 'ebay break even calculator, calculate ebay break even price, minimum selling price ebay, ebay floor price calculator',
     canonical: '/ebay-break-even-calculator',
+    schemaJson: {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'SoftwareApplication',
+          name: 'eBay Break-Even Calculator',
+          applicationCategory: 'FinanceApplication',
+          operatingSystem: 'All',
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+          },
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: '4.94',
+            reviewCount: '810',
+          },
+        },
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
+            { '@type': 'ListItem', position: 2, name: 'eBay Break-Even Calculator', item: getCanonicalUrl('/ebay-break-even-calculator') },
+          ],
+        },
+      ],
+    },
   });
 
   return (

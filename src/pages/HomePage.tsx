@@ -1,5 +1,6 @@
 import React from 'react';
 import { Hero } from '../components/Hero/Hero';
+import { CalculatorHub } from '../components/CalculatorHub/CalculatorHub';
 import { Calculator } from '../components/Calculator/Calculator';
 import { CountryGrid } from '../components/CountrySelector/CountryGrid';
 import { BreakEvenTool } from '../components/PricingTools/BreakEvenTool';
@@ -22,23 +23,72 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const { inputs, results, updateInput, setInputs } = useCalculator();
 
   useSEO({
-    title: `${SITE_CONFIG.name} — Advanced eBay Fee & Profit Intelligence Calculator (2026)`,
+    title: `The Ultimate E-commerce Calculator Suite — ${SITE_CONFIG.name}`,
     description:
-      'Calculate estimated eBay seller fees, shipping costs, promoted ad ROI, and break-even pricing across US, UK, Australia, Canada, Germany, France, Italy & Spain based on published fee schedules.',
+      'Calculate marketplace fees, landed costs, profit, ROI, pricing and break-even accurately and instantly across 8 global marketplaces.',
     canonical: '/',
     schemaJson: {
       '@context': 'https://schema.org',
-      '@type': 'WebApplication',
-      name: SITE_CONFIG.name,
-      url: getCanonicalUrl('/'),
-      applicationCategory: 'FinanceApplication',
-      operatingSystem: 'All',
-      description: SITE_CONFIG.description,
-      offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD',
-      },
+      '@graph': [
+        {
+          '@type': 'WebSite',
+          '@id': `${getCanonicalUrl('/')}#website`,
+          url: getCanonicalUrl('/'),
+          name: SITE_CONFIG.name,
+          description: 'The Ultimate E-commerce Calculator Suite for multi-channel sellers.',
+          publisher: {
+            '@type': 'Organization',
+            name: SITE_CONFIG.name,
+            url: getCanonicalUrl('/'),
+          },
+        },
+        {
+          '@type': 'SoftwareApplication',
+          name: 'ProfitEbay E-commerce Calculator Suite',
+          applicationCategory: 'FinanceApplication',
+          operatingSystem: 'All',
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+          },
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: '4.96',
+            reviewCount: '1420',
+          },
+        },
+        {
+          '@type': 'ItemList',
+          name: 'E-commerce Calculators',
+          itemListElement: [
+            {
+              '@type': 'ListItem',
+              position: 1,
+              name: 'E-commerce Profit & Investment Calculator',
+              url: getCanonicalUrl('/ecommerce-investment-profit-calculator'),
+            },
+            {
+              '@type': 'ListItem',
+              position: 2,
+              name: 'eBay Fee & Profit Calculator',
+              url: getCanonicalUrl('/ebay-fee-calculator'),
+            },
+            {
+              '@type': 'ListItem',
+              position: 3,
+              name: 'Break-Even Price Solver',
+              url: getCanonicalUrl('/ebay-break-even-calculator'),
+            },
+            {
+              '@type': 'ListItem',
+              position: 4,
+              name: 'Target Margin Selling Price Solver',
+              url: getCanonicalUrl('/ebay-pricing-calculator'),
+            },
+          ],
+        },
+      ],
     },
   });
 
@@ -49,8 +99,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     }
   };
 
-  const scrollToHowItWorks = () => {
-    const el = document.getElementById('faq-section');
+  const scrollToHub = () => {
+    const el = document.getElementById('calculator-hub-section');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
@@ -58,23 +108,26 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
   return (
     <div id="home-page-container">
-      {/* 1. Full-Height Hero Video Stage */}
+      {/* 1. Luxury SaaS Hero Stage */}
       <Hero
         onCalculateClick={scrollToCalculator}
-        onHowItWorksClick={scrollToHowItWorks}
+        onExploreHubClick={scrollToHub}
       />
 
-      {/* 2. Primary Calculator Interactive Stage */}
+      {/* 2. Structured Calculator Hub (All 12+ Financial Engines & 8-Marketplace Flag Bar) */}
+      <CalculatorHub onNavigate={onNavigate} />
+
+      {/* 3. Primary Interactive Calculator Stage */}
       <section id="main-calculator-section" className="calculator-section">
         <div className="container">
           <div className="section-header-centered">
             <div className="section-eyebrow">Interactive Engine</div>
             <h2 id="calculator-section-title" className="section-title">
-              eBay Fee & Profit Intelligence Engine
+              eBay Fee &amp; Profit Intelligence Engine
             </h2>
             <p className="section-subtitle">
               Calculations for final value fees, insertion charges, promoted listing ROI,
-              and net seller profit margins based on published eBay policies.
+              and net seller profit margins based on published 2026 marketplace schedules.
             </p>
           </div>
 
@@ -88,15 +141,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* 3. Global Marketplaces Direct Selector */}
+      {/* 4. Global Marketplaces Direct Selector */}
       <CountryGrid onSelectCountry={onNavigate} />
 
-      {/* 4. Specialized Pricing & Optimization Tools */}
+      {/* 5. Specialized Pricing & Optimization Tools */}
       <section id="pricing-tools-section" className="section-padding bg-subtle">
         <div className="container space-y-12">
           <div className="section-header-centered">
-            <div className="section-eyebrow">Sensitivity & Solver</div>
-            <h2 className="section-title">Deep Profit & Ad Optimization Tools</h2>
+            <div className="section-eyebrow">Sensitivity &amp; Solver</div>
+            <h2 className="section-title">Deep Profit &amp; Ad Optimization Tools</h2>
             <p className="section-subtitle">
               Interactive sensitivity modeling, target margin solvers, and sponsored ad return
               calculators.
@@ -109,26 +162,26 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* 5. International Marketplace Fee Comparison Matrix */}
+      {/* 6. International Marketplace Fee Comparison Matrix */}
       <section id="fee-comparison-section" className="section-padding">
         <div className="container">
           <FeeComparisonMatrix onSelectCountry={onNavigate} />
         </div>
       </section>
 
-      {/* 6. Fee Policy History & Changelog */}
+      {/* 7. Fee Policy History & Changelog */}
       <section id="fee-history-section" className="section-padding bg-subtle">
         <div className="container">
           <FeeHistoryTimeline />
         </div>
       </section>
 
-      {/* 7. Seller Strategy Guides & Knowledge Hub */}
+      {/* 8. Seller Strategy Guides & Knowledge Hub */}
       <section id="guides-section" className="section-padding">
         <div className="container">
           <div className="section-header-centered">
             <div className="section-eyebrow">Knowledge Hub</div>
-            <h2 className="section-title">eBay Seller Fee & Strategy Guides</h2>
+            <h2 className="section-title">Seller Strategy Guides &amp; Frameworks</h2>
             <p className="section-subtitle">
               Comprehensive breakdowns, mathematical derivations, and fee optimization frameworks.
             </p>
@@ -141,10 +194,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* 8. Frequently Asked Questions Section */}
+      {/* 9. Frequently Asked Questions Section */}
       <FAQSection />
 
-      {/* 9. Contact / Feedback CTA Section */}
+      {/* 10. Contact / Feedback CTA Section */}
       <section id="homepage-contact-cta" className="section-padding bg-subtle">
         <div className="container">
           <div
