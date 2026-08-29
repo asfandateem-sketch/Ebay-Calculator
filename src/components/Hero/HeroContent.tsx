@@ -107,15 +107,15 @@ export const HeroContent: React.FC<HeroContentProps> = ({
       {/* Trust & Guarantee points */}
       <div className="hero-luxury-features-row">
         <div className="hero-feat-item">
-          <ShieldCheck size={16} className="text-emerald-600" />
+          <ShieldCheck size={16} className="text-emerald-700" />
           <span>2026 Verified Rates</span>
         </div>
         <div className="hero-feat-item">
-          <Sparkles size={16} className="text-blue-600" />
+          <Sparkles size={16} className="text-blue-700" />
           <span>8 Global Marketplaces</span>
         </div>
         <div className="hero-feat-item">
-          <TrendingUp size={16} className="text-indigo-600" />
+          <TrendingUp size={16} className="text-indigo-700" />
           <span>Zero-Deviation Accuracy</span>
         </div>
       </div>

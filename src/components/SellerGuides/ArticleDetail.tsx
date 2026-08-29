@@ -149,7 +149,7 @@ export const ArticleDetail: React.FC<ArticleDetailProps> = ({ article, onBack, o
           <div style={{ fontSize: '18px', fontWeight: 600, marginBottom: '4px' }}>
             Ready to test this calculation on your own listings?
           </div>
-          <div style={{ fontSize: '13px', opacity: 0.75 }}>
+          <div style={{ fontSize: '13px', color: '#e2e8f0' }}>
             Open the real-time ProfitEbay eBay fee & profit intelligence calculator.
           </div>
         </div>

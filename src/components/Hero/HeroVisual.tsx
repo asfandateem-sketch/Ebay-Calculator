@@ -36,15 +36,15 @@ export const HeroVisual: React.FC = () => {
         <div className="hero-card-highlight-grid">
           <div className="hero-metric-box primary">
             <div className="hero-metric-label">Net Monthly Profit</div>
-            <div className="hero-metric-val text-emerald-600">+$14,840.00</div>
+            <div className="hero-metric-val text-emerald-700">+$14,840.00</div>
             <div className="hero-metric-sub">
-              <span className="text-emerald-700 font-semibold">+32.4%</span> Net Margin
+              <span className="text-emerald-800 font-semibold">+32.4%</span> Net Margin
             </div>
           </div>
 
           <div className="hero-metric-box">
             <div className="hero-metric-label">Unit Contribution</div>
-            <div className="hero-metric-val text-indigo-600">$37.10</div>
+            <div className="hero-metric-val text-indigo-700">$37.10</div>
             <div className="hero-metric-sub">
               Per unit sold ($75.00 MSRP)
             </div>
@@ -71,18 +71,18 @@ export const HeroVisual: React.FC = () => {
           </div>
           <div className="hero-ledger-row hero-ledger-total">
             <span className="text-slate-900 font-bold">Estimated ROI / Payback</span>
-            <span className="text-emerald-700 font-bold">186% (2.1 Months)</span>
+            <span className="text-emerald-800 font-bold">186% (2.1 Months)</span>
           </div>
         </div>
 
         {/* Verification badges */}
         <div className="hero-card-tags">
           <span className="hero-pill-tag">
-            <ShieldCheck size={13} className="text-emerald-600" />
+            <ShieldCheck size={13} className="text-emerald-700" />
             <span>Zero-Deviation Tier Brackets</span>
           </span>
           <span className="hero-pill-tag">
-            <Zap size={13} className="text-amber-600" />
+            <Zap size={13} className="text-amber-700" />
             <span>Multi-Marketplace Ready</span>
           </span>
         </div>

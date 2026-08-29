@@ -125,13 +125,13 @@ export const TargetPricingTool: React.FC<TargetPricingToolProps> = ({ inputs, on
         }}
       >
         <div>
-          <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', opacity: 0.65 }}>
+          <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#f1f5f9' }}>
             Required Listing Price
           </div>
           <div style={{ fontSize: '32px', fontWeight: 600, letterSpacing: '-0.02em', marginTop: '4px' }}>
             {formatCurrency(activeSolution.requiredPrice, inputs.country)}
           </div>
-          <div style={{ fontSize: '12px', opacity: 0.75, marginTop: '2px' }}>
+          <div style={{ fontSize: '12px', color: '#e2e8f0', marginTop: '2px' }}>
             Generates {formatCurrency(activeSolution.results.netProfit, inputs.country)} Net Profit ({formatPercent(activeSolution.results.profitMargin)} margin)
           </div>
         </div>

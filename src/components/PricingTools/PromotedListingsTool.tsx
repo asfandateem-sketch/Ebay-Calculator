@@ -75,7 +75,7 @@ export const PromotedListingsTool: React.FC<PromotedListingsToolProps> = ({ inpu
                   </td>
                   <td>{tier.adFee > 0 ? formatCurrency(tier.adFee, inputs.country) : '$0.00'}</td>
                   <td>{formatCurrency(tier.totalFees, inputs.country)}</td>
-                  <td style={{ color: tier.netProfit >= 0 ? '#10b981' : '#ef4444' }}>
+                  <td style={{ color: tier.netProfit >= 0 ? '#047857' : '#b91c1c' }}>
                     {formatCurrency(tier.netProfit, inputs.country)}
                   </td>
                   <td>{formatPercent(tier.margin)}</td>

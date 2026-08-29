@@ -28,7 +28,7 @@ export const Footer: React.FC<FooterProps> = () => {
             <p className="footer-brand-text">
               Know your profit before you list. The advanced financial intelligence and fee calculation engine for e-commerce resellers and multi-channel businesses.
             </p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', opacity: 0.75 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#e2e8f0' }}>
               <ShieldCheck size={14} />
               <span>Verified 2026 Fee Schedules</span>
             </div>

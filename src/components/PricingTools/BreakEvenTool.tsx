@@ -65,7 +65,7 @@ export const BreakEvenTool: React.FC<BreakEvenToolProps> = ({ inputs, onUpdateIn
           <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--color-text-muted)' }}>
             Current Selling Price
           </div>
-          <div style={{ fontSize: '24px', fontWeight: 600, color: baseResults.netProfit >= 0 ? '#10b981' : '#ef4444' }}>
+          <div style={{ fontSize: '24px', fontWeight: 600, color: baseResults.netProfit >= 0 ? '#047857' : '#b91c1c' }}>
             {formatCurrency(inputs.soldPrice, inputs.country)}
           </div>
           <div style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: '2px' }}>
@@ -126,7 +126,7 @@ export const BreakEvenTool: React.FC<BreakEvenToolProps> = ({ inputs, onUpdateIn
                   <td>{formatCurrency(sc.revenue, inputs.country)}</td>
                   <td>{formatCurrency(sc.totalFees, inputs.country)}</td>
                   <td>{formatCurrency(sc.totalCosts - sc.totalFees, inputs.country)}</td>
-                  <td style={{ color: sc.netProfit >= 0 ? '#10b981' : '#ef4444', fontWeight: 600 }}>
+                  <td style={{ color: sc.netProfit >= 0 ? '#047857' : '#b91c1c', fontWeight: 600 }}>
                     {formatCurrency(sc.netProfit, inputs.country)}
                   </td>
                   <td>{formatPercent(sc.margin)}</td>

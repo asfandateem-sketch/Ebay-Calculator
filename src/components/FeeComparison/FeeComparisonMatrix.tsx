@@ -124,7 +124,7 @@ export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = () => {
                 <td>{row.fixedFee}</td>
                 <td>{row.totalFees}</td>
                 <td><strong>{row.effectiveRate}</strong></td>
-                <td style={{ color: '#10b981', fontWeight: 600 }}>{row.netProfit}</td>
+                <td style={{ color: '#047857', fontWeight: 600 }}>{row.netProfit}</td>
                 <td>{row.margin}</td>
                 <td>
                   <RouterLink

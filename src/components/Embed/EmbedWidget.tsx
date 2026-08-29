@@ -67,11 +67,11 @@ export const EmbedWidget: React.FC = () => {
           marginBottom: '12px',
         }}
       >
-        <div style={{ fontSize: '11px', opacity: 0.7, textTransform: 'uppercase' }}>Net Profit</div>
+        <div style={{ fontSize: '11px', color: '#f1f5f9', textTransform: 'uppercase', fontWeight: 600 }}>Net Profit</div>
         <div style={{ fontSize: '24px', fontWeight: 600, margin: '2px 0' }}>
           {formatCurrency(results.netProfit, inputs.country)}
         </div>
-        <div style={{ fontSize: '12px', opacity: 0.8 }}>
+        <div style={{ fontSize: '12px', color: '#e2e8f0' }}>
           Margin: {formatPercent(results.profitMargin)} • Total Fees: {formatCurrency(results.totalEbayFees, inputs.country)}
         </div>
       </div>

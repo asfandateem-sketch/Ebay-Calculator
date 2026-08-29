@@ -159,7 +159,7 @@ export const EcommerceCalculatorResults: React.FC<Props> = ({
           <div className={`results-profit-value ${results.netProfit < 0 ? 'negative' : ''}`}>
             {results.netProfit < 0 ? '-' : ''}{formatCurrency(Math.abs(results.netProfit))}
           </div>
-          <div style={{ fontSize: '12px', opacity: 0.75, marginTop: '4px' }}>
+          <div style={{ fontSize: '12px', color: '#e2e8f0', marginTop: '4px' }}>
             Based on {inputs.monthlyUnitsSold} units / month sales velocity
           </div>
         </div>
@@ -168,14 +168,14 @@ export const EcommerceCalculatorResults: React.FC<Props> = ({
         <div className="results-metrics-grid">
           <div className="metric-mini-card">
             <div className="metric-mini-label">Profit Margin</div>
-            <div className="metric-mini-value" style={{ color: results.profitMargin && results.profitMargin > 0 ? '#4ade80' : results.profitMargin && results.profitMargin < 0 ? '#f87171' : 'white' }}>
+            <div className="metric-mini-value" style={{ color: results.profitMargin && results.profitMargin > 0 ? '#4ade80' : results.profitMargin && results.profitMargin < 0 ? '#fca5a5' : '#ffffff' }}>
               {results.profitMargin !== null ? `${results.profitMargin.toFixed(1)}%` : 'N/A'}
             </div>
           </div>
 
           <div className="metric-mini-card">
             <div className="metric-mini-label">Monthly ROI</div>
-            <div className="metric-mini-value" style={{ color: results.roi && results.roi > 0 ? '#4ade80' : results.roi && results.roi < 0 ? '#f87171' : 'white' }}>
+            <div className="metric-mini-value" style={{ color: results.roi && results.roi > 0 ? '#4ade80' : results.roi && results.roi < 0 ? '#fca5a5' : '#ffffff' }}>
               {results.roi !== null ? `${results.roi.toFixed(1)}%` : 'N/A'}
             </div>
           </div>
@@ -190,7 +190,7 @@ export const EcommerceCalculatorResults: React.FC<Props> = ({
 
         {/* Financial Flow Breakdown */}
         <div style={{ marginBottom: '18px' }}>
-          <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', opacity: 0.6, marginBottom: '10px', fontWeight: 600 }}>
+          <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#f1f5f9', marginBottom: '10px', fontWeight: 600 }}>
             Monthly P&L Ledger
           </div>
           <div className="results-breakdown-list">

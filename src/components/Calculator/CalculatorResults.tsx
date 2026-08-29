@@ -46,7 +46,7 @@ export const CalculatorResults: React.FC<CalculatorResultsProps> = ({ inputs, re
           >
             {formatCurrency(results.netProfit, inputs.country)}
           </div>
-          <div style={{ fontSize: '12px', opacity: 0.7, marginTop: '6px' }}>
+          <div style={{ fontSize: '12px', color: '#e2e8f0', marginTop: '6px' }}>
             {inputs.quantitySold > 1 ? (
               <span>
                 (<strong>{formatCurrency(results.netProfit / inputs.quantitySold, inputs.country)}</strong> / unit)

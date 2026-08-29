@@ -21,7 +21,7 @@
   --color-danger: #ef4444;
   --color-danger-bg: rgba(239, 68, 68, 0.08);
   
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --letter-spacing-hero: -0.03em;
   --letter-spacing-tight: -0.02em;
   
@@ -248,7 +248,6 @@ input, select, textarea {
 }
 
 .brand-name-profit {
-  font-family: 'Plus Jakarta Sans', var(--font-family);
   font-weight: 800;
   color: #0f172a;
   letter-spacing: -0.035em;
@@ -256,7 +255,6 @@ input, select, textarea {
 }
 
 .brand-name-ebay {
-  font-family: 'Plus Jakarta Sans', var(--font-family);
   font-weight: 800;
   color: #2563eb;
   letter-spacing: -0.035em;
@@ -266,7 +264,7 @@ input, select, textarea {
 .brand-version-badge {
   font-size: 9.5px;
   font-weight: 700;
-  color: #059669;
+  color: #047857;
   background: #ecfdf5;
   border: 1px solid #a7f3d0;
   padding: 1px 5px;
@@ -871,7 +869,6 @@ input, select, textarea {
 }
 
 .hero-heading {
-  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 700;
   letter-spacing: -0.035em;
   line-height: 1.04;
@@ -1423,28 +1420,29 @@ input, select, textarea {
 .results-profit-hero {
   text-align: center;
   padding-bottom: 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   margin-bottom: 20px;
 }
 
 .results-profit-label {
   font-size: 12px;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  opacity: 0.65;
+  color: #f1f5f9;
   margin-bottom: 6px;
 }
 
 .results-profit-value {
   font-size: clamp(2rem, 3.5vw, 3rem);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.1;
-  color: var(--color-white);
+  color: #ffffff;
 }
 
 .results-profit-value.negative {
-  color: #f87171;
+  color: #fca5a5;
 }
 
 .results-metrics-grid {
@@ -1455,7 +1453,8 @@ input, select, textarea {
 }
 
 .metric-mini-card {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-sm);
   padding: 12px 10px;
   text-align: center;
@@ -1463,14 +1462,18 @@ input, select, textarea {
 
 .metric-mini-label {
   font-size: 11px;
-  opacity: 0.6;
+  font-weight: 600;
+  color: #f1f5f9;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   margin-bottom: 4px;
 }
 
 .metric-mini-value {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.01em;
+  color: #ffffff;
 }
 
 /* Breakdown List */
@@ -1486,7 +1489,7 @@ input, select, textarea {
   align-items: center;
   justify-content: space-between;
   padding: 6px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .breakdown-row:last-child {
@@ -1494,11 +1497,13 @@ input, select, textarea {
 }
 
 .breakdown-label {
-  opacity: 0.75;
+  color: #e2e8f0;
+  font-size: 13px;
 }
 
 .breakdown-value {
-  font-weight: 500;
+  font-weight: 600;
+  color: #ffffff;
 }
 
 /* Actions in Sticky Results */
@@ -1953,17 +1958,17 @@ input, select, textarea {
 .footer-brand-text {
   font-size: 13px;
   line-height: 1.6;
-  opacity: 0.78;
+  color: #e2e8f0;
   margin-top: 14px;
   margin-bottom: 20px;
 }
 
 .footer-col-title {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  opacity: 0.72;
+  color: #ffffff;
   margin-bottom: 16px;
 }
 
@@ -1976,35 +1981,35 @@ input, select, textarea {
 
 .footer-link {
   font-size: 13px;
-  opacity: 0.82;
-  transition: opacity var(--transition-fast);
+  color: #cbd5e1;
+  transition: color var(--transition-fast);
 }
 
 .footer-link:hover {
-  opacity: 1;
+  color: #ffffff;
 }
 
 .footer-bottom {
   padding-top: 32px;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
   font-size: 12px;
-  opacity: 0.75;
+  color: #cbd5e1;
 }
 
 .footer-disclaimer-banner {
   padding: 16px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-sm);
   margin-bottom: 32px;
   font-size: 12px;
   line-height: 1.5;
-  opacity: 0.75;
+  color: #e2e8f0;
 }
 
 /* ==========================================================================
@@ -2159,7 +2164,6 @@ input, select, textarea {
 }
 
 .hero-luxury-h1 {
-  font-family: 'Plus Jakarta Sans', var(--font-family);
   font-size: 2.35rem;
   line-height: 1.12;
   font-weight: 800;
@@ -2208,8 +2212,8 @@ input, select, textarea {
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  font-weight: 600;
-  color: #64748b;
+  font-weight: 700;
+  color: #475569;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -2414,7 +2418,7 @@ input, select, textarea {
 
 .hero-card-subtitle {
   font-size: 11px;
-  color: #64748b;
+  color: #475569;
 }
 
 .hero-card-badge {
@@ -2435,21 +2439,17 @@ input, select, textarea {
   height: 6px;
   border-radius: 50%;
   background: #10b981;
-  animation: livePulse 1.8s infinite;
+  animation: livePulse 1.8s infinite ease-in-out;
 }
 
 @keyframes livePulse {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-  }
-  70% {
+  0%, 100% {
     transform: scale(1);
-    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+    opacity: 1;
   }
-  100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
   }
 }
 
@@ -2476,7 +2476,7 @@ input, select, textarea {
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #64748b;
+  color: #475569;
   margin-bottom: 4px;
   font-weight: 600;
 }
@@ -2585,7 +2585,7 @@ input, select, textarea {
 
 .pill-text-sub {
   font-size: 10px;
-  color: #64748b;
+  color: #475569;
 }
 
 /* ==========================================================================
@@ -2623,7 +2623,6 @@ input, select, textarea {
 }
 
 .calculator-hub-title {
-  font-family: 'Plus Jakarta Sans', var(--font-family);
   font-size: 2.1rem;
   font-weight: 800;
   letter-spacing: -0.025em;
