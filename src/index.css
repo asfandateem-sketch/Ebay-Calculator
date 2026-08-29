@@ -2689,6 +2689,7 @@ input, select, textarea {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-height: 44px;
   padding: 8px 12px;
   background: #ffffff;
   border: 1px solid #e2e8f0;
@@ -2722,8 +2723,9 @@ input, select, textarea {
 }
 
 .market-flag-currency {
-  font-size: 10.5px;
-  color: #64748b;
+  font-size: 11px;
+  color: #475569;
+  font-weight: 500;
 }
 
 /* Hub Category Filter & Search */
@@ -2749,13 +2751,14 @@ input, select, textarea {
 }
 
 .hub-tab-btn {
-  padding: 8px 16px;
+  min-height: 40px;
+  padding: 8px 18px;
   border-radius: 9999px;
   font-size: 13px;
   font-weight: 600;
-  color: #475569;
+  color: #334155;
   background: #f1f5f9;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #cbd5e1;
   cursor: pointer;
   transition: all 0.18s ease;
 }
@@ -2782,12 +2785,13 @@ input, select, textarea {
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: #94a3b8;
+  color: #64748b;
   pointer-events: none;
 }
 
 .hub-search-input {
   width: 100%;
+  min-height: 42px;
   padding: 9px 36px 9px 36px;
   border-radius: 10px;
   background: #ffffff;
@@ -2804,7 +2808,7 @@ input, select, textarea {
 }
 
 .hub-search-input::placeholder {
-  color: #94a3b8;
+  color: #64748b;
 }
 
 .hub-search-clear {
@@ -2812,7 +2816,7 @@ input, select, textarea {
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  color: #94a3b8;
+  color: #64748b;
   font-size: 12px;
   cursor: pointer;
 }
@@ -2868,7 +2872,7 @@ input, select, textarea {
   border-radius: 12px;
   background: #eff6ff;
   border: 1px solid #dbeafe;
-  color: #2563eb;
+  color: #1d4ed8;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2889,7 +2893,7 @@ input, select, textarea {
   border-radius: 6px;
   background: #f1f5f9;
   border: 1px solid #e2e8f0;
-  color: #475569;
+  color: #334155;
 }
 
 .card-body {
@@ -2906,7 +2910,7 @@ input, select, textarea {
 
 .card-desc {
   font-size: 13px;
-  color: #64748b;
+  color: #475569;
   line-height: 1.5;
 }
 
@@ -2920,7 +2924,7 @@ input, select, textarea {
 
 .card-markets-badge {
   font-size: 11px;
-  color: #64748b;
+  color: #475569;
   font-weight: 500;
 }
 
@@ -2928,11 +2932,14 @@ input, select, textarea {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 12.5px;
+  min-height: 38px;
+  padding: 6px 12px;
+  font-size: 13px;
   font-weight: 600;
-  color: #2563eb;
+  color: #1d4ed8;
+  border-radius: 6px;
   cursor: pointer;
-  transition: color 0.18s ease, transform 0.18s ease;
+  transition: color 0.18s ease, transform 0.18s ease, background 0.18s ease;
 }
 
 .card-cta-arrow {
@@ -2940,7 +2947,8 @@ input, select, textarea {
 }
 
 .calculator-glass-card:hover .card-cta-btn {
-  color: #1d4ed8;
+  color: #1e40af;
+  background: #eff6ff;
 }
 
 .calculator-glass-card:hover .card-cta-arrow {

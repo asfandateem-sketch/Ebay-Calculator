@@ -67,8 +67,8 @@ export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = () => {
         <div className="calc-title-badge">
           <Layers size={20} color="var(--color-primary)" />
           <div>
-            <h3 className="calc-title">International eBay Fee Comparison Matrix</h3>
-            <p style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>
+            <h2 className="calc-title">International eBay Fee Comparison Matrix</h2>
+            <p style={{ fontSize: '12px', color: 'var(--color-text-subtle)' }}>
               Side-by-side benchmark comparison across 8 global eBay marketplaces.
             </p>
           </div>
@@ -76,7 +76,7 @@ export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = () => {
 
         {/* Benchmark Price Selector */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>Benchmark Sale:</span>
+          <span style={{ fontSize: '12px', color: 'var(--color-text-subtle)' }}>Benchmark Sale:</span>
           {[50, 100, 250, 500, 1000].map((amt) => (
             <button
               key={amt}

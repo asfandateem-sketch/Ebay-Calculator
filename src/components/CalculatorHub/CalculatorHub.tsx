@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { CountryFlag } from '../CountrySelector/CountryFlag';
 import {
   TrendingUp,
@@ -341,65 +340,51 @@ export const CalculatorHub: React.FC<CalculatorHubProps> = ({ onNavigate }) => {
 
         {/* Calculator Cards Grid */}
         <div className="calculator-card-grid">
-          <AnimatePresence mode="popLayout">
-            {filteredCalculators.map((calc, idx) => {
-              const IconComponent = calc.icon;
-              return (
-                <motion.div
-                  key={calc.id}
-                  layout
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.22, delay: idx * 0.025 }}
-                  className="calculator-glass-card"
-                  onClick={() => onNavigate(calc.path)}
-                  tabIndex={0}
-                  role="button"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      onNavigate(calc.path);
-                    }
-                  }}
-                  id={`card-calc-${calc.id}`}
-                >
-                  <div className="card-top-row">
-                    <div className="card-icon-bubble">
-                      <IconComponent size={20} />
-                    </div>
-                    <div className="card-badge-group">
-                      {calc.badge && <span className="card-badge">{calc.badge}</span>}
-                    </div>
+          {filteredCalculators.map((calc) => {
+            const IconComponent = calc.icon;
+            return (
+              <div
+                key={calc.id}
+                className="calculator-glass-card"
+                onClick={() => onNavigate(calc.path)}
+                tabIndex={0}
+                role="link"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onNavigate(calc.path);
+                  }
+                }}
+                id={`card-calc-${calc.id}`}
+                aria-label={`${calc.name} — ${calc.description}`}
+              >
+                <div className="card-top-row">
+                  <div className="card-icon-bubble">
+                    <IconComponent size={20} />
+                  </div>
+                  <div className="card-badge-group">
+                    {calc.badge && <span className="card-badge">{calc.badge}</span>}
+                  </div>
+                </div>
+
+                <div className="card-body">
+                  <h3 className="card-title">{calc.name}</h3>
+                  <p className="card-desc">{calc.description}</p>
+                </div>
+
+                <div className="card-footer">
+                  <div className="card-markets-badge">
+                    <span className="card-market-text">{calc.markets.join(' • ')}</span>
                   </div>
 
-                  <div className="card-body">
-                    <h3 className="card-title">{calc.name}</h3>
-                    <p className="card-desc">{calc.description}</p>
-                  </div>
-
-                  <div className="card-footer">
-                    <div className="card-markets-badge">
-                      <span className="card-market-text">{calc.markets.join(' • ')}</span>
-                    </div>
-
-                    <button
-                      type="button"
-                      className="card-cta-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onNavigate(calc.path);
-                      }}
-                      aria-label={`Open ${calc.name}`}
-                    >
-                      <span>Calculate</span>
-                      <ArrowRight size={14} className="card-cta-arrow" />
-                    </button>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
+                  <span className="card-cta-btn" aria-hidden="true">
+                    <span>Calculate</span>
+                    <ArrowRight size={14} className="card-cta-arrow" />
+                  </span>
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         {filteredCalculators.length === 0 && (

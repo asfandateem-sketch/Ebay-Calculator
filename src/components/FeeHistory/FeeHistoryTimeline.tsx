@@ -9,8 +9,8 @@ export const FeeHistoryTimeline: React.FC = () => {
         <div className="calc-title-badge">
           <History size={20} color="var(--color-primary)" />
           <div>
-            <h3 className="calc-title">eBay Fee Policy History & Rate Archives</h3>
-            <p style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>
+            <h2 className="calc-title">eBay Fee Policy History & Rate Archives</h2>
+            <p style={{ fontSize: '12px', color: 'var(--color-text-subtle)' }}>
               Authoritative timeline of fee changes, Managed Payments shifts, and category structure updates.
             </p>
           </div>
@@ -33,7 +33,7 @@ export const FeeHistoryTimeline: React.FC = () => {
                 <span className="nav-tag-pill" style={{ fontSize: '11px', padding: '2px 8px' }}>
                   {item.country} • {item.category}
                 </span>
-                <span style={{ fontSize: '12px', color: 'var(--color-text-muted)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                <span style={{ fontSize: '12px', color: 'var(--color-text-subtle)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                   <Calendar size={12} />
                   {item.date}
                 </span>
@@ -54,9 +54,9 @@ export const FeeHistoryTimeline: React.FC = () => {
                       : 'rgba(0, 0, 0, 0.05)',
                   color:
                     item.changeType === 'reduction'
-                      ? '#10b981'
+                      ? '#047857'
                       : item.changeType === 'increase'
-                      ? '#ef4444'
+                      ? '#b91c1c'
                       : 'var(--color-primary)',
                 }}
               >
@@ -64,11 +64,11 @@ export const FeeHistoryTimeline: React.FC = () => {
               </span>
             </div>
 
-            <h4 style={{ fontSize: '16px', fontWeight: 600, color: 'var(--color-primary)', marginBottom: '8px' }}>
+            <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'var(--color-primary)', marginBottom: '8px' }}>
               {item.title}
-            </h4>
+            </h3>
 
-            <p style={{ fontSize: '13px', lineHeight: 1.6, color: 'var(--color-text-muted)', marginBottom: '14px' }}>
+            <p style={{ fontSize: '13px', lineHeight: 1.6, color: 'var(--color-text-subtle)', marginBottom: '14px' }}>
               {item.description}
             </p>
 

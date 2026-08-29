@@ -1,19 +1,35 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Hero } from '../components/Hero/Hero';
 import { CalculatorHub } from '../components/CalculatorHub/CalculatorHub';
 import { Calculator } from '../components/Calculator/Calculator';
 import { CountryGrid } from '../components/CountrySelector/CountryGrid';
-import { BreakEvenTool } from '../components/PricingTools/BreakEvenTool';
-import { TargetPricingTool } from '../components/PricingTools/TargetPricingTool';
-import { PromotedListingsTool } from '../components/PricingTools/PromotedListingsTool';
-import { FeeComparisonMatrix } from '../components/FeeComparison/FeeComparisonMatrix';
-import { FeeHistoryTimeline } from '../components/FeeHistory/FeeHistoryTimeline';
-import { ArticleList } from '../components/SellerGuides/ArticleList';
-import { FAQSection } from '../components/FAQ/FAQSection';
 import { useCalculator } from '../hooks/useCalculator';
 import { useSEO } from '../hooks/useSEO';
 import { SITE_CONFIG } from '../config/site';
 import { getCanonicalUrl } from '../hooks/useRouting';
+
+// Lazy load below-the-fold interactive sections for lightweight initial paint & mobile LCP < 2.2s
+const BreakEvenTool = lazy(() =>
+  import('../components/PricingTools/BreakEvenTool').then((m) => ({ default: m.BreakEvenTool }))
+);
+const TargetPricingTool = lazy(() =>
+  import('../components/PricingTools/TargetPricingTool').then((m) => ({ default: m.TargetPricingTool }))
+);
+const PromotedListingsTool = lazy(() =>
+  import('../components/PricingTools/PromotedListingsTool').then((m) => ({ default: m.PromotedListingsTool }))
+);
+const FeeComparisonMatrix = lazy(() =>
+  import('../components/FeeComparison/FeeComparisonMatrix').then((m) => ({ default: m.FeeComparisonMatrix }))
+);
+const FeeHistoryTimeline = lazy(() =>
+  import('../components/FeeHistory/FeeHistoryTimeline').then((m) => ({ default: m.FeeHistoryTimeline }))
+);
+const ArticleList = lazy(() =>
+  import('../components/SellerGuides/ArticleList').then((m) => ({ default: m.ArticleList }))
+);
+const FAQSection = lazy(() =>
+  import('../components/FAQ/FAQSection').then((m) => ({ default: m.FAQSection }))
+);
 
 interface HomePageProps {
   onNavigate: (path: string) => void;
@@ -108,7 +124,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
   return (
     <div id="home-page-container">
-      {/* 1. Luxury SaaS Hero Stage */}
+      {/* 1. Luxury SaaS Hero Stage (Instant initial paint & LCP) */}
       <Hero
         onCalculateClick={scrollToCalculator}
         onExploreHubClick={scrollToHub}
@@ -156,23 +172,29 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             </p>
           </div>
 
-          <BreakEvenTool inputs={inputs} onUpdateInput={updateInput} />
-          <TargetPricingTool inputs={inputs} onUpdateInput={updateInput} />
-          <PromotedListingsTool inputs={inputs} onUpdateInput={updateInput} />
+          <Suspense fallback={<div className="h-48 flex items-center justify-center text-slate-400">Loading analysis tools...</div>}>
+            <BreakEvenTool inputs={inputs} onUpdateInput={updateInput} />
+            <TargetPricingTool inputs={inputs} onUpdateInput={updateInput} />
+            <PromotedListingsTool inputs={inputs} onUpdateInput={updateInput} />
+          </Suspense>
         </div>
       </section>
 
       {/* 6. International Marketplace Fee Comparison Matrix */}
       <section id="fee-comparison-section" className="section-padding">
         <div className="container">
-          <FeeComparisonMatrix onSelectCountry={onNavigate} />
+          <Suspense fallback={<div className="h-48 flex items-center justify-center text-slate-400">Loading comparison matrix...</div>}>
+            <FeeComparisonMatrix onSelectCountry={onNavigate} />
+          </Suspense>
         </div>
       </section>
 
       {/* 7. Fee Policy History & Changelog */}
       <section id="fee-history-section" className="section-padding bg-subtle">
         <div className="container">
-          <FeeHistoryTimeline />
+          <Suspense fallback={<div className="h-48 flex items-center justify-center text-slate-400">Loading fee history...</div>}>
+            <FeeHistoryTimeline />
+          </Suspense>
         </div>
       </section>
 
@@ -187,15 +209,19 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             </p>
           </div>
 
-          <ArticleList
-            onSelectArticle={(slug) => onNavigate(`/articles/${slug}`)}
-            limit={6}
-          />
+          <Suspense fallback={<div className="h-48 flex items-center justify-center text-slate-400">Loading strategy guides...</div>}>
+            <ArticleList
+              onSelectArticle={(slug) => onNavigate(`/articles/${slug}`)}
+              limit={6}
+            />
+          </Suspense>
         </div>
       </section>
 
       {/* 9. Frequently Asked Questions Section */}
-      <FAQSection />
+      <Suspense fallback={<div className="h-32 flex items-center justify-center text-slate-400">Loading FAQs...</div>}>
+        <FAQSection />
+      </Suspense>
 
       {/* 10. Contact / Feedback CTA Section */}
       <section id="homepage-contact-cta" className="section-padding bg-subtle">

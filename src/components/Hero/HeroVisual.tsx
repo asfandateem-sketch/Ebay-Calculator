@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import {
   TrendingUp,
   DollarSign,
@@ -15,12 +14,7 @@ export const HeroVisual: React.FC = () => {
       <div className="hero-glow-blob" />
 
       {/* Main Crisp Ledger Card */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="hero-luxury-card"
-      >
+      <div className="hero-luxury-card">
         {/* Top bar */}
         <div className="hero-card-header">
           <div className="hero-card-title-group">
@@ -28,7 +22,7 @@ export const HeroVisual: React.FC = () => {
               <TrendingUp size={18} />
             </div>
             <div>
-              <h3 className="hero-card-title">E-commerce P&amp;L Analysis</h3>
+              <div className="hero-card-title">E-commerce P&amp;L Analysis</div>
               <p className="hero-card-subtitle">Real-Time Financial Modeling</p>
             </div>
           </div>
@@ -60,20 +54,20 @@ export const HeroVisual: React.FC = () => {
         {/* Mini Ledger breakdown */}
         <div className="hero-card-ledger">
           <div className="hero-ledger-row">
-            <span className="text-slate-600">Gross Monthly Revenue</span>
+            <span className="text-slate-700 font-medium">Gross Monthly Revenue</span>
             <span className="font-semibold text-slate-900">$45,800.00</span>
           </div>
           <div className="hero-ledger-row">
-            <span className="text-slate-600">Landed Cost of Goods (COGS)</span>
-            <span className="text-rose-600 font-medium">-$14,650.00</span>
+            <span className="text-slate-700 font-medium">Landed Cost of Goods (COGS)</span>
+            <span className="text-rose-700 font-medium">-$14,650.00</span>
           </div>
           <div className="hero-ledger-row">
-            <span className="text-slate-600">Marketplace Fees &amp; Commission</span>
-            <span className="text-rose-600 font-medium">-$6,412.00</span>
+            <span className="text-slate-700 font-medium">Marketplace Fees &amp; Commission</span>
+            <span className="text-rose-700 font-medium">-$6,412.00</span>
           </div>
           <div className="hero-ledger-row">
-            <span className="text-slate-600">Ad Spend &amp; Shipping</span>
-            <span className="text-rose-600 font-medium">-$9,898.00</span>
+            <span className="text-slate-700 font-medium">Ad Spend &amp; Shipping</span>
+            <span className="text-rose-700 font-medium">-$9,898.00</span>
           </div>
           <div className="hero-ledger-row hero-ledger-total">
             <span className="text-slate-900 font-bold">Estimated ROI / Payback</span>
@@ -92,15 +86,10 @@ export const HeroVisual: React.FC = () => {
             <span>Multi-Marketplace Ready</span>
           </span>
         </div>
-      </motion.div>
+      </div>
 
       {/* Floating Pill: Break-Even Price */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        className="hero-floating-pill pill-left"
-      >
+      <div className="hero-floating-pill pill-left">
         <div className="pill-icon-circle bg-emerald-100 text-emerald-700">
           <DollarSign size={15} />
         </div>
@@ -108,15 +97,10 @@ export const HeroVisual: React.FC = () => {
           <div className="pill-text-title">Break-Even Price: $41.80</div>
           <div className="pill-text-sub">Zero-profit safety floor calculated</div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Floating Pill: Target Margin */}
-      <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="hero-floating-pill pill-right"
-      >
+      <div className="hero-floating-pill pill-right">
         <div className="pill-icon-circle bg-indigo-100 text-indigo-700">
           <Percent size={15} />
         </div>
@@ -124,7 +108,7 @@ export const HeroVisual: React.FC = () => {
           <div className="pill-text-title">Target Margin Solver: 35%</div>
           <div className="pill-text-sub">Optimal Selling Price: $79.40</div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
