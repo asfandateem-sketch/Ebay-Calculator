@@ -22,7 +22,7 @@ export const CalculatorResults: React.FC<CalculatorResultsProps> = ({ inputs, re
       const url = `${window.location.origin}${window.location.pathname}?${qs}`;
       navigator.clipboard.writeText(url).then(() => {
         setCopied(true);
-        trackEvent('share_result', { country: inputs.country, netProfit: results.netProfit });
+        trackEvent('share_result', { country: inputs.country });
         setTimeout(() => setCopied(false), 2000);
       });
     }

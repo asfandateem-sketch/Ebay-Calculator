@@ -20,13 +20,19 @@ export const RouterLink: React.FC<RouterLinkProps> = ({
   ...props
 }) => {
   const { currentPath, navigate } = useRouting();
+  const isUnsafeScheme = /^(javascript|data|vbscript):/i.test(to.trim());
   const isExternal = to.startsWith('http://') || to.startsWith('https://') || to.startsWith('mailto:');
-  const normalizedTarget = normalizePath(to);
-  const isActive = !isExternal && (currentPath === normalizedTarget || (normalizedTarget !== '/' && currentPath.startsWith(normalizedTarget)));
+  const normalizedTarget = isUnsafeScheme ? '/' : normalizePath(to);
+  const isActive = !isExternal && !isUnsafeScheme && (currentPath === normalizedTarget || (normalizedTarget !== '/' && currentPath.startsWith(normalizedTarget)));
   const combinedClassName = `${className} ${isActive && activeClassName ? activeClassName : ''}`.trim();
-  const href = formatHref(to);
+  const href = isUnsafeScheme ? '#' : isExternal ? to : formatHref(to);
 
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (isUnsafeScheme) {
+      event.preventDefault();
+      return;
+    }
+
     // Allow browser's normal behavior for new tabs,
     // middle-click, Ctrl/Cmd-click, etc.
     if (

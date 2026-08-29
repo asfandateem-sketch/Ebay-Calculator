@@ -24,10 +24,8 @@ export const TargetPricingTool: React.FC<TargetPricingToolProps> = ({ inputs, on
     trackEvent('target_margin_calculated', {
       country: inputs.country,
       target_type: targetType,
-      target_value: targetType === 'profit' ? targetProfitValue : targetMarginValue,
-      required_price: activeSolution.requiredPrice,
     });
-  }, [targetType, targetProfitValue, targetMarginValue, activeSolution.requiredPrice, inputs.country]);
+  }, [targetType, inputs.country]);
 
   return (
     <div id="target-pricing-tool-wrapper" className="calc-card">

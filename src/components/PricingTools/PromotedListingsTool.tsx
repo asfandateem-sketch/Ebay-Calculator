@@ -13,11 +13,10 @@ interface PromotedListingsToolProps {
 export const PromotedListingsTool: React.FC<PromotedListingsToolProps> = ({ inputs, onUpdateInput }) => {
   const comparisonTiers = comparePromotedRates(inputs, [0, 2, 4, 6, 8, 10, 12, 15]);
 
-  const handleSelectRate = (rate: number, fee: number) => {
+  const handleSelectRate = (rate: number, _fee: number) => {
     trackEvent('promoted_listing_estimated', {
       country: inputs.country,
       ad_rate: rate,
-      estimated_ad_fee: fee,
     });
     onUpdateInput('promotedListingRate', rate);
   };

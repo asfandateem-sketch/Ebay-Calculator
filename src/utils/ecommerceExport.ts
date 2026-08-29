@@ -78,22 +78,35 @@ export function downloadEcommerceCsv(
   URL.revokeObjectURL(url);
 }
 
+function escapeHtml(str: unknown): string {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 export function printEcommercePdfReport(
   inputs: EcommerceProfitInputs,
   results: EcommerceProfitResults
 ): void {
-  const fmt = (n: number) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const dateStr = new Date().toLocaleDateString('en-US', {
+  const fmt = (n: number) => '$' + (isNaN(n) || !isFinite(n) ? '0.00' : n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  const dateStr = escapeHtml(new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-  });
+  }));
 
   const printWindow = window.open('', '_blank');
   if (!printWindow) {
     alert('Please allow popups to generate and export your PDF report.');
     return;
   }
+  printWindow.opener = null;
+
+  const safeStatus = escapeHtml(results.profitabilityStatus);
 
   const html = `
 <!DOCTYPE html>

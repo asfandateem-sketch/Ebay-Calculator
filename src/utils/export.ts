@@ -70,24 +70,52 @@ export function encodeInputsToUrl(inputs: CalculatorInputs): string {
   return params.toString();
 }
 
+const VALID_COUNTRIES: CalculatorInputs['country'][] = ['US', 'UK', 'AU', 'CA', 'DE', 'FR', 'IT', 'ES'];
+const VALID_SELLER_LEVELS: CalculatorInputs['sellerLevel'][] = ['standard', 'top_rated', 'below_standard'];
+const VALID_STORE_SUBSCRIPTIONS: CalculatorInputs['storeSubscription'][] = ['none', 'starter', 'basic', 'premium', 'anchor', 'enterprise'];
+
+function parseSafeNumber(val: string | null, fallback: number, min = 0, max = 100_000_000): number {
+  if (val === null || val === undefined || val.trim() === '') return fallback;
+  const num = Number(val);
+  if (isNaN(num) || !isFinite(num)) return fallback;
+  return Math.min(max, Math.max(min, num));
+}
+
+function parseSafeCategory(val: string | null, fallback: string): string {
+  if (!val) return fallback;
+  // Clean alphanumeric + underscore/hyphen strings up to 64 chars
+  const sanitized = val.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 64);
+  return sanitized || fallback;
+}
+
 export function decodeInputsFromUrl(search: string, fallback: CalculatorInputs): CalculatorInputs {
+  if (!search || typeof search !== 'string') return fallback;
   const params = new URLSearchParams(search);
-  if (!params.has('price') && !params.has('country')) return fallback;
+  if (!params.has('price') && !params.has('country') && !params.has('category')) return fallback;
+
+  const rawCountry = (params.get('country') || '').toUpperCase() as CalculatorInputs['country'];
+  const country = VALID_COUNTRIES.includes(rawCountry) ? rawCountry : fallback.country;
+
+  const rawSeller = (params.get('seller') || '').toLowerCase() as CalculatorInputs['sellerLevel'];
+  const sellerLevel = VALID_SELLER_LEVELS.includes(rawSeller) ? rawSeller : fallback.sellerLevel;
+
+  const rawStore = (params.get('store') || '').toLowerCase() as CalculatorInputs['storeSubscription'];
+  const storeSubscription = VALID_STORE_SUBSCRIPTIONS.includes(rawStore) ? rawStore : fallback.storeSubscription;
 
   return {
-    country: (params.get('country') as CalculatorInputs['country']) || fallback.country,
-    categoryId: params.get('category') || fallback.categoryId,
-    soldPrice: Number(params.get('price')) || fallback.soldPrice,
-    shippingCharged: Number(params.get('ship_charged')) || fallback.shippingCharged,
-    itemCost: Number(params.get('cost')) || fallback.itemCost,
-    shippingCost: Number(params.get('ship_cost')) || fallback.shippingCost,
-    otherCosts: Number(params.get('other')) || fallback.otherCosts,
-    sellerLevel: (params.get('seller') as CalculatorInputs['sellerLevel']) || fallback.sellerLevel,
-    storeSubscription: (params.get('store') as CalculatorInputs['storeSubscription']) || fallback.storeSubscription,
-    promotedListingRate: Number(params.get('ad_rate')) || fallback.promotedListingRate,
+    country,
+    categoryId: parseSafeCategory(params.get('category'), fallback.categoryId),
+    soldPrice: parseSafeNumber(params.get('price'), fallback.soldPrice),
+    shippingCharged: parseSafeNumber(params.get('ship_charged'), fallback.shippingCharged),
+    itemCost: parseSafeNumber(params.get('cost'), fallback.itemCost),
+    shippingCost: parseSafeNumber(params.get('ship_cost'), fallback.shippingCost),
+    otherCosts: parseSafeNumber(params.get('other'), fallback.otherCosts),
+    sellerLevel,
+    storeSubscription,
+    promotedListingRate: parseSafeNumber(params.get('ad_rate'), fallback.promotedListingRate, 0, 100),
     isInternational: params.get('intl') === '1',
-    salesTaxOrVatRate: Number(params.get('tax')) || fallback.salesTaxOrVatRate,
+    salesTaxOrVatRate: parseSafeNumber(params.get('tax'), fallback.salesTaxOrVatRate, 0, 100),
     freeMonthlyListingsUsed: fallback.freeMonthlyListingsUsed,
-    quantitySold: Number(params.get('qty')) || 1,
+    quantitySold: Math.floor(parseSafeNumber(params.get('qty'), fallback.quantitySold || 1, 1, 1_000_000)),
   };
 }

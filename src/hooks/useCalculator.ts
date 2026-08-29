@@ -43,7 +43,11 @@ export function useCalculator(initialCountry?: CountryCode) {
 
   const updateInput = <K extends keyof CalculatorInputs>(key: K, value: CalculatorInputs[K]) => {
     setInputs((prev) => {
-      const next = { ...prev, [key]: value };
+      let safeValue = value;
+      if (typeof value === 'number') {
+        safeValue = (isNaN(value) || !isFinite(value) ? 0 : Math.min(100_000_000, Math.max(0, value))) as CalculatorInputs[K];
+      }
+      const next = { ...prev, [key]: safeValue };
       
       // Auto adjust category if country changed
       if (key === 'country' && value !== prev.country) {
@@ -124,18 +128,18 @@ export function useCalculator(initialCountry?: CountryCode) {
     }
   };
 
-  // Debounced analytics tracking when calculated results stabilize
+  // Debounced anonymous analytics tracking when calculated results stabilize
   useEffect(() => {
     const timer = setTimeout(() => {
       trackEvent('profit_calculated', {
         country: inputs.country,
-        netProfit: results.netProfit,
-        margin: results.profitMargin,
+        category: inputs.categoryId,
+        has_store: inputs.storeSubscription !== 'none',
       });
     }, 400);
 
     return () => clearTimeout(timer);
-  }, [results.netProfit, results.profitMargin, inputs.country]);
+  }, [results.netProfit, results.profitMargin, inputs.country, inputs.categoryId, inputs.storeSubscription]);
 
   return {
     inputs,

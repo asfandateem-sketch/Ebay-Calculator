@@ -43,14 +43,17 @@ export function solveTargetPriceForProfit(
 ): { requiredPrice: number; results: CalculatorResults } {
   // Profit = Price + ShipCharged - Costs - Fees(Price)
   // Quick iterative solver
+  const safeTargetProfit = Math.min(10_000_000, Math.max(0, isNaN(Number(targetProfitDollar)) ? 0 : Number(targetProfitDollar)));
+  const safeItemCost = Math.max(0, isNaN(Number(inputs.itemCost)) ? 0 : Number(inputs.itemCost));
+  
   let low = 0;
-  let high = Math.max(1000, targetProfitDollar * 5 + inputs.itemCost * 5);
+  let high = Math.min(50_000_000, Math.max(1000, safeTargetProfit * 5 + safeItemCost * 5));
   let bestPrice = low;
   
   for (let i = 0; i < 40; i++) {
     const mid = (low + high) / 2;
     const res = calculateEbayFees({ ...inputs, soldPrice: mid });
-    if (res.netProfit < targetProfitDollar) {
+    if (res.netProfit < safeTargetProfit) {
       low = mid;
     } else {
       high = mid;
@@ -69,10 +72,12 @@ export function solveTargetPriceForMargin(
   inputs: CalculatorInputs,
   targetMarginPercent: number
 ): { requiredPrice: number; results: CalculatorResults } {
-  const targetFraction = Math.min(0.95, Math.max(0, targetMarginPercent / 100));
+  const safeMargin = Math.min(95, Math.max(0, isNaN(Number(targetMarginPercent)) ? 0 : Number(targetMarginPercent)));
+  const targetFraction = safeMargin / 100;
+  const safeItemCost = Math.max(0, isNaN(Number(inputs.itemCost)) ? 0 : Number(inputs.itemCost));
   
-  let low = inputs.itemCost;
-  let high = Math.max(1000, inputs.itemCost * 20);
+  let low = safeItemCost;
+  let high = Math.min(50_000_000, Math.max(1000, safeItemCost * 20));
   let bestPrice = low;
   
   for (let i = 0; i < 40; i++) {

@@ -105,15 +105,23 @@ export function useRouting() {
   }, []);
 
   const navigate = useCallback((path: string, replace = false) => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !path) return;
 
-    // External URLs
-    if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('mailto:')) {
-      window.location.href = path;
+    const trimmed = path.trim();
+
+    // Block dangerous pseudo-protocols like javascript:, data:, vbscript:
+    if (/^(javascript|data|vbscript):/i.test(trimmed)) {
+      console.warn('Blocked navigation to unsafe URI scheme');
       return;
     }
 
-    const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+    // External URLs
+    if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('mailto:')) {
+      window.location.href = trimmed;
+      return;
+    }
+
+    const normalizedPath = trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
     const fullHref = formatHref(normalizedPath);
 
     if (replace) {

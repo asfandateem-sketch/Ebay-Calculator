@@ -62,14 +62,14 @@ export const analytics = {
   trackSellerTypeSelected: (sellerLevel: string, storeSubscription?: string, country?: string) => {
     trackEvent('seller_type_selected', { seller_level: sellerLevel, store_subscription: storeSubscription, country });
   },
-  trackBreakEvenCalculated: (country: string, breakEvenPrice: number, netProfit: number) => {
-    trackEvent('break_even_calculated', { country, break_even_price: breakEvenPrice, net_profit: netProfit });
+  trackBreakEvenCalculated: (country: string, categoryId?: string) => {
+    trackEvent('break_even_calculated', { country, category_id: categoryId });
   },
-  trackTargetMarginCalculated: (country: string, targetType: 'profit' | 'margin', targetValue: number, requiredPrice: number) => {
-    trackEvent('target_margin_calculated', { country, target_type: targetType, target_value: targetValue, required_price: requiredPrice });
+  trackTargetMarginCalculated: (country: string, targetType: 'profit' | 'margin') => {
+    trackEvent('target_margin_calculated', { country, target_type: targetType });
   },
-  trackPromotedListingEstimated: (country: string, adRate: number, adFee: number) => {
-    trackEvent('promoted_listing_estimated', { country, ad_rate: adRate, estimated_ad_fee: adFee });
+  trackPromotedListingEstimated: (country: string, adRate: number) => {
+    trackEvent('promoted_listing_estimated', { country, ad_rate: adRate });
   },
   trackContactEmailClick: () => {
     trackEvent('contact_email_click');

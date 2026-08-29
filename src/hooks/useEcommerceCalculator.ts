@@ -136,11 +136,17 @@ export function useEcommerceCalculator() {
   }, [inputs]);
 
   const updateInput = useCallback(<K extends keyof EcommerceProfitInputs>(key: K, value: EcommerceProfitInputs[K]) => {
-    setInputs((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-    trackEvent('ecommerce_input_changed', { field: key });
+    setInputs((prev) => {
+      let safeValue = value;
+      if (typeof value === 'number') {
+        safeValue = (isNaN(value) || !isFinite(value) ? 0 : Math.min(100_000_000, Math.max(0, value))) as EcommerceProfitInputs[K];
+      }
+      return {
+        ...prev,
+        [key]: safeValue,
+      };
+    });
+    trackEvent('ecommerce_input_changed', { field: String(key) });
   }, []);
 
   const loadPreset = useCallback((preset: EcommercePreset) => {

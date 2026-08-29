@@ -18,10 +18,9 @@ export const BreakEvenTool: React.FC<BreakEvenToolProps> = ({ inputs, onUpdateIn
   useEffect(() => {
     trackEvent('break_even_calculated', {
       country: inputs.country,
-      break_even_price: baseResults.breakEvenPrice,
-      net_profit: baseResults.netProfit,
+      category: inputs.categoryId,
     });
-  }, [baseResults.breakEvenPrice, inputs.country]);
+  }, [baseResults.breakEvenPrice, inputs.country, inputs.categoryId]);
 
   return (
     <div id="breakeven-tool-wrapper" className="calc-card">
