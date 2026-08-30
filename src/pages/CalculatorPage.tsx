@@ -4,6 +4,7 @@ import { useCalculator } from '../hooks/useCalculator';
 import { useSEO } from '../hooks/useSEO';
 import { CountryGrid } from '../components/CountrySelector/CountryGrid';
 import { FAQSection } from '../components/FAQ/FAQSection';
+import { CalculatorExplainer } from '../components/SEO/CalculatorExplainer';
 import { Calculator as CalcIcon, ArrowLeft } from 'lucide-react';
 import { RouterLink } from '../components/RouterLink';
 import { SITE_CONFIG } from '../config/site';
@@ -33,11 +34,6 @@ export const CalculatorPage: React.FC<PageProps> = ({ onNavigate }) => {
             '@type': 'Offer',
             price: '0',
             priceCurrency: 'USD',
-          },
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: '4.95',
-            reviewCount: '980',
           },
         },
         {
@@ -84,6 +80,7 @@ export const CalculatorPage: React.FC<PageProps> = ({ onNavigate }) => {
           />
         </div>
 
+        <CalculatorExplainer type="fee" onNavigate={onNavigate} />
         <CountryGrid onSelectCountry={onNavigate} />
         <FAQSection />
       </div>

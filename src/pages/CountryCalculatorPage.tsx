@@ -7,6 +7,7 @@ import { Calculator } from '../components/Calculator/Calculator';
 import { BreakEvenTool } from '../components/PricingTools/BreakEvenTool';
 import { FeeComparisonMatrix } from '../components/FeeComparison/FeeComparisonMatrix';
 import { FAQSection } from '../components/FAQ/FAQSection';
+import { CalculatorExplainer } from '../components/SEO/CalculatorExplainer';
 import { ShieldCheck, ExternalLink, Globe, ArrowLeft } from 'lucide-react';
 import { RouterLink } from '../components/RouterLink';
 import { getCanonicalUrl } from '../hooks/useRouting';
@@ -232,6 +233,14 @@ export const CountryCalculatorPage: React.FC<CountryCalculatorPageProps> = ({ co
         <div style={{ marginBottom: '48px' }}>
           <FeeComparisonMatrix onSelectCountry={onNavigate} />
         </div>
+
+        {/* SEO Explainer & Contextual Internal Links */}
+        <CalculatorExplainer
+          type="country"
+          onNavigate={onNavigate}
+          customHeading={`Understanding eBay ${config.name} Seller Fees & Payouts`}
+          customWhatIsIt={`Learn how eBay ${config.name} (${config.domain}) structures final value fees, ${config.vatName}, and payment processing in ${config.currency.code} (${config.currency.symbol}). Compare rates across categories and explore related profit tools below.`}
+        />
 
         {/* FAQ Section */}
         <FAQSection />

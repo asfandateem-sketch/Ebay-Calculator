@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import { useCalculator } from '../../hooks/useCalculator';
+import { useSEO } from '../../hooks/useSEO';
 import { formatCurrency, formatPercent } from '../../utils/currency';
 import { Logo } from '../Navbar/Logo';
 import { ExternalLink, Copy, Check } from 'lucide-react';
 
 export const EmbedWidget: React.FC = () => {
+  useSEO({
+    title: 'eBay Fee Calculator Widget — ProfitEbay',
+    description: 'Embeddable eBay fee calculator widget for e-commerce websites and seller blogs.',
+    noIndex: true,
+  });
+
   const { inputs, results, updateInput } = useCalculator();
 
   return (

@@ -19,9 +19,10 @@ export const ArticlePage: React.FC<ArticlePageProps> = ({ slug, onNavigate }) =>
   }
 
   useSEO({
-    title: `${article.title} — ${SITE_CONFIG.name}`,
-    description: article.directAnswer.slice(0, 160),
+    title: `${article.metaTitle || article.title} | ${SITE_CONFIG.name}`,
+    description: article.metaDescription || article.directAnswer.slice(0, 160),
     canonical: `/articles/${article.slug}`,
+    ogType: 'article',
     schemaJson: {
       '@context': 'https://schema.org',
       '@type': 'Article',

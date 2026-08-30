@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Logo } from './Logo';
 import { X, ArrowRight, Calculator, Globe, BookOpen, Layers, History, FileSpreadsheet, ShieldCheck, Scale, Percent, DollarSign, ExternalLink } from 'lucide-react';
 import { SITE_CONFIG } from '../../config/site';
 import { RouterLink } from '../RouterLink';
@@ -50,11 +51,7 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
         <div className="nav-drawer-scrollable">
           {/* Header */}
           <div className="nav-drawer-header">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontWeight: 700, fontSize: '17px', letterSpacing: '-0.02em' }}>
-                {SITE_CONFIG.name} Navigation
-              </span>
-            </div>
+            <Logo size="sm" showTagline={false} onClick={onClose} />
             <button
               id="nav-drawer-close-btn"
               className="nav-drawer-close"

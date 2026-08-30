@@ -4,6 +4,7 @@ import { Calculator } from '../components/Calculator/Calculator';
 import { useCalculator } from '../hooks/useCalculator';
 import { useSEO } from '../hooks/useSEO';
 import { FAQSection } from '../components/FAQ/FAQSection';
+import { CalculatorExplainer } from '../components/SEO/CalculatorExplainer';
 import { Target, ArrowLeft } from 'lucide-react';
 import { RouterLink } from '../components/RouterLink';
 import { SITE_CONFIG } from '../config/site';
@@ -33,11 +34,6 @@ export const BreakEvenPage: React.FC<PageProps> = ({ onNavigate }) => {
             '@type': 'Offer',
             price: '0',
             priceCurrency: 'USD',
-          },
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: '4.94',
-            reviewCount: '810',
           },
         },
         {
@@ -88,6 +84,7 @@ export const BreakEvenPage: React.FC<PageProps> = ({ onNavigate }) => {
           />
         </div>
 
+        <CalculatorExplainer type="breakeven" onNavigate={onNavigate} />
         <FAQSection />
       </div>
     </div>

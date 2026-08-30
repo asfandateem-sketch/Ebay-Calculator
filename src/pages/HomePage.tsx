@@ -68,11 +68,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             price: '0',
             priceCurrency: 'USD',
           },
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: '4.96',
-            reviewCount: '1420',
-          },
         },
         {
           '@type': 'ItemList',

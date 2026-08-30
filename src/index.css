@@ -213,74 +213,111 @@ input, select, textarea {
 .brand-logo {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  font-weight: 700;
-  font-size: 1.2rem;
-  letter-spacing: -0.03em;
+  gap: 10px;
   text-decoration: none;
   flex-shrink: 0;
   white-space: nowrap;
+  user-select: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
-.brand-logo-badge {
-  width: 32px;
-  height: 32px;
-  border-radius: 9px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+.brand-logo:hover {
+  opacity: 0.92;
+}
+
+.brand-emblem-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-.brand-icon-svg {
-  display: block;
-  width: 20px;
-  height: 20px;
   flex-shrink: 0;
 }
 
-.brand-name-group {
+.brand-emblem-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 2px 4px rgba(0, 110, 245, 0.15));
+}
+
+.brand-text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1;
+}
+
+.brand-name-row {
   display: inline-flex;
   align-items: baseline;
-  gap: 1px;
+  line-height: 1;
 }
 
-.brand-name-profit {
+.brand-text-profit {
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 800;
-  color: #0f172a;
-  letter-spacing: -0.035em;
-  font-size: 1.22rem;
+  color: #1e293b;
+  letter-spacing: -0.03em;
+  font-size: 1.3rem;
 }
 
-.brand-name-ebay {
+.brand-text-ebay {
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 800;
-  color: #2563eb;
-  letter-spacing: -0.035em;
-  font-size: 1.22rem;
+  color: #006ef5;
+  letter-spacing: -0.03em;
+  font-size: 1.3rem;
 }
 
-.brand-version-badge {
-  font-size: 9.5px;
-  font-weight: 700;
-  color: #047857;
-  background: #ecfdf5;
-  border: 1px solid #a7f3d0;
-  padding: 1px 5px;
-  border-radius: 9999px;
-  margin-left: 6px;
-  letter-spacing: 0.02em;
+.brand-tagline-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 3px;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.brand-tagline-word {
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.brand-tagline-dot {
+  color: #006ef5;
+  font-size: 9px;
+  line-height: 1;
+}
+
+/* Footer Dark Mode Inversion for Logo Text */
+.site-footer .brand-text-profit {
+  color: #ffffff;
+}
+
+.site-footer .brand-text-ebay {
+  color: #38bdf8;
+}
+
+.site-footer .brand-tagline-row {
+  color: #94a3b8;
+}
+
+.site-footer .brand-tagline-dot {
+  color: #38bdf8;
 }
 
 @media (max-width: 480px) {
   .brand-logo {
-    font-size: 1.05rem;
     gap: 8px;
   }
-  .brand-icon-svg {
-    width: 22px;
-    height: 22px;
+  .brand-text-profit,
+  .brand-text-ebay {
+    font-size: 1.15rem;
+  }
+  .brand-tagline-row {
+    display: none;
   }
 }
 
@@ -612,19 +649,15 @@ input, select, textarea {
     gap: 8px;
   }
   .brand-logo {
-    font-size: 1.05rem;
     gap: 6px;
   }
-  .brand-logo-badge {
-    width: 28px;
-    height: 28px;
+  .brand-emblem-wrapper {
+    width: 28px !important;
+    height: 28px !important;
   }
-  .brand-icon-svg {
-    width: 18px;
-    height: 18px;
-  }
-  .brand-version-badge {
-    display: none;
+  .brand-text-profit,
+  .brand-text-ebay {
+    font-size: 1.05rem;
   }
   .navbar-actions {
     gap: 6px;

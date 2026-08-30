@@ -4,6 +4,7 @@ import { Calculator } from '../components/Calculator/Calculator';
 import { useCalculator } from '../hooks/useCalculator';
 import { useSEO } from '../hooks/useSEO';
 import { FAQSection } from '../components/FAQ/FAQSection';
+import { CalculatorExplainer } from '../components/SEO/CalculatorExplainer';
 import { TrendingUp, ArrowLeft } from 'lucide-react';
 import { RouterLink } from '../components/RouterLink';
 import { SITE_CONFIG } from '../config/site';
@@ -33,11 +34,6 @@ export const PromotedListingsPage: React.FC<PageProps> = ({ onNavigate }) => {
             '@type': 'Offer',
             price: '0',
             priceCurrency: 'USD',
-          },
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: '4.91',
-            reviewCount: '620',
           },
         },
         {
@@ -88,6 +84,7 @@ export const PromotedListingsPage: React.FC<PageProps> = ({ onNavigate }) => {
           />
         </div>
 
+        <CalculatorExplainer type="promoted" onNavigate={onNavigate} />
         <FAQSection />
       </div>
     </div>
