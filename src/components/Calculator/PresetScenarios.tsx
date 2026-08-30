@@ -57,9 +57,9 @@ export const PresetScenarios: React.FC<PresetScenariosProps> = ({ onSelectPreset
 
   return (
     <div style={{ marginBottom: '24px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--color-text-muted)', marginBottom: '10px' }}>
-        <Sparkles size={12} />
-        <span>Quick Scenario Presets</span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: 600, color: 'var(--color-text-secondary)', marginBottom: '10px' }}>
+        <Sparkles size={14} style={{ color: 'var(--color-text-accent)' }} />
+        <span>Quick Scenario Presets:</span>
       </div>
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
         {presets.map((preset, idx) => (

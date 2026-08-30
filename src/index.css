@@ -1425,17 +1425,28 @@ input, select, textarea {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 12px 14px;
-  background-color: var(--color-soft-gray);
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--color-primary);
-  transition: background-color var(--transition-fast);
+  padding: 12px 16px;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius-md);
+  font-family: var(--font-family);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .expandable-toggle-btn:hover {
-  background-color: var(--color-light-gray);
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.expandable-toggle-btn:focus-visible {
+  outline: 2px solid #0f172a;
+  outline-offset: 2px;
 }
 
 .expandable-content {
@@ -1865,19 +1876,21 @@ input, select, textarea {
 
 .table-comparison th {
   background: var(--color-soft-gray);
-  padding: 16px 20px;
+  padding: 14px 18px;
   font-weight: 600;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--color-primary);
   border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
 }
 
 .table-comparison td {
-  padding: 16px 20px;
+  padding: 14px 18px;
   border-bottom: 1px solid var(--color-border);
   color: var(--color-text-body);
+  vertical-align: middle;
 }
 
 .table-comparison tr:last-child td {
@@ -2680,16 +2693,15 @@ input, select, textarea {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #2563eb;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  color: #1d4ed8;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.01em;
   margin-bottom: 12px;
   background: #eff6ff;
   border: 1px solid #dbeafe;
-  padding: 4px 12px;
-  border-radius: 9999px;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
 }
 
 .calculator-hub-title {
@@ -2803,6 +2815,7 @@ input, select, textarea {
   flex-direction: column;
   gap: 16px;
   margin-bottom: 30px;
+  align-items: stretch;
 }
 
 @media (min-width: 768px) {
@@ -2816,16 +2829,22 @@ input, select, textarea {
 .hub-tabs {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
 }
 
 .hub-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 40px;
-  padding: 8px 18px;
-  border-radius: 9999px;
-  font-size: 13px;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-family);
+  font-size: var(--text-sm);
   font-weight: 600;
-  color: #334155;
+  color: var(--color-text-secondary);
   background: #f1f5f9;
   border: 1px solid #cbd5e1;
   cursor: pointer;
@@ -2833,7 +2852,7 @@ input, select, textarea {
 }
 
 .hub-tab-btn:hover {
-  color: #0f172a;
+  color: var(--color-text-primary);
   background: #e2e8f0;
 }
 
@@ -2847,6 +2866,8 @@ input, select, textarea {
 .hub-search-box {
   position: relative;
   min-width: 280px;
+  display: flex;
+  align-items: center;
 }
 
 .hub-search-icon {
@@ -2860,13 +2881,15 @@ input, select, textarea {
 
 .hub-search-input {
   width: 100%;
-  min-height: 42px;
-  padding: 9px 36px 9px 36px;
-  border-radius: 10px;
+  min-height: 40px;
+  height: 40px;
+  padding: 0 36px 0 36px;
+  border-radius: var(--radius-md);
   background: #ffffff;
   border: 1px solid #cbd5e1;
-  color: #0f172a;
-  font-size: 13px;
+  color: var(--color-text-primary);
+  font-family: var(--font-family);
+  font-size: var(--text-sm);
   outline: none;
   transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
@@ -2992,9 +3015,17 @@ input, select, textarea {
 }
 
 .card-markets-badge {
-  font-size: 11px;
-  color: #475569;
-  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.card-market-text {
+  font-family: var(--font-family);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.02em;
 }
 
 .card-cta-btn {
