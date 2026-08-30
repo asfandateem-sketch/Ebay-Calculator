@@ -488,7 +488,7 @@ export const CalculatorExplainer: React.FC<CalculatorExplainerProps> = ({
           </div>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {data.whatItCalculates.map((item, i) => (
-              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '13.5px', lineHeight: 1.5, color: 'var(--color-text-body)' }}>
+              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '14px', lineHeight: 1.5, color: 'var(--color-text-body)' }}>
                 <CheckCircle2 size={15} style={{ color: 'var(--color-success)', flexShrink: 0, marginTop: '2px' }} />
                 <span>{item}</span>
               </li>
@@ -504,7 +504,7 @@ export const CalculatorExplainer: React.FC<CalculatorExplainerProps> = ({
           </div>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {data.whoIsItFor.map((item, i) => (
-              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '13.5px', lineHeight: 1.5, color: 'var(--color-text-body)' }}>
+              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '14px', lineHeight: 1.5, color: 'var(--color-text-body)' }}>
                 <CheckCircle2 size={15} style={{ color: 'var(--color-primary)', flexShrink: 0, marginTop: '2px' }} />
                 <span>{item}</span>
               </li>
@@ -520,7 +520,7 @@ export const CalculatorExplainer: React.FC<CalculatorExplainerProps> = ({
           </div>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {data.requiredInputs.map((item, i) => (
-              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '13.5px', lineHeight: 1.5, color: 'var(--color-text-body)' }}>
+              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '14px', lineHeight: 1.5, color: 'var(--color-text-body)' }}>
                 <CheckCircle2 size={15} style={{ color: 'var(--color-primary)', flexShrink: 0, marginTop: '2px' }} />
                 <span>{item}</span>
               </li>
@@ -536,7 +536,7 @@ export const CalculatorExplainer: React.FC<CalculatorExplainerProps> = ({
           </div>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {data.howToInterpret.map((item, i) => (
-              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '13.5px', lineHeight: 1.5, color: 'var(--color-text-body)' }}>
+              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '14px', lineHeight: 1.5, color: 'var(--color-text-body)' }}>
                 <CheckCircle2 size={15} style={{ color: 'var(--color-success)', flexShrink: 0, marginTop: '2px' }} />
                 <span>{item}</span>
               </li>
@@ -573,12 +573,12 @@ export const CalculatorExplainer: React.FC<CalculatorExplainerProps> = ({
             >
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
-                  <span style={{ fontWeight: 700, fontSize: '14.5px', color: 'var(--color-primary)' }}>
+                  <span style={{ fontWeight: 700, fontSize: '14px', color: 'var(--color-primary)' }}>
                     {link.title}
                   </span>
                   <ArrowRight size={14} style={{ color: 'var(--color-primary)' }} />
                 </div>
-                <p style={{ fontSize: '12.5px', color: 'var(--color-text-muted)', margin: 0, lineHeight: 1.5 }}>
+                <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', margin: 0, lineHeight: 1.5 }}>
                   {link.description}
                 </p>
               </div>
@@ -601,12 +601,12 @@ export const CalculatorExplainer: React.FC<CalculatorExplainerProps> = ({
             >
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
-                  <span style={{ fontWeight: 700, fontSize: '14.5px', color: 'var(--color-primary)' }}>
+                  <span style={{ fontWeight: 700, fontSize: '14px', color: 'var(--color-primary)' }}>
                     {guide.title}
                   </span>
                   <ArrowRight size={14} style={{ color: 'var(--color-primary)' }} />
                 </div>
-                <p style={{ fontSize: '12.5px', color: 'var(--color-text-muted)', margin: 0, lineHeight: 1.5 }}>
+                <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', margin: 0, lineHeight: 1.5 }}>
                   {guide.description}
                 </p>
               </div>

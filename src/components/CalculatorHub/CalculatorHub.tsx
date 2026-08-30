@@ -238,38 +238,6 @@ export const CalculatorHub: React.FC<CalculatorHubProps> = ({ onNavigate }) => {
           </p>
         </div>
 
-        {/* Global Supported Markets Flag Selector */}
-        <div className="markets-bar-wrapper">
-          <div className="markets-bar-header">
-            <span className="markets-bar-label">
-              <Globe size={14} /> Supported International Marketplaces & Currencies:
-            </span>
-          </div>
-          <div className="markets-flag-grid">
-            {SUPPORTED_MARKETS.map((market) => (
-              <button
-                key={market.code}
-                type="button"
-                id={`btn-market-${market.code.toLowerCase()}`}
-                className="market-flag-btn"
-                onClick={() => onNavigate(market.path)}
-                title={`Open ${market.name} Dedicated Fee & Profit Calculator (${market.currency})`}
-              >
-                <div className="market-flag-row">
-                  <CountryFlag
-                    code={market.code}
-                    width={18}
-                    height={13}
-                    ariaLabel={`${market.name} flag`}
-                  />
-                  <span className="market-flag-name">{market.name}</span>
-                </div>
-                <span className="market-flag-currency">{market.currency}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
         {/* Category Filter Controls & Search */}
         <div className="hub-controls-row">
           <div className="hub-tabs" role="tablist" aria-label="Calculator Categories">
@@ -316,11 +284,14 @@ export const CalculatorHub: React.FC<CalculatorHubProps> = ({ onNavigate }) => {
           </div>
 
           <div className="hub-search-box">
-            <Search size={15} className="hub-search-icon" />
+            <label htmlFor="input-hub-search" className="sr-only">
+              Search tools...
+            </label>
+            <Search size={16} className="hub-search-icon" aria-hidden="true" />
             <input
               type="text"
               id="input-hub-search"
-              placeholder="Search calculators (e.g. landed cost, break-even)..."
+              placeholder="Search tools..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="hub-search-input"

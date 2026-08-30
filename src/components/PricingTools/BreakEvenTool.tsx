@@ -132,8 +132,7 @@ export const BreakEvenTool: React.FC<BreakEvenToolProps> = ({ inputs, onUpdateIn
                   <td>
                     <button
                       type="button"
-                      className="nav-tag-pill"
-                      style={{ fontSize: '11px', padding: '4px 10px' }}
+                      className="btn-table-action"
                       onClick={() => onUpdateInput('soldPrice', sc.price)}
                     >
                       Set Price

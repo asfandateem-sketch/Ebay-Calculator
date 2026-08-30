@@ -54,7 +54,7 @@ export const HeroContent: React.FC<HeroContentProps> = ({
       <div className="hero-flags-strip">
         <div className="hero-flags-label">
           <Globe size={13} />
-          <span>SUPPORTED MARKETPLACES:</span>
+          <span>Supported marketplaces:</span>
         </div>
         <div className="hero-flags-list">
           {HERO_COUNTRIES.map((c) => (

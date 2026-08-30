@@ -84,8 +84,7 @@ export const PromotedListingsTool: React.FC<PromotedListingsToolProps> = ({ inpu
                   <td>
                     <button
                       type="button"
-                      className="nav-tag-pill"
-                      style={{ fontSize: '11px', padding: '4px 10px' }}
+                      className="btn-table-action"
                       onClick={() => handleSelectRate(tier.adRate, tier.adFee)}
                     >
                       Use Rate

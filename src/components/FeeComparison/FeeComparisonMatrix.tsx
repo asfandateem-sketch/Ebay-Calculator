@@ -81,8 +81,8 @@ export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = () => {
             <button
               key={amt}
               type="button"
-              className={benchmarkPrice === amt ? 'btn-primary' : 'nav-tag-pill'}
-              style={{ fontSize: '11px', padding: '4px 10px', minHeight: '28px' }}
+              className={benchmarkPrice === amt ? 'btn-primary' : 'btn-table-action'}
+              style={{ minHeight: '30px', padding: '4px 12px' }}
               onClick={() => {
                 setBenchmarkPrice(amt);
                 setBenchmarkCost(Math.round(amt * 0.35));
@@ -129,8 +129,7 @@ export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = () => {
                 <td>
                   <RouterLink
                     to={row.path}
-                    className="country-card-link"
-                    style={{ fontSize: '11px', whiteSpace: 'nowrap' }}
+                    className="btn-table-action"
                     aria-label={`Calculate eBay fees for ${row.name}`}
                   >
                     <span>Calculate</span>
