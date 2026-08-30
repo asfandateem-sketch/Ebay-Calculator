@@ -27,11 +27,14 @@ function githubPagesSpaPlugin(): Plugin {
 
       const indexHtmlContent = fs.readFileSync(indexHtmlPath, 'utf-8');
 
-      // 1. Ensure 404.html is generated in dist
-      const dist404Path = path.join(outDir, '404.html');
-      const public404Path = path.resolve(__dirname, 'public/404.html');
-      if (fs.existsSync(public404Path)) {
-        fs.copyFileSync(public404Path, dist404Path);
+      // 1. Ensure essential deployment files are present in dist
+      const filesToSync = ['404.html', 'sitemap.xml', 'robots.txt', '.nojekyll'];
+      for (const fileName of filesToSync) {
+        const publicFilePath = path.resolve(__dirname, 'public', fileName);
+        const distFilePath = path.join(outDir, fileName);
+        if (fs.existsSync(publicFilePath)) {
+          fs.copyFileSync(publicFilePath, distFilePath);
+        }
       }
 
       // 2. All canonical application routes & aliases
