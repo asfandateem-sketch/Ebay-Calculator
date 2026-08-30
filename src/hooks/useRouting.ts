@@ -25,8 +25,17 @@ export function getAppBasePath(): string {
 export function normalizePath(fullPath: string): string {
   if (!fullPath) return '/';
   
+  // Handle SPA redirect query if passed (e.g. ?/ebay-fee-calculator or /?/ebay-fee-calculator)
+  let raw = fullPath;
+  if (raw.includes('?/')) {
+    const queryPart = raw.split('?/')[1];
+    if (queryPart) {
+      raw = '/' + queryPart.split('&')[0];
+    }
+  }
+
   // Strip query string and hash if present
-  let normalized = fullPath.split('?')[0].split('#')[0];
+  let normalized = raw.split('?')[0].split('#')[0];
 
   const basePath = getAppBasePath();
   if (basePath && normalized.toLowerCase().startsWith(basePath.toLowerCase())) {
@@ -54,6 +63,26 @@ export function normalizePath(fullPath: string): string {
 }
 
 /**
+ * Resolves the initial route pathname on boot, inspecting both
+ * window.location.pathname and GitHub Pages SPA redirect query params (?/route).
+ */
+export function getInitialPath(): string {
+  if (typeof window === 'undefined') return '/';
+
+  // If a GitHub Pages SPA query redirect is active (?/route)
+  const search = window.location.search;
+  if (search && (search.startsWith('?/') || search.startsWith('?%2F'))) {
+    const rawRoute = search.slice(search.startsWith('?%2F') ? 4 : 2).split('&')[0];
+    if (rawRoute) {
+      const decoded = decodeURIComponent(rawRoute).replace(/~and~/g, '&');
+      return normalizePath(decoded.startsWith('/') ? decoded : `/${decoded}`);
+    }
+  }
+
+  return normalizePath(window.location.pathname);
+}
+
+/**
  * Transforms an internal route path (e.g. '/ebay-fee-calculator')
  * into the full path with the base path prefix (e.g. '/Ebay-Calculator/ebay-fee-calculator')
  */
@@ -78,10 +107,7 @@ export function getCanonicalUrl(path: string): string {
 
 export function useRouting() {
   const [currentPath, setCurrentPath] = useState<string>(() => {
-    if (typeof window !== 'undefined') {
-      return normalizePath(window.location.pathname);
-    }
-    return '/';
+    return getInitialPath();
   });
 
   const [currentSearch, setCurrentSearch] = useState<string>(() => {
