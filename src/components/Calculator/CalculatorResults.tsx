@@ -121,28 +121,35 @@ export const CalculatorResults: React.FC<CalculatorResultsProps> = ({ inputs, re
           </div>
         </div>
 
-        {/* Action Row */}
-        <div className="results-action-row">
-          <button
-            id="btn-copy-share-result"
-            type="button"
-            className="results-action-btn"
-            onClick={handleCopyShareLink}
-            aria-label="Copy share link"
-          >
-            {copied ? <Check size={14} /> : <Copy size={14} />}
-            <span>{copied ? 'Copied' : 'Share Link'}</span>
-          </button>
-          <button
-            id="btn-download-csv-result"
-            type="button"
-            className="results-action-btn"
-            onClick={handleDownloadCsv}
-            aria-label="Download CSV report"
-          >
-            <Download size={14} />
-            <span>Export CSV</span>
-          </button>
+        {/* Actions / Export Toolbar */}
+        <div className="results-export-toolbar" role="toolbar" aria-label="Result Actions & Export">
+          <div className="results-export-header">
+            <span className="results-export-label">Export &amp; Share Calculation:</span>
+          </div>
+          <div className="results-action-row">
+            <button
+              id="btn-copy-share-result"
+              type="button"
+              className="results-action-btn"
+              onClick={handleCopyShareLink}
+              title="Copy link to this exact calculation scenario"
+              aria-label="Copy share link"
+            >
+              {copied ? <Check size={14} aria-hidden="true" /> : <Copy size={14} aria-hidden="true" />}
+              <span>{copied ? 'Link Copied!' : 'Copy Share Link'}</span>
+            </button>
+            <button
+              id="btn-download-csv-result"
+              type="button"
+              className="results-action-btn"
+              onClick={handleDownloadCsv}
+              title="Download itemized CSV calculation report"
+              aria-label="Download CSV report"
+            >
+              <Download size={14} aria-hidden="true" />
+              <span>Download CSV Report</span>
+            </button>
+          </div>
         </div>
       </div>
 

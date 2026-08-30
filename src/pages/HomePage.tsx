@@ -3,6 +3,7 @@ import { Hero } from '../components/Hero/Hero';
 import { CalculatorHub } from '../components/CalculatorHub/CalculatorHub';
 import { Calculator } from '../components/Calculator/Calculator';
 import { CountryGrid } from '../components/CountrySelector/CountryGrid';
+import { FloatingNavAid } from '../components/Navigation/FloatingNavAid';
 import { useCalculator } from '../hooks/useCalculator';
 import { useSEO } from '../hooks/useSEO';
 import { SITE_CONFIG } from '../config/site';
@@ -300,6 +301,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </div>
         </div>
       </section>
+
+      {/* Floating Quick Navigation Aid */}
+      <FloatingNavAid />
     </div>
   );
 };
