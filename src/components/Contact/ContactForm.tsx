@@ -75,7 +75,7 @@ export const ContactForm: React.FC = () => {
     });
 
     const emailTo = 'asfandateem@gmail.com';
-    const emailSubject = encodeURIComponent(`[ProfitEbay - ${formData.inquiryType}] ${formData.subject}`);
+    const emailSubject = encodeURIComponent(`[Seller Margin Calculator - ${formData.inquiryType}] ${formData.subject}`);
     const emailBody = encodeURIComponent(
       `Name: ${formData.name}\n` +
       `Email: ${formData.email}\n` +

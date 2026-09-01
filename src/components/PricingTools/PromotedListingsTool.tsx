@@ -2,6 +2,7 @@ import React from 'react';
 import { CalculatorInputs } from '../../types';
 import { comparePromotedRates } from '../../utils/calculator/promoted';
 import { formatCurrency, formatPercent } from '../../utils/currency';
+import { useCurrencyContext } from '../../context/CurrencyContext';
 import { trackEvent } from '../../utils/analytics';
 import { TrendingUp, Award, BarChart3, HelpCircle } from 'lucide-react';
 
@@ -12,6 +13,9 @@ interface PromotedListingsToolProps {
 
 export const PromotedListingsTool: React.FC<PromotedListingsToolProps> = ({ inputs, onUpdateInput }) => {
   const comparisonTiers = comparePromotedRates(inputs, [0, 2, 4, 6, 8, 10, 12, 15]);
+  const { isConversionEnabled, targetCurrency, formatConverted, getExchangeRateInfo } = useCurrencyContext();
+  const rateInfo = getExchangeRateInfo(inputs.country);
+  const isConvActive = isConversionEnabled && !rateInfo.isIdentity;
 
   const handleSelectRate = (rate: number, _fee: number) => {
     trackEvent('promoted_listing_estimated', {
@@ -27,7 +31,7 @@ export const PromotedListingsTool: React.FC<PromotedListingsToolProps> = ({ inpu
         <div className="calc-title-badge">
           <TrendingUp size={20} color="var(--color-primary)" />
           <div>
-            <h3 className="calc-title">eBay Promoted Listings Ad Rate & ROI Intelligence</h3>
+            <h3 className="calc-title">eBay Promoted Listings Ad Rate &amp; ROI Intelligence</h3>
             <p style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>
               Evaluate ad spend trade-offs between sales velocity and margin erosion.
             </p>
@@ -72,10 +76,29 @@ export const PromotedListingsTool: React.FC<PromotedListingsToolProps> = ({ inpu
                       </span>
                     )}
                   </td>
-                  <td>{tier.adFee > 0 ? formatCurrency(tier.adFee, inputs.country) : '$0.00'}</td>
-                  <td>{formatCurrency(tier.totalFees, inputs.country)}</td>
+                  <td>
+                    {tier.adFee > 0 ? formatCurrency(tier.adFee, inputs.country) : '$0.00'}
+                    {isConvActive && tier.adFee > 0 && (
+                      <span style={{ display: 'block', fontSize: '11px', color: 'var(--color-text-muted)' }}>
+                        ≈ {formatConverted(tier.adFee, inputs.country)}
+                      </span>
+                    )}
+                  </td>
+                  <td>
+                    {formatCurrency(tier.totalFees, inputs.country)}
+                    {isConvActive && (
+                      <span style={{ display: 'block', fontSize: '11px', color: 'var(--color-text-muted)' }}>
+                        ≈ {formatConverted(tier.totalFees, inputs.country)}
+                      </span>
+                    )}
+                  </td>
                   <td style={{ color: tier.netProfit >= 0 ? '#047857' : '#b91c1c' }}>
-                    {formatCurrency(tier.netProfit, inputs.country)}
+                    <strong>{formatCurrency(tier.netProfit, inputs.country)}</strong>
+                    {isConvActive && (
+                      <span style={{ display: 'block', fontSize: '11px', color: tier.netProfit >= 0 ? '#047857' : '#b91c1c' }}>
+                        ≈ {formatConverted(tier.netProfit, inputs.country)}
+                      </span>
+                    )}
                   </td>
                   <td>{formatPercent(tier.margin)}</td>
                   <td>

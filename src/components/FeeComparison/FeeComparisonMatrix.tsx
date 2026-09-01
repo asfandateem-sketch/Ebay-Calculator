@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { allCountryCodes, getCountryConfig } from '../../data/fee-rules';
 import { calculateEbayFees } from '../../utils/calculator/engine';
 import { formatCurrency, formatPercent } from '../../utils/currency';
-import { Layers, ArrowRight, ShieldCheck } from 'lucide-react';
+import { useCurrencyContext } from '../../context/CurrencyContext';
+import { Layers, ArrowRight, ShieldCheck, ArrowRightLeft } from 'lucide-react';
 import { RouterLink } from '../RouterLink';
 import { CountryFlag } from '../CountrySelector/CountryFlag';
 
@@ -13,6 +14,7 @@ interface FeeComparisonMatrixProps {
 export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = () => {
   const [benchmarkPrice, setBenchmarkPrice] = useState<number>(100);
   const [benchmarkCost, setBenchmarkCost] = useState<number>(35);
+  const { isConversionEnabled, targetCurrency, formatConverted, toggleConversion } = useCurrencyContext();
 
   const countryPaths: Record<string, string> = {
     US: '/us',
@@ -51,10 +53,14 @@ export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = () => {
       currency: config.currency,
       standardRate: (config.defaultStandardRate * 100).toFixed(1) + '%',
       fixedFee: formatCurrency(config.defaultFixedFee, code),
+      fixedFeeConverted: formatConverted(config.defaultFixedFee, code),
       intlFee: (config.internationalFeeRate * 100).toFixed(1) + '%',
       totalFees: formatCurrency(results.totalEbayFees, code),
+      totalFeesConverted: formatConverted(results.totalEbayFees, code),
       effectiveRate: formatPercent(results.effectiveFeeRate),
       netProfit: formatCurrency(results.netProfit, code),
+      netProfitConverted: formatConverted(results.netProfit, code),
+      netProfitRaw: results.netProfit,
       margin: formatPercent(results.profitMargin),
       path: countryPaths[code] || '/usa-ebay-calculator',
       lastVerified: config.lastVerified,
@@ -63,20 +69,34 @@ export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = () => {
 
   return (
     <div id="fee-comparison-matrix-wrapper" className="calc-card">
-      <div className="calc-card-header">
-        <div className="calc-title-badge">
-          <Layers size={20} color="var(--color-primary)" />
-          <div>
-            <h2 className="calc-title">International eBay Fee Comparison Matrix</h2>
-            <p style={{ fontSize: '12px', color: 'var(--color-text-subtle)' }}>
-              Side-by-side benchmark comparison across 8 global eBay marketplaces.
-            </p>
+      <div className="calc-card-header" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '16px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+          <div className="calc-title-badge">
+            <Layers size={20} color="var(--color-primary)" />
+            <div>
+              <h2 className="calc-title">International eBay Fee Comparison Matrix</h2>
+              <p style={{ fontSize: '12px', color: 'var(--color-text-subtle)' }}>
+                Side-by-side benchmark comparison across 8 global eBay marketplaces.
+              </p>
+            </div>
           </div>
+
+          {/* Quick FX Conversion Switch */}
+          <button
+            type="button"
+            className={isConversionEnabled ? 'btn-primary' : 'btn-secondary'}
+            style={{ fontSize: '12px', padding: '6px 12px', minHeight: '32px' }}
+            onClick={toggleConversion}
+            title="Convert matrix metrics to unified target currency"
+          >
+            <ArrowRightLeft size={13} />
+            <span>{isConversionEnabled ? `Normalized to ${targetCurrency}` : `Convert to ${targetCurrency}`}</span>
+          </button>
         </div>
 
         {/* Benchmark Price Selector */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '12px', color: 'var(--color-text-subtle)' }}>Benchmark Sale:</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', paddingTop: '8px', borderTop: '1px solid var(--color-border)' }}>
+          <span style={{ fontSize: '12px', color: 'var(--color-text-subtle)', fontWeight: 500 }}>Benchmark Sale (Local Units):</span>
           {[50, 100, 250, 500, 1000].map((amt) => (
             <button
               key={amt}
@@ -88,7 +108,7 @@ export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = () => {
                 setBenchmarkCost(Math.round(amt * 0.35));
               }}
             >
-              ${amt}
+              {amt}
             </button>
           ))}
         </div>
@@ -121,10 +141,31 @@ export const FeeComparisonMatrix: React.FC<FeeComparisonMatrixProps> = () => {
                   </RouterLink>
                 </td>
                 <td>{row.standardRate}</td>
-                <td>{row.fixedFee}</td>
-                <td>{row.totalFees}</td>
+                <td>
+                  <span>{row.fixedFee}</span>
+                  {isConversionEnabled && row.currency.code !== targetCurrency && (
+                    <span style={{ display: 'block', fontSize: '11px', color: 'var(--color-text-muted)' }}>
+                      ≈ {row.fixedFeeConverted}
+                    </span>
+                  )}
+                </td>
+                <td>
+                  <span>{row.totalFees}</span>
+                  {isConversionEnabled && row.currency.code !== targetCurrency && (
+                    <span style={{ display: 'block', fontSize: '11px', color: 'var(--color-text-muted)' }}>
+                      ≈ {row.totalFeesConverted}
+                    </span>
+                  )}
+                </td>
                 <td><strong>{row.effectiveRate}</strong></td>
-                <td style={{ color: '#047857', fontWeight: 600 }}>{row.netProfit}</td>
+                <td style={{ color: row.netProfitRaw >= 0 ? '#047857' : '#b91c1c', fontWeight: 600 }}>
+                  <span>{row.netProfit}</span>
+                  {isConversionEnabled && row.currency.code !== targetCurrency && (
+                    <span style={{ display: 'block', fontSize: '11px', color: row.netProfitRaw >= 0 ? '#047857' : '#b91c1c' }}>
+                      ≈ {row.netProfitConverted}
+                    </span>
+                  )}
+                </td>
                 <td>{row.margin}</td>
                 <td>
                   <RouterLink

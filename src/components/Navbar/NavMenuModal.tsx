@@ -268,6 +268,17 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                 <ArrowRight size={14} opacity={0.4} />
               </RouterLink>
               <RouterLink
+                id="drawer-calculators-directory"
+                to="/calculators"
+                className="nav-drawer-link"
+                onClick={() => onClose()}
+              >
+                <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Layers size={14} /> All Calculators Directory
+                </span>
+                <ArrowRight size={14} opacity={0.4} />
+              </RouterLink>
+              <RouterLink
                 id="drawer-methodology"
                 to="/methodology"
                 className="nav-drawer-link"
@@ -285,7 +296,7 @@ export const NavMenuModal: React.FC<NavMenuModalProps> = ({ isOpen, onClose, onN
                 onClick={() => onClose()}
               >
                 <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <DollarSign size={14} /> Contact ProfitEbay & Support
+                  <DollarSign size={14} /> Contact & Support
                 </span>
                 <ArrowRight size={14} opacity={0.4} />
               </RouterLink>

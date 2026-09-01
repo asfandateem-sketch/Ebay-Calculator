@@ -1,6 +1,6 @@
 {
-  "name": "ProfitEbay — E-commerce & eBay Fee Calculator Suite",
-  "description": "The Ultimate E-commerce Calculator Suite. Calculate marketplace fees, landed costs, profit margins, ROI, pricing and break-even accurately and instantly across 8 global marketplaces (2026).",
+  "name": "Seller Margin Calculator",
+  "description": "Calculate your true selling costs, profit margins, break-even prices, and fees across marketplaces.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"

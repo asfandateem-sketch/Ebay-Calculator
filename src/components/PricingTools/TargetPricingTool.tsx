@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { CalculatorInputs } from '../../types';
 import { solveTargetPriceForProfit, solveTargetPriceForMargin } from '../../utils/calculator/breakEven';
-import { formatCurrency, formatPercent } from '../../utils/currency';
+import { formatCurrency, formatPercent, getCurrencySymbol } from '../../utils/currency';
+import { useCurrencyContext } from '../../context/CurrencyContext';
 import { trackEvent } from '../../utils/analytics';
 import { DollarSign, Percent, ArrowRight, CheckCircle2 } from 'lucide-react';
 
@@ -15,10 +16,15 @@ export const TargetPricingTool: React.FC<TargetPricingToolProps> = ({ inputs, on
   const [targetProfitValue, setTargetProfitValue] = useState<number>(35);
   const [targetMarginValue, setTargetMarginValue] = useState<number>(25);
 
+  const { isConversionEnabled, targetCurrency, formatConverted, getExchangeRateInfo } = useCurrencyContext();
+  const rateInfo = getExchangeRateInfo(inputs.country);
+  const isConvActive = isConversionEnabled && !rateInfo.isIdentity;
+
   const solvedProfit = solveTargetPriceForProfit(inputs, targetProfitValue);
   const solvedMargin = solveTargetPriceForMargin(inputs, targetMarginValue);
 
   const activeSolution = targetType === 'profit' ? solvedProfit : solvedMargin;
+  const currencySymbol = getCurrencySymbol(inputs.country);
 
   useEffect(() => {
     trackEvent('target_margin_calculated', {
@@ -33,7 +39,7 @@ export const TargetPricingTool: React.FC<TargetPricingToolProps> = ({ inputs, on
         <div className="calc-title-badge">
           <DollarSign size={20} color="var(--color-primary)" />
           <div>
-            <h3 className="calc-title">eBay Target Profit & Margin Pricing Solver</h3>
+            <h3 className="calc-title">eBay Target Profit &amp; Margin Pricing Solver</h3>
             <p style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>
               Determine the exact Buy It Now price required to achieve your financial objectives.
             </p>
@@ -50,7 +56,7 @@ export const TargetPricingTool: React.FC<TargetPricingToolProps> = ({ inputs, on
           onClick={() => setTargetType('profit')}
         >
           <DollarSign size={14} />
-          <span>Target Dollar Profit ($)</span>
+          <span>Target Dollar Profit ({currencySymbol})</span>
         </button>
 
         <button
@@ -70,12 +76,12 @@ export const TargetPricingTool: React.FC<TargetPricingToolProps> = ({ inputs, on
           htmlFor={targetType === 'profit' ? 'input-target-profit-amount' : 'input-target-margin-percent'}
           className="form-label"
         >
-          {targetType === 'profit' ? 'Desired Net Profit Amount:' : 'Desired Net Margin Percentage:'}
+          {targetType === 'profit' ? `Desired Net Profit Amount (${currencySymbol}):` : 'Desired Net Margin Percentage:'}
         </label>
         <div className="input-with-adornment">
           {targetType === 'profit' ? (
             <>
-              <span className="input-adornment-prefix">$</span>
+              <span className="input-adornment-prefix">{currencySymbol}</span>
               <input
                 id="input-target-profit-amount"
                 name="targetProfitAmount"
@@ -83,7 +89,7 @@ export const TargetPricingTool: React.FC<TargetPricingToolProps> = ({ inputs, on
                 min="1"
                 step="1"
                 className="form-input has-prefix"
-                aria-label="Desired Net Profit Dollar Amount"
+                aria-label="Desired Net Profit Amount"
                 value={targetProfitValue}
                 onChange={(e) => setTargetProfitValue(parseFloat(e.target.value) || 1)}
               />
@@ -128,9 +134,15 @@ export const TargetPricingTool: React.FC<TargetPricingToolProps> = ({ inputs, on
           </div>
           <div style={{ fontSize: '32px', fontWeight: 600, letterSpacing: '-0.02em', marginTop: '4px' }}>
             {formatCurrency(activeSolution.requiredPrice, inputs.country)}
+            {isConvActive && (
+              <span style={{ fontSize: '18px', color: '#cbd5e1', marginLeft: '10px', fontWeight: 400 }}>
+                ≈ {formatConverted(activeSolution.requiredPrice, inputs.country)} {targetCurrency}
+              </span>
+            )}
           </div>
-          <div style={{ fontSize: '12px', color: '#e2e8f0', marginTop: '2px' }}>
-            Generates {formatCurrency(activeSolution.results.netProfit, inputs.country)} Net Profit ({formatPercent(activeSolution.results.profitMargin)} margin)
+          <div style={{ fontSize: '12px', color: '#e2e8f0', marginTop: '4px' }}>
+            Generates {formatCurrency(activeSolution.results.netProfit, inputs.country)} Net Profit
+            {isConvActive && ` (≈ ${formatConverted(activeSolution.results.netProfit, inputs.country)})`} ({formatPercent(activeSolution.results.profitMargin)} margin)
           </div>
         </div>
 

@@ -62,10 +62,10 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type }) => {
           {type === 'about' && (
             <div>
               <p style={{ marginBottom: '16px' }}>
-                <strong>{SITE_CONFIG.name}</strong> was created to solve a universal challenge for e-commerce sellers and resellers: the lack of transparent, rapid, and multi-market financial clarity.
+                <strong>{SITE_CONFIG.name}</strong> is a suite of tools designed to help online sellers understand marketplace fees, calculate true profit margins, determine break-even prices, and make better pricing decisions.
               </p>
               <p style={{ marginBottom: '16px' }}>
-                As marketplaces expanded Managed Payments, variable sales tax calculation bases, sub-$10 tiered order fees, and promoted ad auctions, computing exact take-home profit became intricate. {SITE_CONFIG.name} delivers precision financial modeling, break-even solving, and multi-country benchmarking to merchants worldwide.
+                As marketplaces implement multi-tiered fee structures, payment processing deductions, variable sales tax calculation bases, and promoted ad auctions, computing exact take-home earnings has become increasingly complex. {SITE_CONFIG.name} delivers precision financial modeling, break-even solving, and multi-country fee intelligence to merchants worldwide.
               </p>
             </div>
           )}
@@ -96,7 +96,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type }) => {
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '16px', background: 'var(--color-soft-gray)', borderRadius: 'var(--radius-sm)' }}>
                 <Mail size={18} />
-                <span>Contact the {SITE_CONFIG.name} team at: <strong>contact@profitebay.com</strong></span>
+                <span>Contact the {SITE_CONFIG.name} team at: <strong>contact@sellermargincalc.pro</strong></span>
               </div>
             </div>
           )}

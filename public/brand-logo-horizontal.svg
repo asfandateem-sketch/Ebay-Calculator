@@ -1,56 +1,143 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 100" width="100%" height="100%">
   <defs>
-    <linearGradient id="horizBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0080ff" />
-      <stop offset="100%" stop-color="#0060e6" />
+    <!-- Blue Gradients for M and Chart -->
+    <linearGradient id="hBlueBright" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f5ff" />
+      <stop offset="40%" stop-color="#00b4d8" />
+      <stop offset="100%" stop-color="#0066ff" />
     </linearGradient>
+
+    <linearGradient id="hBlueDeep" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0077ff" />
+      <stop offset="100%" stop-color="#003db3" />
+    </linearGradient>
+
+    <linearGradient id="hBlueDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#004cd8" />
+      <stop offset="100%" stop-color="#001f66" />
+    </linearGradient>
+
+    <linearGradient id="hArrowGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0055ff" />
+      <stop offset="50%" stop-color="#00b4d8" />
+      <stop offset="100%" stop-color="#00f5ff" />
+    </linearGradient>
+
+    <linearGradient id="hBarGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#0066ff" />
+      <stop offset="100%" stop-color="#00d2ff" />
+    </linearGradient>
+
+    <linearGradient id="hWhiteGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <linearGradient id="hMarginGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0066ff" />
+      <stop offset="50%" stop-color="#0099ff" />
+      <stop offset="100%" stop-color="#00c8ff" />
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="hShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.18" />
+    </filter>
   </defs>
 
-  <!-- Circular Emblem on the Left (Scale & Position to 72x72) -->
-  <g transform="translate(6, 4) scale(0.18)">
+  <!-- MONOGRAM EMBLEM ON LEFT (Scaled down to fit height 80) -->
+  <g id="smc-emblem-h" transform="translate(10, 10) scale(0.25)">
+    <!-- LETTER S (Slate/Charcoal for crisp contrast) -->
     <path
-      d="M 200 32 A 168 168 0 0 1 368 200 A 168 168 0 0 1 182 367 L 182 328 A 129 129 0 0 0 329 200 A 129 129 0 0 0 200 71 Z"
-      fill="#2c3545"
+      d="M 195 62 L 140 62 C 102 62 72 88 72 124 C 72 158 98 178 138 186 L 158 190 C 182 195 194 204 194 218 C 194 234 178 246 152 246 C 122 246 98 232 90 208 L 40 220 C 54 264 96 288 152 288 C 210 288 248 256 248 214 C 248 174 220 154 178 146 L 156 142 C 136 138 126 130 126 118 C 126 104 140 94 162 94 L 195 94 Z"
+      fill="url(#hWhiteGrad)"
+      filter="url(#hShadow)"
     />
+
+    <!-- LETTER C (Slate/Charcoal) -->
     <path
-      d="M 188 32 A 168 168 0 0 0 22 200 C 22 288 88 359 174 367 L 174 328 C 109 320 59 266 59 200 C 59 129 117 71 188 71 Z"
-      fill="url(#horizBlueGrad)"
+      d="M 378 96 C 362 74 336 62 300 62 C 236 62 190 112 190 175 C 190 238 236 288 300 288 C 342 288 372 272 390 244 L 350 216 C 338 234 322 244 300 244 C 265 244 242 214 242 175 C 242 136 265 106 300 106 C 324 106 342 118 352 136 Z"
+      fill="url(#hWhiteGrad)"
+      filter="url(#hShadow)"
     />
-    <path
-      d="M 174 71 L 210 71 C 265 71 310 116 310 171 C 310 222 272 263 222 270 L 222 231 C 251 224 271 199 271 171 C 271 137 244 110 210 110 L 174 110 Z"
-      fill="url(#horizBlueGrad)"
-    />
-    <path
-      d="M 135 110 L 174 110 L 174 365 L 135 365 Z"
-      fill="url(#horizBlueGrad)"
-    />
-    <path
-      d="M 135 231 L 222 231 L 222 270 L 135 270 Z"
-      fill="url(#horizBlueGrad)"
-    />
-    <rect x="185" y="286" width="16" height="34" rx="3" fill="#2c3545" />
-    <rect x="209" y="268" width="16" height="52" rx="3" fill="#2c3545" />
-    <rect x="233" y="244" width="16" height="76" rx="3" fill="#2c3545" />
-    <path
-      d="M 184 330 C 228 326 298 276 324 205 L 312 198 C 289 260 226 305 184 310 Z"
-      fill="url(#horizBlueGrad)"
-    />
-    <polygon
-      points="338,185 306,202 322,220"
-      fill="url(#horizBlueGrad)"
-    />
+
+    <!-- THREE RISING BARS -->
+    <g id="h-bars">
+      <rect x="314" y="180" width="13" height="42" rx="3" fill="url(#hBarGrad)" />
+      <rect x="333" y="152" width="13" height="70" rx="3" fill="url(#hBarGrad)" />
+      <rect x="352" y="122" width="13" height="100" rx="3" fill="url(#hBarGrad)" />
+    </g>
+
+    <!-- UPWARD SWOOPING ARROW -->
+    <g id="h-arrow">
+      <path
+        d="M 282 258 C 322 258 370 215 402 142 L 388 134 C 358 200 318 238 282 238 Z"
+        fill="url(#hArrowGrad)"
+      />
+      <polygon
+        points="418,122 384,136 398,154"
+        fill="url(#hArrowGrad)"
+      />
+    </g>
+
+    <!-- 3D FACETED ORIGAMI 'M' -->
+    <g id="h-letter-m" filter="url(#hShadow)">
+      <polygon points="172,94 220,166 186,166 150,94" fill="url(#hBlueBright)" />
+      <polygon points="186,166 220,166 250,236 228,236" fill="url(#hBlueDark)" />
+      <polygon points="228,236 250,236 304,64 278,64" fill="url(#hBlueBright)" />
+      <polygon points="278,64 304,64 304,244 278,206" fill="url(#hBlueDeep)" />
+      <polygon points="278,206 304,244 336,220 322,204" fill="url(#hBlueDark)" />
+    </g>
   </g>
 
-  <!-- Typography Right Side -->
-  <text x="86" y="46" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="34" font-weight="900" letter-spacing="-1" fill="#1e293b">Profit</text>
-  <text x="176" y="46" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="34" font-weight="900" letter-spacing="-1" fill="#006ef5">Ebay</text>
+  <!-- TYPOGRAPHY RIGHT SIDE -->
+  <!-- LINE 1: SELLER MARGIN -->
+  <g transform="translate(130, 42)">
+    <text
+      x="0"
+      y="0"
+      font-family="'Plus Jakarta Sans', 'Montserrat', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      font-size="28"
+      font-weight="800"
+      letter-spacing="2"
+      fill="#0f172a"
+    >SELLER</text>
+    <text
+      x="132"
+      y="0"
+      font-family="'Plus Jakarta Sans', 'Montserrat', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      font-size="28"
+      font-weight="800"
+      letter-spacing="2"
+      fill="url(#hMarginGrad)"
+    >MARGIN</text>
+  </g>
 
-  <!-- Tagline below -->
-  <line x1="88" y1="62" x2="108" y2="62" stroke="#006ef5" stroke-width="1.5" stroke-linecap="round" />
-  <text x="114" y="65" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="7.5" font-weight="800" letter-spacing="1.5" fill="#475569">CALCULATE</text>
-  <circle cx="169" cy="63" r="1.5" fill="#006ef5" />
-  <text x="176" y="65" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="7.5" font-weight="800" letter-spacing="1.5" fill="#475569">ANALYZE</text>
-  <circle cx="222" cy="63" r="1.5" fill="#006ef5" />
-  <text x="229" y="65" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="7.5" font-weight="800" letter-spacing="1.5" fill="#475569">PROFIT</text>
-  <line x1="267" y1="62" x2="287" y2="62" stroke="#006ef5" stroke-width="1.5" stroke-linecap="round" />
+  <!-- LINE 2: —— CALCULATOR —— -->
+  <g transform="translate(130, 68)">
+    <line x1="0" y1="-5" x2="60" y2="-5" stroke="#0070f3" stroke-width="1.8" stroke-linecap="round" />
+    <text
+      x="72"
+      y="0"
+      font-family="'Plus Jakarta Sans', 'Montserrat', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      font-size="14"
+      font-weight="700"
+      letter-spacing="4.5"
+      fill="#334155"
+    >CALCULATOR</text>
+    <line x1="218" y1="-5" x2="278" y2="-5" stroke="#0070f3" stroke-width="1.8" stroke-linecap="round" />
+  </g>
+
+  <!-- LINE 3: CALCULATE • ANALYZE • MAXIMIZE -->
+  <g transform="translate(130, 88)">
+    <text
+      x="0"
+      y="0"
+      font-family="'Plus Jakarta Sans', 'Montserrat', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+      font-size="8.5"
+      font-weight="600"
+      letter-spacing="2.2"
+      fill="#64748b"
+    >CALCULATE.  ANALYZE.  MAXIMIZE.</text>
+  </g>
 </svg>

@@ -12,8 +12,8 @@ interface ContactPageProps {
 
 export const ContactPage: React.FC<ContactPageProps> = () => {
   useSEO({
-    title: `Contact ProfitEbay | Questions, Corrections & Business Inquiries`,
-    description: `Contact ProfitEbay for calculator questions, fee-data corrections, feature requests, partnerships, and business inquiries.`,
+    title: `Contact ${SITE_CONFIG.name} | Questions, Corrections & Business Inquiries`,
+    description: `Contact ${SITE_CONFIG.name} for calculator questions, fee-data corrections, feature requests, partnerships, and business inquiries.`,
     canonical: '/contact',
     schemaJson: {
       '@context': 'https://schema.org',
@@ -52,7 +52,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
         {/* Header */}
         <div style={{ marginBottom: '40px' }}>
           <h1 className="section-title" style={{ marginBottom: '12px', fontSize: '32px', fontWeight: 800 }}>
-            Contact ProfitEbay
+            Contact {SITE_CONFIG.name}
           </h1>
           <p className="section-subtitle" style={{ fontSize: '16px', lineHeight: 1.6, maxWidth: '720px' }}>
             Have a question, found a fee-data issue, want to suggest a feature, or interested in working with us? Get in touch with our team.
@@ -195,7 +195,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
                 <ShieldCheck size={16} color="#059669" style={{ flexShrink: 0, marginTop: '2px' }} />
                 <span>
-                  <strong>Independent Platform:</strong> ProfitEbay is an independent fee estimation utility. We are not eBay Inc. and cannot modify your official eBay account or transactions.
+                  <strong>Independent Platform:</strong> {SITE_CONFIG.name} is an independent fee estimation utility. We are not eBay Inc. and cannot modify your official eBay account or transactions.
                 </span>
               </div>
             </div>

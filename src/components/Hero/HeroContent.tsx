@@ -42,12 +42,12 @@ export const HeroContent: React.FC<HeroContentProps> = ({
 
       {/* Main Headline — Rendered immediately with zero opacity/transform delay for instant LCP */}
       <h1 id="hero-h1-heading" className="hero-luxury-h1">
-        The Ultimate E-commerce Calculator Suite
+        Seller Margin Calculator
       </h1>
 
       {/* Subtitle */}
       <p id="hero-description" className="hero-luxury-subhead">
-        Calculate marketplace fees, landed costs, profit, ROI, pricing and break-even — accurately and instantly.
+        Calculate your true selling costs, profit margins, break-even prices, and fees across marketplaces.
       </p>
 
       {/* Prominent Country Flags Strip */}

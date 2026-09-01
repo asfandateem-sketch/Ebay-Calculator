@@ -3,6 +3,7 @@ import { CalculatorInputs } from '../../types';
 import { generateBreakEvenCurve } from '../../utils/calculator/breakEven';
 import { calculateEbayFees } from '../../utils/calculator/engine';
 import { formatCurrency, formatPercent } from '../../utils/currency';
+import { useCurrencyContext } from '../../context/CurrencyContext';
 import { trackEvent } from '../../utils/analytics';
 import { Target, TrendingUp, AlertTriangle } from 'lucide-react';
 
@@ -14,6 +15,10 @@ interface BreakEvenToolProps {
 export const BreakEvenTool: React.FC<BreakEvenToolProps> = ({ inputs, onUpdateInput }) => {
   const baseResults = calculateEbayFees(inputs);
   const scenarios = generateBreakEvenCurve(inputs);
+  const { isConversionEnabled, targetCurrency, formatConverted, getExchangeRateInfo } = useCurrencyContext();
+
+  const rateInfo = getExchangeRateInfo(inputs.country);
+  const isConvActive = isConversionEnabled && !rateInfo.isIdentity;
 
   useEffect(() => {
     trackEvent('break_even_calculated', {
@@ -28,7 +33,7 @@ export const BreakEvenTool: React.FC<BreakEvenToolProps> = ({ inputs, onUpdateIn
         <div className="calc-title-badge">
           <Target size={20} color="var(--color-primary)" />
           <div>
-            <h3 className="calc-title">eBay Break-Even Sensitivity & Pricing Horizon</h3>
+            <h3 className="calc-title">eBay Break-Even Sensitivity &amp; Pricing Horizon</h3>
             <p style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>
               Evaluate profitability thresholds across varying selling price points.
             </p>
@@ -54,6 +59,11 @@ export const BreakEvenTool: React.FC<BreakEvenToolProps> = ({ inputs, onUpdateIn
           </div>
           <div style={{ fontSize: '24px', fontWeight: 600, color: 'var(--color-primary)' }}>
             {formatCurrency(baseResults.breakEvenPrice, inputs.country)}
+            {isConvActive && (
+              <span style={{ fontSize: '14px', color: 'var(--color-text-muted)', marginLeft: '6px', fontWeight: 500 }}>
+                (≈ {formatConverted(baseResults.breakEvenPrice, inputs.country)})
+              </span>
+            )}
           </div>
           <div style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: '2px' }}>
             Zero profit / zero loss point
@@ -66,6 +76,11 @@ export const BreakEvenTool: React.FC<BreakEvenToolProps> = ({ inputs, onUpdateIn
           </div>
           <div style={{ fontSize: '24px', fontWeight: 600, color: baseResults.netProfit >= 0 ? '#047857' : '#b91c1c' }}>
             {formatCurrency(inputs.soldPrice, inputs.country)}
+            {isConvActive && (
+              <span style={{ fontSize: '14px', color: 'var(--color-text-muted)', marginLeft: '6px', fontWeight: 500 }}>
+                (≈ {formatConverted(inputs.soldPrice, inputs.country)})
+              </span>
+            )}
           </div>
           <div style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: '2px' }}>
             Yields {formatCurrency(baseResults.netProfit, inputs.country)} profit ({formatPercent(baseResults.profitMargin)})
@@ -78,6 +93,11 @@ export const BreakEvenTool: React.FC<BreakEvenToolProps> = ({ inputs, onUpdateIn
           </div>
           <div style={{ fontSize: '24px', fontWeight: 600, color: 'var(--color-primary)' }}>
             {formatCurrency(baseResults.totalItemCost + baseResults.totalShippingCost + baseResults.totalOtherCost, inputs.country)}
+            {isConvActive && (
+              <span style={{ fontSize: '14px', color: 'var(--color-text-muted)', marginLeft: '6px', fontWeight: 500 }}>
+                (≈ {formatConverted(baseResults.totalItemCost + baseResults.totalShippingCost + baseResults.totalOtherCost, inputs.country)})
+              </span>
+            )}
           </div>
           <div style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: '2px' }}>
             Item COGS + shipping label + packing
@@ -87,7 +107,7 @@ export const BreakEvenTool: React.FC<BreakEvenToolProps> = ({ inputs, onUpdateIn
 
       {/* Sensitivity Table */}
       <h4 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '12px' }}>
-        Price Scenario Sensitivity Matrix
+        Price Scenario Sensitivity Matrix {isConvActive && <span style={{ fontSize: '12px', fontWeight: 400, color: 'var(--color-text-muted)' }}>({targetCurrency} converted)</span>}
       </h4>
       <div className="table-responsive-wrapper">
         <table className="table-comparison">
@@ -116,17 +136,43 @@ export const BreakEvenTool: React.FC<BreakEvenToolProps> = ({ inputs, onUpdateIn
                 >
                   <td>
                     <span>{formatCurrency(sc.price, inputs.country)}</span>
+                    {isConvActive && (
+                      <span style={{ display: 'block', fontSize: '11px', color: 'var(--color-text-muted)' }}>
+                        ≈ {formatConverted(sc.price, inputs.country)}
+                      </span>
+                    )}
                     {isBE && (
                       <span style={{ marginLeft: '6px', fontSize: '10px', padding: '2px 6px', background: '#fef3c7', color: '#92400e', borderRadius: '4px' }}>
                         Break-Even
                       </span>
                     )}
                   </td>
-                  <td>{formatCurrency(sc.revenue, inputs.country)}</td>
-                  <td>{formatCurrency(sc.totalFees, inputs.country)}</td>
-                  <td>{formatCurrency(sc.totalCosts - sc.totalFees, inputs.country)}</td>
+                  <td>
+                    {formatCurrency(sc.revenue, inputs.country)}
+                    {isConvActive && (
+                      <span style={{ display: 'block', fontSize: '11px', color: 'var(--color-text-muted)' }}>
+                        ≈ {formatConverted(sc.revenue, inputs.country)}
+                      </span>
+                    )}
+                  </td>
+                  <td>
+                    {formatCurrency(sc.totalFees, inputs.country)}
+                    {isConvActive && (
+                      <span style={{ display: 'block', fontSize: '11px', color: 'var(--color-text-muted)' }}>
+                        ≈ {formatConverted(sc.totalFees, inputs.country)}
+                      </span>
+                    )}
+                  </td>
+                  <td>
+                    {formatCurrency(sc.totalCosts - sc.totalFees, inputs.country)}
+                  </td>
                   <td style={{ color: sc.netProfit >= 0 ? '#047857' : '#b91c1c', fontWeight: 600 }}>
                     {formatCurrency(sc.netProfit, inputs.country)}
+                    {isConvActive && (
+                      <span style={{ display: 'block', fontSize: '11px', color: sc.netProfit >= 0 ? '#047857' : '#b91c1c', fontWeight: 500 }}>
+                        ≈ {formatConverted(sc.netProfit, inputs.country)}
+                      </span>
+                    )}
                   </td>
                   <td>{formatPercent(sc.margin)}</td>
                   <td>

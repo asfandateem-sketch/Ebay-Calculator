@@ -61,7 +61,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         },
         {
           '@type': 'SoftwareApplication',
-          name: 'ProfitEbay E-commerce Calculator Suite',
+          name: `${SITE_CONFIG.name} E-commerce Calculator Suite`,
           applicationCategory: 'FinanceApplication',
           operatingSystem: 'All',
           offers: {
@@ -254,7 +254,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 lineHeight: 1.6,
               }}
             >
-              Help us keep ProfitEbay useful. Contact us for questions, corrections, feature requests, partnerships or business inquiries.
+              Help us keep {SITE_CONFIG.name} useful. Contact us for questions, corrections, feature requests, partnerships or business inquiries.
             </p>
             <div
               style={{
@@ -280,7 +280,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   borderRadius: '8px',
                 }}
               >
-                <span>Contact ProfitEbay</span>
+                <span>Contact {SITE_CONFIG.name}</span>
               </button>
               <a
                 href="mailto:asfandateem@gmail.com"

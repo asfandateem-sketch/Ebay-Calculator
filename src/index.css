@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ProfitEbay — Design System & Global Styles
+   Seller Margin Calculator — Design System & Global Styles
    Pure CSS Architecture (Inter Font, Minimalist Financial Aesthetic)
    ========================================================================== */
 
@@ -275,7 +275,34 @@ input, select, textarea {
 .brand-name-row {
   display: inline-flex;
   align-items: baseline;
+  gap: 4px;
   line-height: 1;
+}
+
+.brand-text-seller {
+  font-family: 'Plus Jakarta Sans', 'Montserrat', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: 0.04em;
+  font-size: 1.15rem;
+}
+
+.brand-text-margin {
+  font-family: 'Plus Jakarta Sans', 'Montserrat', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 800;
+  background: linear-gradient(135deg, #0070f3 0%, #00b4d8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.04em;
+  font-size: 1.15rem;
+}
+
+.brand-text-calc {
+  font-family: 'Plus Jakarta Sans', 'Montserrat', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 800;
+  color: #0070f3;
+  letter-spacing: 0.04em;
+  font-size: 1.15rem;
 }
 
 .brand-text-profit {
@@ -283,7 +310,7 @@ input, select, textarea {
   font-weight: 800;
   color: #1e293b;
   letter-spacing: -0.03em;
-  font-size: 1.3rem;
+  font-size: 1.25rem;
 }
 
 .brand-text-ebay {
@@ -291,7 +318,7 @@ input, select, textarea {
   font-weight: 800;
   color: #006ef5;
   letter-spacing: -0.03em;
-  font-size: 1.3rem;
+  font-size: 1.25rem;
 }
 
 .brand-tagline-row {
@@ -299,31 +326,50 @@ input, select, textarea {
   align-items: center;
   gap: 4px;
   margin-top: 3px;
-  font-size: var(--text-xs);
+  font-size: 0.65rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   color: var(--color-text-muted);
   text-transform: uppercase;
 }
 
 .brand-tagline-word {
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
 }
 
 .brand-tagline-dot {
-  color: #006ef5;
-  font-size: var(--text-xs);
+  color: #0070f3;
+  font-size: 0.65rem;
   line-height: 1;
 }
 
-/* Footer Dark Mode Inversion for Logo Text */
+/* Footer Dark Mode Inversion for Logo Text & SVG */
+.site-footer .brand-text-seller {
+  color: #ffffff;
+}
+
+.site-footer .brand-text-margin {
+  background: linear-gradient(135deg, #38bdf8 0%, #00d2ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.site-footer .brand-text-calc {
+  color: #38bdf8;
+}
+
 .site-footer .brand-text-profit {
   color: #ffffff;
 }
 
 .site-footer .brand-text-ebay {
   color: #38bdf8;
+}
+
+.site-footer .logo-emblem-letter-s,
+.site-footer .logo-emblem-letter-c {
+  fill: #ffffff !important;
 }
 
 .site-footer .brand-tagline-row {
@@ -338,9 +384,12 @@ input, select, textarea {
   .brand-logo {
     gap: 8px;
   }
+  .brand-text-seller,
+  .brand-text-margin,
+  .brand-text-calc,
   .brand-text-profit,
   .brand-text-ebay {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
   }
   .brand-tagline-row {
     display: none;
@@ -1734,7 +1783,7 @@ input, select, textarea {
 }
 
 /* ==========================================================================
-   Features / Value Props Grid ("Why ProfitEbay")
+   Features / Value Props Grid ("Why SellerMarginCalc")
    ========================================================================== */
 .section-features {
   padding: 80px 0;
@@ -3234,6 +3283,9 @@ input, select, textarea {
     gap: 4px;
   }
 }
+
+
+
 
 
 

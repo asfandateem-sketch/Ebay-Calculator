@@ -4,10 +4,11 @@ import { useSEO } from '../../hooks/useSEO';
 import { formatCurrency, formatPercent } from '../../utils/currency';
 import { Logo } from '../Navbar/Logo';
 import { ExternalLink, Copy, Check } from 'lucide-react';
+import { SITE_CONFIG } from '../../config/site';
 
 export const EmbedWidget: React.FC = () => {
   useSEO({
-    title: 'eBay Fee Calculator Widget — ProfitEbay',
+    title: `eBay Fee Calculator Widget — ${SITE_CONFIG.name}`,
     description: 'Embeddable eBay fee calculator widget for e-commerce websites and seller blogs.',
     noIndex: true,
   });
@@ -89,14 +90,15 @@ export const EmbedWidget: React.FC = () => {
       </div>
 
       <a
-        href="https://asfandateem-sketch.github.io/Ebay-Calculator/"
+        href={SITE_CONFIG.url}
         target="_blank"
         rel="noopener noreferrer"
         className="embed-badge-link"
       >
-        <span>Powered by <strong>ProfitEbay</strong> Seller Intelligence</span>
+        <span>Powered by <strong>{SITE_CONFIG.name}</strong> Seller Intelligence</span>
         <ExternalLink size={12} />
       </a>
     </div>
   );
 };
+

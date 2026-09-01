@@ -18,7 +18,8 @@ export const Logo: React.FC<LogoProps> = ({
   const isSmall = size === 'sm';
   const isLarge = size === 'lg';
 
-  const emblemSize = isSmall ? 30 : isLarge ? 46 : 38;
+  const emblemHeight = isSmall ? 26 : isLarge ? 38 : 32;
+  const emblemWidth = Math.round(emblemHeight * 1.5);
 
   return (
     <RouterLink
@@ -28,71 +29,86 @@ export const Logo: React.FC<LogoProps> = ({
       className={`brand-logo brand-logo-new ${className}`}
       aria-label={`${SITE_CONFIG.name} Home`}
     >
-      {/* Official ProfitEbay Circular Emblem */}
-      <div className="brand-emblem-wrapper" style={{ width: emblemSize, height: emblemSize }}>
+      {/* Official SMC Monogram Emblem */}
+      <div className="brand-emblem-wrapper" style={{ width: emblemWidth, height: emblemHeight }}>
         <svg
-          viewBox="0 0 400 400"
+          viewBox="0 0 500 320"
           className="brand-emblem-svg"
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
         >
           <defs>
-            <linearGradient id="logoBlueGradNav" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#0080ff" />
-              <stop offset="100%" stopColor="#0060e6" />
+            <linearGradient id="navSmcBlueBright" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#00f5ff" />
+              <stop offset="40%" stopColor="#00b4d8" />
+              <stop offset="100%" stopColor="#0066ff" />
+            </linearGradient>
+            <linearGradient id="navSmcBlueDeep" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#0077ff" />
+              <stop offset="100%" stopColor="#003db3" />
+            </linearGradient>
+            <linearGradient id="navSmcBlueDark" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#004cd8" />
+              <stop offset="100%" stopColor="#001f66" />
+            </linearGradient>
+            <linearGradient id="navSmcArrowGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#0055ff" />
+              <stop offset="50%" stopColor="#00b4d8" />
+              <stop offset="100%" stopColor="#00f5ff" />
+            </linearGradient>
+            <linearGradient id="navSmcBarGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stopColor="#0066ff" />
+              <stop offset="100%" stopColor="#00d2ff" />
+            </linearGradient>
+            <linearGradient id="navSmcWhiteGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#1e293b" />
+              <stop offset="100%" stopColor="#0f172a" />
             </linearGradient>
           </defs>
 
-          {/* Dark Slate Outer Right Arc */}
-          <path
-            d="M 200 32 A 168 168 0 0 1 368 200 A 168 168 0 0 1 182 367 L 182 328 A 129 129 0 0 0 329 200 A 129 129 0 0 0 200 71 Z"
-            fill="#2c3545"
-          />
+          <g id="nav-smc-group">
+            {/* LETTER S */}
+            <path
+              className="logo-emblem-letter-s"
+              d="M 195 62 L 140 62 C 102 62 72 88 72 124 C 72 158 98 178 138 186 L 158 190 C 182 195 194 204 194 218 C 194 234 178 246 152 246 C 122 246 98 232 90 208 L 40 220 C 54 264 96 288 152 288 C 210 288 248 256 248 214 C 248 174 220 154 178 146 L 156 142 C 136 138 126 130 126 118 C 126 104 140 94 162 94 L 195 94 Z"
+              fill="url(#navSmcWhiteGrad)"
+            />
 
-          {/* Main Outer Blue P Arc */}
-          <path
-            d="M 188 32 A 168 168 0 0 0 22 200 C 22 288 88 359 174 367 L 174 328 C 109 320 59 266 59 200 C 59 129 117 71 188 71 Z"
-            fill="url(#logoBlueGradNav)"
-          />
+            {/* LETTER C */}
+            <path
+              className="logo-emblem-letter-c"
+              d="M 378 96 C 362 74 336 62 300 62 C 236 62 190 112 190 175 C 190 238 236 288 300 288 C 342 288 372 272 390 244 L 350 216 C 338 234 322 244 300 244 C 265 244 242 214 242 175 C 242 136 265 106 300 106 C 324 106 342 118 352 136 Z"
+              fill="url(#navSmcWhiteGrad)"
+            />
 
-          {/* Blue P Upper Loop */}
-          <path
-            d="M 174 71 L 210 71 C 265 71 310 116 310 171 C 310 222 272 263 222 270 L 222 231 C 251 224 271 199 271 171 C 271 137 244 110 210 110 L 174 110 Z"
-            fill="url(#logoBlueGradNav)"
-          />
+            {/* THREE RISING BARS */}
+            <rect x="314" y="180" width="13" height="42" rx="3" fill="url(#navSmcBarGrad)" />
+            <rect x="333" y="152" width="13" height="70" rx="3" fill="url(#navSmcBarGrad)" />
+            <rect x="352" y="122" width="13" height="100" rx="3" fill="url(#navSmcBarGrad)" />
 
-          {/* Blue P Inner Vertical Stem */}
-          <path
-            d="M 135 110 L 174 110 L 174 365 L 135 365 Z"
-            fill="url(#logoBlueGradNav)"
-          />
-          <path
-            d="M 135 231 L 222 231 L 222 270 L 135 270 Z"
-            fill="url(#logoBlueGradNav)"
-          />
+            {/* UPWARD SWOOPING ARROW */}
+            <path
+              d="M 282 258 C 322 258 370 215 402 142 L 388 134 C 358 200 318 238 282 238 Z"
+              fill="url(#navSmcArrowGrad)"
+            />
+            <polygon points="418,122 384,136 398,154" fill="url(#navSmcArrowGrad)" />
 
-          {/* 3 Growth Bar Charts in Slate */}
-          <rect x="185" y="286" width="16" height="34" rx="3" fill="#2c3545" />
-          <rect x="209" y="268" width="16" height="52" rx="3" fill="#2c3545" />
-          <rect x="233" y="244" width="16" height="76" rx="3" fill="#2c3545" />
-
-          {/* Sweeping Growth Arrow */}
-          <path
-            d="M 184 330 C 228 326 298 276 324 205 L 312 198 C 289 260 226 305 184 310 Z"
-            fill="url(#logoBlueGradNav)"
-          />
-          <polygon
-            points="338,185 306,202 322,220"
-            fill="url(#logoBlueGradNav)"
-          />
+            {/* 3D FACETED ORIGAMI 'M' */}
+            <polygon points="172,94 220,166 186,166 150,94" fill="url(#navSmcBlueBright)" />
+            <polygon points="186,166 220,166 250,236 228,236" fill="url(#navSmcBlueDark)" />
+            <polygon points="228,236 250,236 304,64 278,64" fill="url(#navSmcBlueBright)" />
+            <polygon points="278,64 304,64 304,244 278,206" fill="url(#navSmcBlueDeep)" />
+            <polygon points="278,206 304,244 336,220 322,204" fill="url(#navSmcBlueDark)" />
+          </g>
         </svg>
       </div>
 
       {/* Brand Typography & Tagline Container */}
       <div className="brand-text-container">
         <div className="brand-name-row">
-          <span className="brand-text-profit">Profit</span>
-          <span className="brand-text-ebay">Ebay</span>
+          <span className="brand-text-seller">SELLER</span>
+          <span className="brand-text-margin">MARGIN</span>
+          <span className="brand-text-calc">CALC</span>
         </div>
         {showTagline && (
           <div className="brand-tagline-row">
@@ -100,10 +116,11 @@ export const Logo: React.FC<LogoProps> = ({
             <span className="brand-tagline-dot">•</span>
             <span className="brand-tagline-word">ANALYZE</span>
             <span className="brand-tagline-dot">•</span>
-            <span className="brand-tagline-word">PROFIT</span>
+            <span className="brand-tagline-word">MAXIMIZE</span>
           </div>
         )}
       </div>
     </RouterLink>
   );
 };
+

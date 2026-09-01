@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { trackGtmPageView } from '../utils/gtm';
+import { SITE_CONFIG } from '../config/site';
 
 /**
  * Automatically tracks page-view events into Google Tag Manager dataLayer on route changes
@@ -10,7 +11,7 @@ export function useGTMRouteTracker(currentPath: string): void {
 
   useEffect(() => {
     // Determine route name / title
-    const pageTitle = document.title || 'ProfitEbay';
+    const pageTitle = document.title || SITE_CONFIG.name;
     const pagePath = currentPath || window.location.pathname;
 
     if (isFirstMount.current) {
@@ -29,3 +30,4 @@ export function useGTMRouteTracker(currentPath: string): void {
     }
   }, [currentPath]);
 }
+

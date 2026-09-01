@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { trackPageView } from '../utils/analytics';
 import { getCanonicalUrl } from './useRouting';
+import { SITE_CONFIG } from '../config/site';
 
 export interface SEOProps {
   title: string;
@@ -19,7 +20,7 @@ export function useSEO({
   keywords,
   canonical,
   ogType = 'website',
-  image = 'https://asfandateem-sketch.github.io/Ebay-Calculator/icon.png',
+  image = `${SITE_CONFIG.url}/brand-emblem.svg`,
   schemaJson,
   noIndex = false,
 }: SEOProps) {
@@ -97,7 +98,7 @@ export function useSEO({
       ogSiteName.setAttribute('property', 'og:site_name');
       document.head.appendChild(ogSiteName);
     }
-    ogSiteName.setAttribute('content', 'ProfitEbay');
+    ogSiteName.setAttribute('content', SITE_CONFIG.name);
 
     if (image) {
       let ogImage = document.querySelector('meta[property="og:image"]');
@@ -157,11 +158,11 @@ export function useSEO({
     }
 
     // Set Structured Data JSON-LD
-    let scriptEl = document.getElementById('profitebay-jsonld') as HTMLScriptElement | null;
+    let scriptEl = document.getElementById('sellermargincalc-jsonld') as HTMLScriptElement | null;
     if (schemaJson) {
       if (!scriptEl) {
         scriptEl = document.createElement('script');
-        scriptEl.id = 'profitebay-jsonld';
+        scriptEl.id = 'sellermargincalc-jsonld';
         scriptEl.type = 'application/ld+json';
         document.head.appendChild(scriptEl);
       }
@@ -171,3 +172,4 @@ export function useSEO({
     }
   }, [title, description, keywords, canonical, ogType, image, schemaJson, noIndex]);
 }
+

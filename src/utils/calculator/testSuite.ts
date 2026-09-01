@@ -1,11 +1,13 @@
 /**
- * ProfitEbay Calculation Engine Automated Verification Suite
+ * Seller Margin Calculator Calculation Engine Automated Verification Suite
  * Tests 18 comprehensive calculation scenarios across global marketplaces.
  */
 
 import { calculateEbayFees, calculateBreakEvenPrice, calculateTargetMarginPrice } from './engine';
 import { calculateEcommerceProfit, calculateEcommerceScenarios } from './ecommerceProfit';
 import { generateEcommerceCsv } from '../ecommerceExport';
+import { convertCurrencyAmount, calculateExchangeRate, formatCurrencyWithCode } from '../currency';
+import { BASELINE_USD_EXCHANGE_RATES } from '../../data/currencies';
 import { CountryCode } from '../../types';
 
 function assert(condition: boolean, message: string) {
@@ -16,7 +18,7 @@ function assert(condition: boolean, message: string) {
 
 function runTestSuite() {
   console.log('\n==================================================');
-  console.log('PROFITEBAY DATA & CALCULATION TEST SUITE');
+  console.log('SELLER MARGIN CALCULATOR DATA & CALCULATION TEST SUITE');
   console.log('==================================================\n');
   let passedCount = 0;
 
@@ -1187,6 +1189,39 @@ function runTestSuite() {
     assert(csv.includes('"4.4 months"'), 'CSV payback period mismatch');
     passedCount++;
     console.log('✓ E-Com Case 17: CSV Export Generation passed');
+  }
+
+  // --- CURRENCY CONVERSION SUITE ---
+  {
+    // Currency Case 1: USD to EUR baseline conversion
+    const rateUsdEur = calculateExchangeRate('USD', 'EUR', BASELINE_USD_EXCHANGE_RATES);
+    assert(Math.abs(rateUsdEur - 0.921) < 0.001, `USD to EUR rate mismatch: expected 0.921, got ${rateUsdEur}`);
+    const convertedEur = convertCurrencyAmount(100, 'US', 'EUR', BASELINE_USD_EXCHANGE_RATES);
+    assert(Math.abs(convertedEur - 92.1) < 0.01, `100 USD in EUR mismatch: expected 92.1, got ${convertedEur}`);
+    passedCount++;
+    console.log('✓ FX Case 1: USD to EUR baseline conversion passed');
+
+    // Currency Case 2: Cross-currency GBP to AUD conversion
+    const expectedGbpAud = (100 / BASELINE_USD_EXCHANGE_RATES.GBP) * BASELINE_USD_EXCHANGE_RATES.AUD;
+    const rateGbpAud = calculateExchangeRate('GBP', 'AUD', BASELINE_USD_EXCHANGE_RATES);
+    const convertedAud = convertCurrencyAmount(100, 'UK', 'AUD', BASELINE_USD_EXCHANGE_RATES);
+    assert(Math.abs(convertedAud - expectedGbpAud) < 0.01, `100 GBP in AUD mismatch: expected ${expectedGbpAud}, got ${convertedAud}`);
+    passedCount++;
+    console.log('✓ FX Case 2: Cross-currency GBP to AUD conversion passed');
+
+    // Currency Case 3: FX Spread / Processor Markup (e.g. 2.5% fee)
+    const convertedWithSpread = convertCurrencyAmount(100, 'US', 'EUR', BASELINE_USD_EXCHANGE_RATES, 0.975);
+    assert(Math.abs(convertedWithSpread - (92.1 * 0.975)) < 0.01, `FX spread adjustment mismatch: expected 89.7975, got ${convertedWithSpread}`);
+    passedCount++;
+    console.log('✓ FX Case 3: FX spread multiplier calculation passed');
+
+    // Currency Case 4: Formatting with currency symbols and zero-decimal currencies (JPY)
+    const formattedJpy = formatCurrencyWithCode(15500, 'JPY');
+    assert(formattedJpy === '¥15,500', `JPY formatting mismatch: expected ¥15,500, got ${formattedJpy}`);
+    const formattedEur = formatCurrencyWithCode(124.50, 'EUR');
+    assert(formattedEur === '€124.50', `EUR formatting mismatch: expected €124.50, got ${formattedEur}`);
+    passedCount++;
+    console.log('✓ FX Case 4: Multi-currency symbol & decimal formatting passed');
   }
 
   console.log(`\n========================================`);

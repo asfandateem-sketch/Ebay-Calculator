@@ -3,7 +3,9 @@ import { CalculatorInputs, CalculatorResults as ResultsType } from '../../types'
 import { formatCurrency, formatPercent } from '../../utils/currency';
 import { generateCsvExport, downloadCsv, encodeInputsToUrl } from '../../utils/export';
 import { trackEvent } from '../../utils/analytics';
-import { Copy, Check, Download, Target, ExternalLink } from 'lucide-react';
+import { useCurrencyContext } from '../../context/CurrencyContext';
+import { CurrencyConversionBar } from '../Currency/CurrencyConversionBar';
+import { Copy, Check, Download, Target, ExternalLink, ArrowRightLeft } from 'lucide-react';
 
 interface CalculatorResultsProps {
   inputs: CalculatorInputs;
@@ -13,8 +15,16 @@ interface CalculatorResultsProps {
 
 export const CalculatorResults: React.FC<CalculatorResultsProps> = ({ inputs, results, onNavigate }) => {
   const [copied, setCopied] = useState(false);
+  const {
+    isConversionEnabled,
+    targetCurrency,
+    formatConverted,
+    getExchangeRateInfo,
+  } = useCurrencyContext();
 
   const isProfitable = results.netProfit >= 0;
+  const rateInfo = getExchangeRateInfo(inputs.country);
+  const isConversionActive = isConversionEnabled && !rateInfo.isIdentity;
 
   const handleCopyShareLink = () => {
     if (typeof window !== 'undefined') {
@@ -29,13 +39,21 @@ export const CalculatorResults: React.FC<CalculatorResultsProps> = ({ inputs, re
   };
 
   const handleDownloadCsv = () => {
-    const csvContent = generateCsvExport(inputs, results);
-    downloadCsv(csvContent, `profitebay-${inputs.country.toLowerCase()}-profit-report.csv`);
+    const csvContent = generateCsvExport(inputs, results, {
+      enabled: isConversionActive,
+      targetCurrency,
+      exchangeRateText: rateInfo.formattedRate,
+      formatConverted: (val) => formatConverted(val, inputs.country),
+    });
+    downloadCsv(csvContent, `sellermargincalc-${inputs.country.toLowerCase()}-profit-report.csv`);
     trackEvent('download_result', { country: inputs.country });
   };
 
   return (
     <div id="calculator-results-column" className="calc-results-sticky">
+      {/* Real-time Currency Conversion Toggle Bar */}
+      <CurrencyConversionBar countryCode={inputs.country} />
+
       {/* 1. Primary Net Profit Hero Card */}
       <div id="results-primary-card" className="results-card">
         <div className="results-profit-hero">
@@ -46,13 +64,41 @@ export const CalculatorResults: React.FC<CalculatorResultsProps> = ({ inputs, re
           >
             {formatCurrency(results.netProfit, inputs.country)}
           </div>
+
+          {/* Converted Hero Badge */}
+          {isConversionActive && (
+            <div
+              id="result-net-profit-converted"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                marginTop: '8px',
+                padding: '4px 12px',
+                background: 'rgba(255, 255, 255, 0.2)',
+                borderRadius: 'var(--radius-pill)',
+                fontSize: '13px',
+                fontWeight: 600,
+                color: '#ffffff',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.12)',
+              }}
+            >
+              <ArrowRightLeft size={13} />
+              <span>≈ {formatConverted(results.netProfit, inputs.country)} {targetCurrency}</span>
+            </div>
+          )}
+
           <div style={{ fontSize: '12px', color: '#e2e8f0', marginTop: '6px' }}>
             {inputs.quantitySold > 1 ? (
               <span>
-                (<strong>{formatCurrency(results.netProfit / inputs.quantitySold, inputs.country)}</strong> / unit)
+                (<strong>{formatCurrency(results.netProfit / inputs.quantitySold, inputs.country)}</strong>
+                {isConversionActive && (
+                  <span> ≈ {formatConverted(results.netProfit / inputs.quantitySold, inputs.country)}</span>
+                )} / unit)
               </span>
             ) : (
-              <span>After all eBay fees & operational costs</span>
+              <span>After all eBay fees &amp; operational costs</span>
             )}
           </div>
         </div>
@@ -76,6 +122,11 @@ export const CalculatorResults: React.FC<CalculatorResultsProps> = ({ inputs, re
             <div id="result-total-fees" className="metric-mini-value">
               {formatCurrency(results.totalEbayFees, inputs.country)}
             </div>
+            {isConversionActive && (
+              <div style={{ fontSize: '10px', color: '#e2e8f0', marginTop: '2px', opacity: 0.9 }}>
+                ≈ {formatConverted(results.totalEbayFees, inputs.country)}
+              </div>
+            )}
           </div>
         </div>
 
@@ -83,38 +134,94 @@ export const CalculatorResults: React.FC<CalculatorResultsProps> = ({ inputs, re
         <div className="results-breakdown-list">
           <div className="breakdown-row">
             <span className="breakdown-label">Gross Revenue</span>
-            <span className="breakdown-value">{formatCurrency(results.grossRevenue, inputs.country)}</span>
+            <span className="breakdown-value">
+              {formatCurrency(results.grossRevenue, inputs.country)}
+              {isConversionActive && (
+                <span style={{ fontSize: '11px', color: '#cbd5e1', marginLeft: '6px', fontWeight: 400 }}>
+                  (≈ {formatConverted(results.grossRevenue, inputs.country)})
+                </span>
+              )}
+            </span>
           </div>
+
           <div className="breakdown-row">
             <span className="breakdown-label">Final Value Fee ({results.finalValueFeePercent}%)</span>
-            <span className="breakdown-value">-{formatCurrency(results.totalFinalValueFee, inputs.country)}</span>
+            <span className="breakdown-value">
+              -{formatCurrency(results.totalFinalValueFee, inputs.country)}
+              {isConversionActive && (
+                <span style={{ fontSize: '11px', color: '#cbd5e1', marginLeft: '6px', fontWeight: 400 }}>
+                  (-{formatConverted(results.totalFinalValueFee, inputs.country)})
+                </span>
+              )}
+            </span>
           </div>
+
           {results.promotedListingFee > 0 && (
             <div className="breakdown-row">
               <span className="breakdown-label">Promoted Ad ({inputs.promotedListingRate}%)</span>
-              <span className="breakdown-value">-{formatCurrency(results.promotedListingFee, inputs.country)}</span>
+              <span className="breakdown-value">
+                -{formatCurrency(results.promotedListingFee, inputs.country)}
+                {isConversionActive && (
+                  <span style={{ fontSize: '11px', color: '#cbd5e1', marginLeft: '6px', fontWeight: 400 }}>
+                    (-{formatConverted(results.promotedListingFee, inputs.country)})
+                  </span>
+                )}
+              </span>
             </div>
           )}
+
           {results.internationalFee > 0 && (
             <div className="breakdown-row">
               <span className="breakdown-label">International Fee</span>
-              <span className="breakdown-value">-{formatCurrency(results.internationalFee, inputs.country)}</span>
+              <span className="breakdown-value">
+                -{formatCurrency(results.internationalFee, inputs.country)}
+                {isConversionActive && (
+                  <span style={{ fontSize: '11px', color: '#cbd5e1', marginLeft: '6px', fontWeight: 400 }}>
+                    (-{formatConverted(results.internationalFee, inputs.country)})
+                  </span>
+                )}
+              </span>
             </div>
           )}
+
           {results.regulatoryOperatingFee > 0 && (
             <div className="breakdown-row">
               <span className="breakdown-label">Regulatory Operating Fee</span>
-              <span className="breakdown-value">-{formatCurrency(results.regulatoryOperatingFee, inputs.country)}</span>
+              <span className="breakdown-value">
+                -{formatCurrency(results.regulatoryOperatingFee, inputs.country)}
+                {isConversionActive && (
+                  <span style={{ fontSize: '11px', color: '#cbd5e1', marginLeft: '6px', fontWeight: 400 }}>
+                    (-{formatConverted(results.regulatoryOperatingFee, inputs.country)})
+                  </span>
+                )}
+              </span>
             </div>
           )}
+
           <div className="breakdown-row">
             <span className="breakdown-label">Total Item Cost (COGS)</span>
-            <span className="breakdown-value">-{formatCurrency(results.totalItemCost, inputs.country)}</span>
+            <span className="breakdown-value">
+              -{formatCurrency(results.totalItemCost, inputs.country)}
+              {isConversionActive && (
+                <span style={{ fontSize: '11px', color: '#cbd5e1', marginLeft: '6px', fontWeight: 400 }}>
+                  (-{formatConverted(results.totalItemCost, inputs.country)})
+                </span>
+              )}
+            </span>
           </div>
+
           <div className="breakdown-row">
-            <span className="breakdown-label">Total Shipping & Handling</span>
-            <span className="breakdown-value">-{formatCurrency(results.totalShippingCost + results.totalOtherCost, inputs.country)}</span>
+            <span className="breakdown-label">Total Shipping &amp; Handling</span>
+            <span className="breakdown-value">
+              -{formatCurrency(results.totalShippingCost + results.totalOtherCost, inputs.country)}
+              {isConversionActive && (
+                <span style={{ fontSize: '11px', color: '#cbd5e1', marginLeft: '6px', fontWeight: 400 }}>
+                  (-{formatConverted(results.totalShippingCost + results.totalOtherCost, inputs.country)})
+                </span>
+              )}
+            </span>
           </div>
+
           <div className="breakdown-row" style={{ paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
             <span className="breakdown-label">Effective Fee Rate</span>
             <span className="breakdown-value">{formatPercent(results.effectiveFeeRate)}</span>
@@ -157,7 +264,7 @@ export const CalculatorResults: React.FC<CalculatorResultsProps> = ({ inputs, re
       <div id="intelligence-solver-card" className="intelligence-card">
         <div className="intelligence-title">
           <Target size={18} />
-          <span>Pricing Intelligence & Solver</span>
+          <span>Pricing Intelligence &amp; Solver</span>
         </div>
 
         <div className="intelligence-list">
@@ -165,18 +272,33 @@ export const CalculatorResults: React.FC<CalculatorResultsProps> = ({ inputs, re
             <span className="intelligence-item-label">Break-Even Price (0% Profit):</span>
             <span id="result-breakeven-price" className="intelligence-item-value">
               {formatCurrency(results.breakEvenPrice, inputs.country)}
+              {isConversionActive && (
+                <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginLeft: '6px', fontWeight: 500 }}>
+                  (≈ {formatConverted(results.breakEvenPrice, inputs.country)})
+                </span>
+              )}
             </span>
           </div>
           <div className="intelligence-item">
             <span className="intelligence-item-label">Target 20% Net Margin Price:</span>
             <span id="result-target-20-price" className="intelligence-item-value" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>
               {formatCurrency(results.recommendedPrice20PercentMargin, inputs.country)}
+              {isConversionActive && (
+                <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginLeft: '6px', fontWeight: 500 }}>
+                  (≈ {formatConverted(results.recommendedPrice20PercentMargin, inputs.country)})
+                </span>
+              )}
             </span>
           </div>
           <div className="intelligence-item">
             <span className="intelligence-item-label">Target 30% Net Margin Price:</span>
             <span id="result-target-30-price" className="intelligence-item-value" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>
               {formatCurrency(results.recommendedPrice30PercentMargin, inputs.country)}
+              {isConversionActive && (
+                <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginLeft: '6px', fontWeight: 500 }}>
+                  (≈ {formatConverted(results.recommendedPrice30PercentMargin, inputs.country)})
+                </span>
+              )}
             </span>
           </div>
         </div>

@@ -47,7 +47,7 @@ export const EcommerceCalculatorResults: React.FC<Props> = ({
 
   const handleCopySummary = () => {
     const lines = [
-      `--- E-COMMERCE INVESTMENT & PROFIT BREAKDOWN (ProfitEbay) ---`,
+      `--- E-COMMERCE INVESTMENT & PROFIT BREAKDOWN (SellerMarginCalc) ---`,
       `Initial Batch Size: ${inputs.unitsPurchased} units`,
       `Landed Cost / Unit: ${formatCurrency(results.landedCostPerUnit)}`,
       `Total Landed Inventory Cost: ${formatCurrency(results.totalLandedInventoryCost)}`,

@@ -27,7 +27,7 @@ const EXPLAINER_DATA: Record<ExplainerType, ExplainerContent> = {
     eyebrow: 'Calculation Methodology & Guide',
     heading: 'How the 2026 eBay Fee Calculator Works',
     whatIsIt:
-      'The ProfitEbay Fee Calculator is a dedicated mathematical engine designed to compute exact eBay selling costs under current 2026 Managed Payments rules. It models category-specific tier rates, fixed transaction fees, store subscription discounts, and sales tax multipliers across 8 global marketplaces.',
+      'The Seller Margin Calculator Fee Calculator is a dedicated mathematical engine designed to compute exact eBay selling costs under current 2026 Managed Payments rules. It models category-specific tier rates, fixed transaction fees, store subscription discounts, and sales tax multipliers across 8 global marketplaces.',
     whatItCalculates: [
       'Category-specific Final Value Fees (e.g., 13.25% standard, 9.0%–12.35% with Basic+ Store)',
       'Fixed per-order transaction fees ($0.30 for orders ≤ $10.00; $0.40 for orders > $10.00 in US)',

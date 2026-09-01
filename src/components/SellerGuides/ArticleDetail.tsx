@@ -1,6 +1,7 @@
 import React from 'react';
 import { GuideArticle } from '../../types';
 import { Clock, User, Calendar, ExternalLink, Calculator, ArrowLeft, ShieldCheck } from 'lucide-react';
+import { SITE_CONFIG } from '../../config/site';
 
 interface ArticleDetailProps {
   article: GuideArticle;
@@ -150,7 +151,7 @@ export const ArticleDetail: React.FC<ArticleDetailProps> = ({ article, onBack, o
             Ready to test this calculation on your own listings?
           </div>
           <div style={{ fontSize: '13px', color: '#e2e8f0' }}>
-            Open the real-time ProfitEbay eBay fee & profit intelligence calculator.
+            Open the real-time {SITE_CONFIG.name} eBay fee & profit intelligence calculator.
           </div>
         </div>
 

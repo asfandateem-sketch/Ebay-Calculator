@@ -56,7 +56,7 @@ export const ResourcesPage: React.FC<PageProps> = () => {
     });
 
     const csvTemplate = `SKU,Item Title,Marketplace,Category,Sold Price,Shipping Charged,Wholesale Cost,Shipping Label Cost,Packaging Cost,Promoted Ad Rate %,Net Profit,Profit Margin %,ROI %\nPROD-001,Vintage Leather Jacket,US,Clothing Shoes & Accessories,125.00,14.50,35.00,12.20,2.50,3.0,,,\nPROD-002,Wireless Noise-Cancelling Headphones,US,Consumer Electronics,85.00,0.00,42.00,6.50,1.20,0.0,,,\nPROD-003,Collectible Trading Card Booster Pack,US,Collectibles & Art,45.00,4.00,15.00,3.80,0.90,5.0,,,\n`;
-    downloadCsv(csvTemplate, 'profitebay-inventory-profit-template.csv');
+    downloadCsv(csvTemplate, 'sellermargincalc-inventory-profit-template.csv');
   };
 
   return (

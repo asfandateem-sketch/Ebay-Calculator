@@ -6,6 +6,7 @@ import { HomePage } from './pages/HomePage';
 import { EmbedWidget } from './components/Embed/EmbedWidget';
 import { CountryCode } from './types';
 import { useGTMRouteTracker } from './hooks/useGTMRouteTracker';
+import { CurrencyProvider } from './context/CurrencyContext';
 
 // Code-split secondary routes on-demand to minimize initial critical JS bundle
 const CalculatorPage = lazy(() => import('./pages/CalculatorPage').then(m => ({ default: m.CalculatorPage })));
@@ -14,6 +15,7 @@ const BreakEvenPage = lazy(() => import('./pages/BreakEvenPage').then(m => ({ de
 const PricingCalculatorPage = lazy(() => import('./pages/PricingCalculatorPage').then(m => ({ default: m.PricingCalculatorPage })));
 const PromotedListingsPage = lazy(() => import('./pages/PromotedListingsPage').then(m => ({ default: m.PromotedListingsPage })));
 const EcommerceInvestmentCalculatorPage = lazy(() => import('./pages/EcommerceInvestmentCalculatorPage').then(m => ({ default: m.EcommerceInvestmentCalculatorPage })));
+const CalculatorsDirectoryPage = lazy(() => import('./pages/CalculatorsDirectoryPage').then(m => ({ default: m.CalculatorsDirectoryPage })));
 const CountryCalculatorPage = lazy(() => import('./pages/CountryCalculatorPage').then(m => ({ default: m.CountryCalculatorPage })));
 const FeeComparisonPage = lazy(() => import('./pages/FeeComparisonPage').then(m => ({ default: m.FeeComparisonPage })));
 const FeeHistoryPage = lazy(() => import('./pages/FeeHistoryPage').then(m => ({ default: m.FeeHistoryPage })));
@@ -42,9 +44,11 @@ export default function App() {
   // Standalone embed widget route without site chrome
   if (path === '/embed-widget') {
     return (
-      <div style={{ padding: '16px', background: '#f4f4f6', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <EmbedWidget />
-      </div>
+      <CurrencyProvider>
+        <div style={{ padding: '16px', background: '#f4f4f6', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <EmbedWidget />
+        </div>
+      </CurrencyProvider>
     );
   }
 
@@ -92,23 +96,28 @@ export default function App() {
     // Secondary routes wrapped in Suspense
     return (
       <Suspense fallback={<RouteFallback />}>
+        {/* Master Directory Hub */}
+        {(path === '/calculators' || path === '/calculators-directory' || path === '/directory' || path === '/all-calculators') && (
+          <CalculatorsDirectoryPage onNavigate={navigate} />
+        )}
+
         {/* 2. Specialized Core Calculators */}
-        {(path === '/ebay-fee-calculator' || path === '/calculator') && (
+        {(path === '/ebay-fee-calculator' || path === '/calculator' || path === '/marketplace-fee-calculator' || path === '/fee-calculator' || path === '/seller-fee-calculator') && (
           <CalculatorPage onNavigate={navigate} />
         )}
-        {(path === '/ebay-profit-calculator' || path === '/profit') && (
+        {(path === '/ebay-profit-calculator' || path === '/profit' || path === '/seller-margin-calculator' || path === '/ecommerce-profit-calculator' || path === '/margin-calculator' || path === '/profit-calculator') && (
           <ProfitCalculatorPage onNavigate={navigate} />
         )}
-        {(path === '/ebay-break-even-calculator' || path === '/breakeven' || path === '/break-even') && (
+        {(path === '/ebay-break-even-calculator' || path === '/breakeven' || path === '/break-even' || path === '/ecommerce-break-even-calculator' || path === '/break-even-calculator') && (
           <BreakEvenPage onNavigate={navigate} />
         )}
-        {(path === '/ebay-pricing-calculator' || path === '/pricing') && (
+        {(path === '/ebay-pricing-calculator' || path === '/pricing' || path === '/product-pricing-calculator' || path === '/pricing-calculator' || path === '/target-margin-calculator') && (
           <PricingCalculatorPage onNavigate={navigate} />
         )}
-        {(path === '/ebay-promoted-listings-calculator' || path === '/promoted-listings' || path === '/promoted') && (
+        {(path === '/ebay-promoted-listings-calculator' || path === '/promoted-listings' || path === '/promoted' || path === '/promoted-listings-calculator' || path === '/ad-calculator') && (
           <PromotedListingsPage onNavigate={navigate} />
         )}
-        {(path === '/ecommerce-investment-profit-calculator' || path === '/ecommerce-calculator' || path === '/investment-calculator') && (
+        {(path === '/ecommerce-investment-profit-calculator' || path === '/ecommerce-calculator' || path === '/investment-calculator' || path === '/ecommerce-roi-calculator' || path === '/landed-cost-calculator' || path === '/roi-calculator') && (
           <EcommerceInvestmentCalculatorPage onNavigate={navigate} />
         )}
 
@@ -118,10 +127,10 @@ export default function App() {
         )}
 
         {/* 4. Comparison & History */}
-        {(path === '/ebay-fee-comparison' || path === '/comparison') && (
+        {(path === '/ebay-fee-comparison' || path === '/comparison' || path === '/fee-comparison') && (
           <FeeComparisonPage onNavigate={navigate} />
         )}
-        {(path === '/ebay-fee-history' || path === '/history') && (
+        {(path === '/ebay-fee-history' || path === '/history' || path === '/fee-history') && (
           <FeeHistoryPage onNavigate={navigate} />
         )}
 
@@ -150,15 +159,16 @@ export default function App() {
 
         {/* 8. 404 Fallback */}
         {!(path === '/' || path === '' ||
-          path === '/ebay-fee-calculator' || path === '/calculator' ||
-          path === '/ebay-profit-calculator' || path === '/profit' ||
-          path === '/ebay-break-even-calculator' || path === '/breakeven' || path === '/break-even' ||
-          path === '/ebay-pricing-calculator' || path === '/pricing' ||
-          path === '/ebay-promoted-listings-calculator' || path === '/promoted-listings' || path === '/promoted' ||
-          path === '/ecommerce-investment-profit-calculator' || path === '/ecommerce-calculator' || path === '/investment-calculator' ||
+          path === '/calculators' || path === '/calculators-directory' || path === '/directory' || path === '/all-calculators' ||
+          path === '/ebay-fee-calculator' || path === '/calculator' || path === '/marketplace-fee-calculator' || path === '/fee-calculator' || path === '/seller-fee-calculator' ||
+          path === '/ebay-profit-calculator' || path === '/profit' || path === '/seller-margin-calculator' || path === '/ecommerce-profit-calculator' || path === '/margin-calculator' || path === '/profit-calculator' ||
+          path === '/ebay-break-even-calculator' || path === '/breakeven' || path === '/break-even' || path === '/ecommerce-break-even-calculator' || path === '/break-even-calculator' ||
+          path === '/ebay-pricing-calculator' || path === '/pricing' || path === '/product-pricing-calculator' || path === '/pricing-calculator' || path === '/target-margin-calculator' ||
+          path === '/ebay-promoted-listings-calculator' || path === '/promoted-listings' || path === '/promoted' || path === '/promoted-listings-calculator' || path === '/ad-calculator' ||
+          path === '/ecommerce-investment-profit-calculator' || path === '/ecommerce-calculator' || path === '/investment-calculator' || path === '/ecommerce-roi-calculator' || path === '/landed-cost-calculator' || path === '/roi-calculator' ||
           countryRouteMap[path] ||
-          path === '/ebay-fee-comparison' || path === '/comparison' ||
-          path === '/ebay-fee-history' || path === '/history' ||
+          path === '/ebay-fee-comparison' || path === '/comparison' || path === '/fee-comparison' ||
+          path === '/ebay-fee-history' || path === '/history' || path === '/fee-history' ||
           path === '/ebay-seller-guides' || path === '/guides' || path === '/articles' ||
           path.startsWith('/articles/') ||
           path === '/tools/downloadable-resources' || path === '/resources' ||
@@ -173,18 +183,19 @@ export default function App() {
   };
 
   return (
-    <div className="app-layout">
-      {/* Sticky / Fixed Navigation Bar */}
-      <Navbar onNavigate={navigate} />
+    <CurrencyProvider>
+      <div className="app-layout">
+        {/* Sticky / Fixed Navigation Bar */}
+        <Navbar onNavigate={navigate} />
 
-      {/* Main Page Dynamic View */}
-      <main className="main-content">
-        {renderContent()}
-      </main>
+        {/* Main Page Dynamic View */}
+        <main className="main-content">
+          {renderContent()}
+        </main>
 
-      {/* Authoritative Global Footer */}
-      <Footer onNavigate={navigate} />
-    </div>
+        {/* Authoritative Global Footer */}
+        <Footer onNavigate={navigate} />
+      </div>
+    </CurrencyProvider>
   );
 }
-

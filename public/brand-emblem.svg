@@ -1,52 +1,110 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 320" width="100%" height="100%">
   <defs>
-    <linearGradient id="peEmblemBlue" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0080ff" />
-      <stop offset="100%" stop-color="#0060e6" />
+    <!-- Blue Gradients for M and Chart -->
+    <linearGradient id="smcBlueBright" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="50%" stop-color="#00a8ff" />
+      <stop offset="100%" stop-color="#0066ff" />
     </linearGradient>
+
+    <linearGradient id="smcBlueDeep" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0080ff" />
+      <stop offset="100%" stop-color="#0044cc" />
+    </linearGradient>
+
+    <linearGradient id="smcBlueDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0055dd" />
+      <stop offset="100%" stop-color="#002b88" />
+    </linearGradient>
+
+    <linearGradient id="smcArrowGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0055ff" />
+      <stop offset="50%" stop-color="#00b4d8" />
+      <stop offset="100%" stop-color="#00f5ff" />
+    </linearGradient>
+
+    <linearGradient id="smcBarGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#0066ff" />
+      <stop offset="100%" stop-color="#00d2ff" />
+    </linearGradient>
+
+    <!-- White / Silver Gradient with 3D Depth for S & C -->
+    <linearGradient id="smcWhiteGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#e2e8f0" />
+    </linearGradient>
+
+    <!-- Drop Shadows -->
+    <filter id="smcShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000000" flood-opacity="0.35" />
+    </filter>
+    <filter id="smcGlow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#00a8ff" flood-opacity="0.5" />
+    </filter>
   </defs>
 
-  <!-- Dark Slate/Charcoal Right Arc Segment -->
-  <path
-    d="M 200 32 A 168 168 0 0 1 368 200 A 168 168 0 0 1 182 367 L 182 328 A 129 129 0 0 0 329 200 A 129 129 0 0 0 200 71 Z"
-    fill="#2c3545"
-  />
+  <g id="smc-emblem" transform="translate(0, 0)">
+    <!-- LETTER S (White 3D Modern Sans) -->
+    <path
+      d="M 195 62 L 140 62 C 102 62 72 88 72 124 C 72 158 98 178 138 186 L 158 190 C 182 195 194 204 194 218 C 194 234 178 246 152 246 C 122 246 98 232 90 208 L 40 220 C 54 264 96 288 152 288 C 210 288 248 256 248 214 C 248 174 220 154 178 146 L 156 142 C 136 138 126 130 126 118 C 126 104 140 94 162 94 L 195 94 Z"
+      fill="url(#smcWhiteGrad)"
+      filter="url(#smcShadow)"
+    />
 
-  <!-- Main Outer Blue P Arc -->
-  <path
-    d="M 188 32 A 168 168 0 0 0 22 200 C 22 288 88 359 174 367 L 174 328 C 109 320 59 266 59 200 C 59 129 117 71 188 71 Z"
-    fill="url(#peEmblemBlue)"
-  />
-  
-  <!-- Blue P Upper Loop -->
-  <path
-    d="M 174 71 L 210 71 C 265 71 310 116 310 171 C 310 222 272 263 222 270 L 222 231 C 251 224 271 199 271 171 C 271 137 244 110 210 110 L 174 110 Z"
-    fill="url(#peEmblemBlue)"
-  />
+    <!-- LETTER C (White 3D Modern Sans) -->
+    <path
+      d="M 378 96 C 362 74 336 62 300 62 C 236 62 190 112 190 175 C 190 238 236 288 300 288 C 342 288 372 272 390 244 L 350 216 C 338 234 322 244 300 244 C 265 244 242 214 242 175 C 242 136 265 106 300 106 C 324 106 342 118 352 136 Z"
+      fill="url(#smcWhiteGrad)"
+      filter="url(#smcShadow)"
+    />
 
-  <!-- Blue P Inner Vertical Stem -->
-  <path
-    d="M 135 110 L 174 110 L 174 365 L 135 365 Z"
-    fill="url(#peEmblemBlue)"
-  />
-  <!-- Blue P Inner Horizontal Divider -->
-  <path
-    d="M 135 231 L 222 231 L 222 270 L 135 270 Z"
-    fill="url(#peEmblemBlue)"
-  />
+    <!-- THREE RISING BARS (Inside C) -->
+    <g id="bars">
+      <rect x="314" y="180" width="13" height="42" rx="3" fill="url(#smcBarGrad)" filter="url(#smcGlow)" />
+      <rect x="333" y="152" width="13" height="70" rx="3" fill="url(#smcBarGrad)" filter="url(#smcGlow)" />
+      <rect x="352" y="122" width="13" height="100" rx="3" fill="url(#smcBarGrad)" filter="url(#smcGlow)" />
+    </g>
 
-  <!-- 3 Growth Bars (Dark Slate) -->
-  <rect x="185" y="286" width="16" height="34" rx="3" fill="#2c3545" />
-  <rect x="209" y="268" width="16" height="52" rx="3" fill="#2c3545" />
-  <rect x="233" y="244" width="16" height="76" rx="3" fill="#2c3545" />
+    <!-- UPWARD SWOOPING ARROW (Cutting across C and bars) -->
+    <g id="arrow" filter="url(#smcGlow)">
+      <path
+        d="M 282 258 C 322 258 370 215 402 142 L 388 134 C 358 200 318 238 282 238 Z"
+        fill="url(#smcArrowGrad)"
+      />
+      <!-- Arrowhead -->
+      <polygon
+        points="418,122 384,136 398,154"
+        fill="url(#smcArrowGrad)"
+      />
+    </g>
 
-  <!-- Sweeping Growth Arrow (Blue Arc + Arrowhead) -->
-  <path
-    d="M 184 330 C 228 326 298 276 324 205 L 312 198 C 289 260 226 305 184 310 Z"
-    fill="url(#peEmblemBlue)"
-  />
-  <polygon
-    points="338,185 306,202 322,220"
-    fill="url(#peEmblemBlue)"
-  />
+    <!-- 3D FACETED ORIGAMI 'M' (Electric Blue overlapping S and C) -->
+    <g id="letter-m" filter="url(#smcShadow)">
+      <!-- Left upper facet overlapping S -->
+      <polygon
+        points="172,94 220,166 186,166 150,94"
+        fill="url(#smcBlueBright)"
+      />
+      <!-- Left center diagonal plunging down-center -->
+      <polygon
+        points="186,166 220,166 250,236 228,236"
+        fill="url(#smcBlueDark)"
+      />
+      <!-- Center sharp peak ascending to apex -->
+      <polygon
+        points="228,236 250,236 304,64 278,64"
+        fill="url(#smcBlueBright)"
+      />
+      <!-- Right wing descending from apex into C curve -->
+      <polygon
+        points="278,64 304,64 304,244 278,206"
+        fill="url(#smcBlueDeep)"
+      />
+      <!-- Bottom right folding ribbon facet -->
+      <polygon
+        points="278,206 304,244 336,220 322,204"
+        fill="url(#smcBlueDark)"
+      />
+    </g>
+  </g>
 </svg>

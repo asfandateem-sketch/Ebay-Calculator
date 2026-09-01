@@ -1,46 +1,69 @@
 import { CalculatorInputs, CalculatorResults } from '../types';
 import { formatCurrency } from './currency';
 
-export function generateCsvExport(inputs: CalculatorInputs, results: CalculatorResults): string {
-  const rows = [
-    ['Metric / Parameter', 'Value'],
-    ['Marketplace', inputs.country],
-    ['Category ID', inputs.categoryId],
-    ['Quantity', inputs.quantitySold.toString()],
-    ['Selling Price (per unit)', inputs.soldPrice.toFixed(2)],
-    ['Shipping Charged (per unit)', inputs.shippingCharged.toFixed(2)],
-    ['Item Cost (per unit)', inputs.itemCost.toFixed(2)],
-    ['Shipping Cost (per unit)', inputs.shippingCost.toFixed(2)],
-    ['Other Direct Costs (per unit)', inputs.otherCosts.toFixed(2)],
-    ['Seller Level', inputs.sellerLevel],
-    ['Store Subscription', inputs.storeSubscription],
-    ['Promoted Listings Ad Rate', `${inputs.promotedListingRate}%`],
-    ['International Sale', inputs.isInternational ? 'Yes' : 'No'],
-    ['Buyer Sales Tax / VAT Rate', `${inputs.salesTaxOrVatRate}%`],
-    ['', ''],
-    ['--- CALCULATION RESULTS ---', '---'],
-    ['Gross Revenue', formatCurrency(results.grossRevenue, inputs.country)],
-    ['Total Final Value Fee', formatCurrency(results.totalFinalValueFee, inputs.country)],
-    ['Promoted Listing Ad Fee', formatCurrency(results.promotedListingFee, inputs.country)],
-    ['International Fee', formatCurrency(results.internationalFee, inputs.country)],
-    ['Insertion Fee', formatCurrency(results.insertionFee, inputs.country)],
-    ['Total eBay Fees', formatCurrency(results.totalEbayFees, inputs.country)],
-    ['Effective Fee %', `${results.effectiveFeeRate}%`],
-    ['Total Item & Shipping Costs', formatCurrency(results.totalItemCost + results.totalShippingCost + results.totalOtherCost, inputs.country)],
-    ['Net Profit', formatCurrency(results.netProfit, inputs.country)],
-    ['Profit Margin', `${results.profitMargin}%`],
-    ['Return on Investment (ROI)', `${results.roi}%`],
-    ['Break-Even Selling Price', formatCurrency(results.breakEvenPrice, inputs.country)],
-    ['Target 20% Margin Price', formatCurrency(results.recommendedPrice20PercentMargin, inputs.country)],
-    ['Target 30% Margin Price', formatCurrency(results.recommendedPrice30PercentMargin, inputs.country)],
-    ['Exported Via', 'ProfitEbay (https://asfandateem-sketch.github.io/Ebay-Calculator/)'],
-    ['Generated At', new Date().toISOString()],
-  ];
-
-  return rows.map((r) => r.map((cell) => `"${cell.replace(/"/g, '""')}"`).join(',')).join('\n');
+export interface ConversionExportOptions {
+  enabled: boolean;
+  targetCurrency: string;
+  exchangeRateText?: string;
+  formatConverted?: (val: number) => string;
 }
 
-export function downloadCsv(content: string, filename = 'profitebay-ebay-calculation.csv'): void {
+export function generateCsvExport(
+  inputs: CalculatorInputs,
+  results: CalculatorResults,
+  conversionOpts?: ConversionExportOptions
+): string {
+  const isConv = conversionOpts?.enabled && conversionOpts.formatConverted;
+  const targetCurr = conversionOpts?.targetCurrency || 'USD';
+
+  const rows: string[][] = [
+    isConv
+      ? ['Metric / Parameter', `Value (${inputs.country} Native)`, `Converted Value (${targetCurr})`]
+      : ['Metric / Parameter', 'Value'],
+    ['Marketplace', inputs.country, ...(isConv ? ['-'] : [])],
+    ['Category ID', inputs.categoryId, ...(isConv ? ['-'] : [])],
+    ['Quantity', inputs.quantitySold.toString(), ...(isConv ? ['-'] : [])],
+    ['Selling Price (per unit)', inputs.soldPrice.toFixed(2), ...(isConv ? [conversionOpts.formatConverted!(inputs.soldPrice)] : [])],
+    ['Shipping Charged (per unit)', inputs.shippingCharged.toFixed(2), ...(isConv ? [conversionOpts.formatConverted!(inputs.shippingCharged)] : [])],
+    ['Item Cost (per unit)', inputs.itemCost.toFixed(2), ...(isConv ? [conversionOpts.formatConverted!(inputs.itemCost)] : [])],
+    ['Shipping Cost (per unit)', inputs.shippingCost.toFixed(2), ...(isConv ? [conversionOpts.formatConverted!(inputs.shippingCost)] : [])],
+    ['Other Direct Costs (per unit)', inputs.otherCosts.toFixed(2), ...(isConv ? [conversionOpts.formatConverted!(inputs.otherCosts)] : [])],
+    ['Seller Level', inputs.sellerLevel, ...(isConv ? ['-'] : [])],
+    ['Store Subscription', inputs.storeSubscription, ...(isConv ? ['-'] : [])],
+    ['Promoted Listings Ad Rate', `${inputs.promotedListingRate}%`, ...(isConv ? ['-'] : [])],
+    ['International Sale', inputs.isInternational ? 'Yes' : 'No', ...(isConv ? ['-'] : [])],
+    ['Buyer Sales Tax / VAT Rate', `${inputs.salesTaxOrVatRate}%`, ...(isConv ? ['-'] : [])],
+  ];
+
+  if (isConv && conversionOpts.exchangeRateText) {
+    rows.push(['Exchange Rate Used', conversionOpts.exchangeRateText, '-']);
+  }
+
+  rows.push(
+    ['', '', ...(isConv ? [''] : [])],
+    ['--- CALCULATION RESULTS ---', '---', ...(isConv ? ['---'] : [])],
+    ['Gross Revenue', formatCurrency(results.grossRevenue, inputs.country), ...(isConv ? [conversionOpts.formatConverted!(results.grossRevenue)] : [])],
+    ['Total Final Value Fee', formatCurrency(results.totalFinalValueFee, inputs.country), ...(isConv ? [conversionOpts.formatConverted!(results.totalFinalValueFee)] : [])],
+    ['Promoted Listing Ad Fee', formatCurrency(results.promotedListingFee, inputs.country), ...(isConv ? [conversionOpts.formatConverted!(results.promotedListingFee)] : [])],
+    ['International Fee', formatCurrency(results.internationalFee, inputs.country), ...(isConv ? [conversionOpts.formatConverted!(results.internationalFee)] : [])],
+    ['Insertion Fee', formatCurrency(results.insertionFee, inputs.country), ...(isConv ? [conversionOpts.formatConverted!(results.insertionFee)] : [])],
+    ['Total eBay Fees', formatCurrency(results.totalEbayFees, inputs.country), ...(isConv ? [conversionOpts.formatConverted!(results.totalEbayFees)] : [])],
+    ['Effective Fee %', `${results.effectiveFeeRate}%`, ...(isConv ? [`${results.effectiveFeeRate}%`] : [])],
+    ['Total Item & Shipping Costs', formatCurrency(results.totalItemCost + results.totalShippingCost + results.totalOtherCost, inputs.country), ...(isConv ? [conversionOpts.formatConverted!(results.totalItemCost + results.totalShippingCost + results.totalOtherCost)] : [])],
+    ['Net Profit', formatCurrency(results.netProfit, inputs.country), ...(isConv ? [conversionOpts.formatConverted!(results.netProfit)] : [])],
+    ['Profit Margin', `${results.profitMargin}%`, ...(isConv ? [`${results.profitMargin}%`] : [])],
+    ['Return on Investment (ROI)', `${results.roi}%`, ...(isConv ? [`${results.roi}%`] : [])],
+    ['Break-Even Selling Price', formatCurrency(results.breakEvenPrice, inputs.country), ...(isConv ? [conversionOpts.formatConverted!(results.breakEvenPrice)] : [])],
+    ['Target 20% Margin Price', formatCurrency(results.recommendedPrice20PercentMargin, inputs.country), ...(isConv ? [conversionOpts.formatConverted!(results.recommendedPrice20PercentMargin)] : [])],
+    ['Target 30% Margin Price', formatCurrency(results.recommendedPrice30PercentMargin, inputs.country), ...(isConv ? [conversionOpts.formatConverted!(results.recommendedPrice30PercentMargin)] : [])],
+    ['Exported Via', 'Seller Margin Calculator (https://asfandateem-sketch.github.io/Ebay-Calculator/)', ...(isConv ? ['-'] : [])],
+    ['Generated At', new Date().toISOString(), ...(isConv ? ['-'] : [])]
+  );
+
+  return rows.map((r) => r.map((cell) => `"${(cell || '').replace(/"/g, '""')}"`).join(',')).join('\n');
+}
+
+export function downloadCsv(content: string, filename = 'sellermargincalc-calculation.csv'): void {
   const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -60,8 +83,8 @@ export function encodeInputsToUrl(inputs: CalculatorInputs): string {
   params.set('ship_charged', inputs.shippingCharged.toString());
   params.set('cost', inputs.itemCost.toString());
   params.set('ship_cost', inputs.shippingCost.toString());
-  params.set('other', inputs.otherCosts.toString());
-  params.set('seller', inputs.sellerLevel);
+  params.set('other_cost', inputs.otherCosts.toString());
+  params.set('level', inputs.sellerLevel);
   params.set('store', inputs.storeSubscription);
   params.set('ad_rate', inputs.promotedListingRate.toString());
   params.set('intl', inputs.isInternational ? '1' : '0');
@@ -70,52 +93,24 @@ export function encodeInputsToUrl(inputs: CalculatorInputs): string {
   return params.toString();
 }
 
-const VALID_COUNTRIES: CalculatorInputs['country'][] = ['US', 'UK', 'AU', 'CA', 'DE', 'FR', 'IT', 'ES'];
-const VALID_SELLER_LEVELS: CalculatorInputs['sellerLevel'][] = ['standard', 'top_rated', 'below_standard'];
-const VALID_STORE_SUBSCRIPTIONS: CalculatorInputs['storeSubscription'][] = ['none', 'starter', 'basic', 'premium', 'anchor', 'enterprise'];
-
-function parseSafeNumber(val: string | null, fallback: number, min = 0, max = 100_000_000): number {
-  if (val === null || val === undefined || val.trim() === '') return fallback;
-  const num = Number(val);
-  if (isNaN(num) || !isFinite(num)) return fallback;
-  return Math.min(max, Math.max(min, num));
-}
-
-function parseSafeCategory(val: string | null, fallback: string): string {
-  if (!val) return fallback;
-  // Clean alphanumeric + underscore/hyphen strings up to 64 chars
-  const sanitized = val.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 64);
-  return sanitized || fallback;
-}
-
-export function decodeInputsFromUrl(search: string, fallback: CalculatorInputs): CalculatorInputs {
-  if (!search || typeof search !== 'string') return fallback;
-  const params = new URLSearchParams(search);
-  if (!params.has('price') && !params.has('country') && !params.has('category')) return fallback;
-
-  const rawCountry = (params.get('country') || '').toUpperCase() as CalculatorInputs['country'];
-  const country = VALID_COUNTRIES.includes(rawCountry) ? rawCountry : fallback.country;
-
-  const rawSeller = (params.get('seller') || '').toLowerCase() as CalculatorInputs['sellerLevel'];
-  const sellerLevel = VALID_SELLER_LEVELS.includes(rawSeller) ? rawSeller : fallback.sellerLevel;
-
-  const rawStore = (params.get('store') || '').toLowerCase() as CalculatorInputs['storeSubscription'];
-  const storeSubscription = VALID_STORE_SUBSCRIPTIONS.includes(rawStore) ? rawStore : fallback.storeSubscription;
-
+export function decodeInputsFromUrl(queryString: string, defaults: CalculatorInputs): CalculatorInputs {
+  if (!queryString) return defaults;
+  const params = new URLSearchParams(queryString);
+  
   return {
-    country,
-    categoryId: parseSafeCategory(params.get('category'), fallback.categoryId),
-    soldPrice: parseSafeNumber(params.get('price'), fallback.soldPrice),
-    shippingCharged: parseSafeNumber(params.get('ship_charged'), fallback.shippingCharged),
-    itemCost: parseSafeNumber(params.get('cost'), fallback.itemCost),
-    shippingCost: parseSafeNumber(params.get('ship_cost'), fallback.shippingCost),
-    otherCosts: parseSafeNumber(params.get('other'), fallback.otherCosts),
-    sellerLevel,
-    storeSubscription,
-    promotedListingRate: parseSafeNumber(params.get('ad_rate'), fallback.promotedListingRate, 0, 100),
+    country: (params.get('country') as any) || defaults.country,
+    categoryId: params.get('category') || defaults.categoryId,
+    soldPrice: params.has('price') ? parseFloat(params.get('price')!) || 0 : defaults.soldPrice,
+    shippingCharged: params.has('ship_charged') ? parseFloat(params.get('ship_charged')!) || 0 : defaults.shippingCharged,
+    itemCost: params.has('cost') ? parseFloat(params.get('cost')!) || 0 : defaults.itemCost,
+    shippingCost: params.has('ship_cost') ? parseFloat(params.get('ship_cost')!) || 0 : defaults.shippingCost,
+    otherCosts: params.has('other_cost') ? parseFloat(params.get('other_cost')!) || 0 : defaults.otherCosts,
+    sellerLevel: (params.get('level') as any) || defaults.sellerLevel,
+    storeSubscription: (params.get('store') as any) || defaults.storeSubscription,
+    promotedListingRate: params.has('ad_rate') ? parseFloat(params.get('ad_rate')!) || 0 : defaults.promotedListingRate,
     isInternational: params.get('intl') === '1',
-    salesTaxOrVatRate: parseSafeNumber(params.get('tax'), fallback.salesTaxOrVatRate, 0, 100),
-    freeMonthlyListingsUsed: fallback.freeMonthlyListingsUsed,
-    quantitySold: Math.floor(parseSafeNumber(params.get('qty'), fallback.quantitySold || 1, 1, 1_000_000)),
+    salesTaxOrVatRate: params.has('tax') ? parseFloat(params.get('tax')!) || 0 : defaults.salesTaxOrVatRate,
+    freeMonthlyListingsUsed: defaults.freeMonthlyListingsUsed,
+    quantitySold: params.has('qty') ? parseInt(params.get('qty')!, 10) || 1 : defaults.quantitySold,
   };
 }
