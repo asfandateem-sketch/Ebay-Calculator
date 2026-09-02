@@ -19,17 +19,22 @@ export const PricingCalculatorPage: React.FC<PageProps> = ({ onNavigate }) => {
 
   useSEO({
     title: `eBay Pricing Calculator (2026) — Target Profit & Margin Price Solver | ${SITE_CONFIG.name}`,
-    description: 'Reverse-engineer the exact eBay listing price required to achieve your target profit margins (e.g. 20%, 35%) or specific dollar return objectives after all fees.',
-    keywords: 'ebay pricing calculator, how to price items on ebay, ebay target profit calculator, ebay selling price formula',
+    description: `Reverse-engineer the exact eBay listing price required to achieve your target profit margins or specific dollar return objectives after all fees with ${SITE_CONFIG.name}.`,
+    keywords: 'seller margin calculator, ebay pricing calculator, how to price items on ebay, ebay target profit calculator, ebay selling price formula, target margin solver, markup calculator',
     canonical: '/ebay-pricing-calculator',
     schemaJson: {
       '@context': 'https://schema.org',
       '@graph': [
         {
           '@type': 'SoftwareApplication',
-          name: 'eBay Target Pricing Calculator',
+          name: `eBay Target Pricing Calculator — ${SITE_CONFIG.name}`,
           applicationCategory: 'FinanceApplication',
           operatingSystem: 'All',
+          provider: {
+            '@type': 'Organization',
+            name: SITE_CONFIG.name,
+            url: getCanonicalUrl('/'),
+          },
           offers: {
             '@type': 'Offer',
             price: '0',
@@ -40,7 +45,8 @@ export const PricingCalculatorPage: React.FC<PageProps> = ({ onNavigate }) => {
           '@type': 'BreadcrumbList',
           itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
-            { '@type': 'ListItem', position: 2, name: 'eBay Pricing Calculator', item: getCanonicalUrl('/ebay-pricing-calculator') },
+            { '@type': 'ListItem', position: 2, name: 'Calculators', item: getCanonicalUrl('/calculators') },
+            { '@type': 'ListItem', position: 3, name: 'eBay Pricing Calculator', item: getCanonicalUrl('/ebay-pricing-calculator') },
           ],
         },
       ],

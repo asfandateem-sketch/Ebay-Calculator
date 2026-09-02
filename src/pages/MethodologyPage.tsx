@@ -13,15 +13,21 @@ export const MethodologyPage: React.FC<PageProps> = () => {
   useSEO({
     title: `Calculation Methodology & Accuracy Standards — ${SITE_CONFIG.name}`,
     description: `Detailed mathematical explanation of ${SITE_CONFIG.name} calculation algorithms, sales tax base handling, tiered final value fees, and cross-border currency models.`,
-    keywords: 'how ebay fees are calculated, ebay fee calculation formula, ebay managed payments fee breakdown math',
+    keywords: 'seller margin calculator methodology, how ebay fees are calculated, ebay fee calculation formula, ebay managed payments fee breakdown math, fee calculation accuracy standards',
     canonical: '/methodology',
     schemaJson: {
       '@context': 'https://schema.org',
       '@graph': [
         {
           '@type': 'AboutPage',
-          name: 'Calculation Methodology & Accuracy Standards',
+          name: `Calculation Methodology & Accuracy Standards — ${SITE_CONFIG.name}`,
           description: 'Technical and mathematical specification of eBay fee algorithms.',
+          url: getCanonicalUrl('/methodology'),
+          provider: {
+            '@type': 'Organization',
+            name: SITE_CONFIG.name,
+            url: getCanonicalUrl('/'),
+          },
         },
         {
           '@type': 'BreadcrumbList',

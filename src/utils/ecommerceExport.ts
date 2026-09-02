@@ -1,4 +1,5 @@
 import { EcommerceProfitInputs, EcommerceProfitResults } from '../types/ecommerce';
+import { sanitizeCsvCell } from './export';
 
 export function generateEcommerceCsv(
   inputs: EcommerceProfitInputs,
@@ -58,7 +59,7 @@ export function generateEcommerceCsv(
     ['Capital Payback Timeline', results.monthsToRecoverInvestment !== null ? `${results.monthsToRecoverInvestment.toFixed(1)} months` : 'Negative Cashflow'],
   ];
 
-  return rows.map(([col1, col2]) => `"${col1.replace(/"/g, '""')}","${col2.replace(/"/g, '""')}"`).join('\n');
+  return rows.map(([col1, col2]) => `${sanitizeCsvCell(col1)},${sanitizeCsvCell(col2)}`).join('\n');
 }
 
 export function downloadEcommerceCsv(

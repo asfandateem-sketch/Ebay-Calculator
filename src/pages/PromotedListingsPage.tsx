@@ -19,17 +19,22 @@ export const PromotedListingsPage: React.FC<PageProps> = ({ onNavigate }) => {
 
   useSEO({
     title: `eBay Promoted Listings Calculator (2026) — Ad Fee & ROAS Optimizer | ${SITE_CONFIG.name}`,
-    description: 'Calculate eBay Promoted Listings Standard ad fees, evaluate margin impact across ad rates (2% - 15%), and compute required sales velocity multipliers for profitability.',
-    keywords: 'ebay promoted listings calculator, ebay ad rate calculator, ebay roas calculator, ebay advertising fees',
+    description: `Calculate eBay Promoted Listings Standard ad fees, evaluate margin impact across ad rates (2% - 15%), and compute required sales velocity multipliers with ${SITE_CONFIG.name}.`,
+    keywords: 'seller margin calculator, ebay promoted listings calculator, ebay ad rate calculator, ebay roas calculator, ebay advertising fees, sponsored listing profit impact, ebay cpc calculator',
     canonical: '/ebay-promoted-listings-calculator',
     schemaJson: {
       '@context': 'https://schema.org',
       '@graph': [
         {
           '@type': 'SoftwareApplication',
-          name: 'eBay Promoted Listings Calculator',
+          name: `eBay Promoted Listings Calculator — ${SITE_CONFIG.name}`,
           applicationCategory: 'FinanceApplication',
           operatingSystem: 'All',
+          provider: {
+            '@type': 'Organization',
+            name: SITE_CONFIG.name,
+            url: getCanonicalUrl('/'),
+          },
           offers: {
             '@type': 'Offer',
             price: '0',
@@ -40,7 +45,8 @@ export const PromotedListingsPage: React.FC<PageProps> = ({ onNavigate }) => {
           '@type': 'BreadcrumbList',
           itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
-            { '@type': 'ListItem', position: 2, name: 'eBay Promoted Listings Calculator', item: getCanonicalUrl('/ebay-promoted-listings-calculator') },
+            { '@type': 'ListItem', position: 2, name: 'Calculators', item: getCanonicalUrl('/calculators') },
+            { '@type': 'ListItem', position: 3, name: 'eBay Promoted Listings Calculator', item: getCanonicalUrl('/ebay-promoted-listings-calculator') },
           ],
         },
       ],

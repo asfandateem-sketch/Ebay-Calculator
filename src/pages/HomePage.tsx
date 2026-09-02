@@ -40,9 +40,11 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const { inputs, results, updateInput, setInputs } = useCalculator();
 
   useSEO({
-    title: `The Ultimate E-commerce Calculator Suite — ${SITE_CONFIG.name}`,
+    title: `Seller Margin Calculator — Free E-commerce Profit, eBay Fee & Margin Calculator Suite (2026)`,
     description:
-      'Calculate marketplace fees, landed costs, profit, ROI, pricing and break-even accurately and instantly across 8 global marketplaces.',
+      'Calculate marketplace fees, landed costs, profit, ROI, pricing and break-even accurately and instantly across 8 global marketplaces with Seller Margin Calculator.',
+    keywords:
+      'seller margin calculator, ecommerce profit calculator, ebay fee calculator, ebay profit calculator, break even calculator, product pricing calculator, ecommerce profit margin, marketplace fees, ebay seller calculator 2026',
     canonical: '/',
     schemaJson: {
       '@context': 'https://schema.org',
@@ -64,11 +66,22 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           name: `${SITE_CONFIG.name} E-commerce Calculator Suite`,
           applicationCategory: 'FinanceApplication',
           operatingSystem: 'All',
+          provider: {
+            '@type': 'Organization',
+            name: SITE_CONFIG.name,
+            url: getCanonicalUrl('/'),
+          },
           offers: {
             '@type': 'Offer',
             price: '0',
             priceCurrency: 'USD',
           },
+        },
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
+          ],
         },
         {
           '@type': 'ItemList',

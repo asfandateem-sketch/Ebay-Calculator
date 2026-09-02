@@ -14,6 +14,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
   useSEO({
     title: `Contact ${SITE_CONFIG.name} | Questions, Corrections & Business Inquiries`,
     description: `Contact ${SITE_CONFIG.name} for calculator questions, fee-data corrections, feature requests, partnerships, and business inquiries.`,
+    keywords: 'contact seller margin calculator, seller margin calculator support, ebay fee calculator feedback, business inquiries seller margin calculator',
     canonical: '/contact',
     schemaJson: {
       '@context': 'https://schema.org',
@@ -21,6 +22,11 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
       name: `Contact ${SITE_CONFIG.name}`,
       description: `Get in touch with the ${SITE_CONFIG.name} team for support, corrections, or inquiries.`,
       url: `${SITE_CONFIG.url}/contact`,
+      provider: {
+        '@type': 'Organization',
+        name: SITE_CONFIG.name,
+        url: SITE_CONFIG.url,
+      },
     },
   });
 

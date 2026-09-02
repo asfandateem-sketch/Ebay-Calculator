@@ -43,9 +43,9 @@ export const CalculatorsDirectoryPage: React.FC<CalculatorsDirectoryPageProps> =
   useSEO({
     title: `All Ecommerce & Marketplace Calculators Directory | ${SITE_CONFIG.name}`,
     description:
-      'Complete directory of verified profit, fee, margin, pricing, break-even, and landed cost calculators for online sellers across 8 international marketplaces.',
+      `Complete directory of verified profit, fee, margin, pricing, break-even, and landed cost calculators for online sellers by ${SITE_CONFIG.name} across 8 international marketplaces.`,
     keywords:
-      'ecommerce calculators directory, ebay calculators list, seller margin calculators, marketplace fee tools, product pricing solver, ecommerce profit tools',
+      'seller margin calculator, seller margin calculator directory, ecommerce calculators directory, ebay calculators list, seller margin calculators suite, marketplace fee tools, product pricing solver, ecommerce profit tools, online seller calculators',
     canonical: '/calculators',
     schemaJson: {
       '@context': 'https://schema.org',
@@ -55,6 +55,11 @@ export const CalculatorsDirectoryPage: React.FC<CalculatorsDirectoryPageProps> =
           name: `${SITE_CONFIG.name} Directory`,
           description: 'Explore the full suite of ecommerce profit, fee, and pricing calculators.',
           url: getCanonicalUrl('/calculators'),
+          provider: {
+            '@type': 'Organization',
+            name: SITE_CONFIG.name,
+            url: getCanonicalUrl('/'),
+          },
         },
         {
           '@type': 'BreadcrumbList',

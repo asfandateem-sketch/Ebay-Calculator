@@ -14,22 +14,29 @@ interface PageProps {
 export const FeeComparisonPage: React.FC<PageProps> = () => {
   useSEO({
     title: `International eBay Fee Comparison Matrix (2026) | ${SITE_CONFIG.name}`,
-    description: 'Compare eBay seller fee schedules across US, UK, Australia, Canada, Germany, France, Italy & Spain. Detailed breakdown of rates, fixed fees, and VAT.',
-    keywords: 'ebay fee comparison, compare ebay fees international, ebay selling fees by country, ebay global marketplace fees',
+    description: `Compare eBay seller fee schedules across US, UK, Australia, Canada, Germany, France, Italy & Spain with ${SITE_CONFIG.name}. Detailed breakdown of rates, fixed fees, and VAT.`,
+    keywords: 'seller margin calculator, ebay fee comparison, compare ebay fees international, ebay selling fees by country, ebay global marketplace fees, international seller margins 2026',
     canonical: '/ebay-fee-comparison',
     schemaJson: {
       '@context': 'https://schema.org',
       '@graph': [
         {
           '@type': 'WebPage',
-          name: 'International eBay Fee Comparison Matrix',
+          name: `International eBay Fee Comparison Matrix — ${SITE_CONFIG.name}`,
           description: 'Side-by-side fee schedule comparison across major international eBay marketplaces.',
+          url: getCanonicalUrl('/ebay-fee-comparison'),
+          provider: {
+            '@type': 'Organization',
+            name: SITE_CONFIG.name,
+            url: getCanonicalUrl('/'),
+          },
         },
         {
           '@type': 'BreadcrumbList',
           itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
-            { '@type': 'ListItem', position: 2, name: 'Fee Comparison', item: getCanonicalUrl('/ebay-fee-comparison') },
+            { '@type': 'ListItem', position: 2, name: 'Calculators', item: getCanonicalUrl('/calculators') },
+            { '@type': 'ListItem', position: 3, name: 'Fee Comparison Matrix', item: getCanonicalUrl('/ebay-fee-comparison') },
           ],
         },
       ],

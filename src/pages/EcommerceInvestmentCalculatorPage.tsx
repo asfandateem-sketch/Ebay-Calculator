@@ -11,6 +11,7 @@ import { EcommerceFAQ, ECOMMERCE_FAQS } from '../components/EcommerceCalculator/
 import { RouterLink } from '../components/RouterLink';
 import { ArrowLeft, Calculator, TrendingUp, ShieldCheck, DollarSign } from 'lucide-react';
 import { SITE_CONFIG } from '../config/site';
+import { getCanonicalUrl } from '../hooks/useRouting';
 
 interface PageProps {
   onNavigate?: (path: string) => void;
@@ -42,9 +43,14 @@ export const EcommerceInvestmentCalculatorPage: React.FC<PageProps> = () => {
   const softwareSchema = {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
-    name: 'E-commerce Investment & Profit Calculator',
+    name: `E-commerce Investment & Profit Calculator — ${SITE_CONFIG.name}`,
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'All',
+    provider: {
+      '@type': 'Organization',
+      name: SITE_CONFIG.name,
+      url: getCanonicalUrl('/'),
+    },
     offers: {
       '@type': 'Offer',
       price: '0',
@@ -53,11 +59,22 @@ export const EcommerceInvestmentCalculatorPage: React.FC<PageProps> = () => {
     description: 'Calculate initial inventory investment, landed costs, monthly revenue, selling fees, advertising spend, net profit, ROI, and break-even unit metrics.',
   };
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
+      { '@type': 'ListItem', position: 2, name: 'Calculators', item: getCanonicalUrl('/calculators') },
+      { '@type': 'ListItem', position: 3, name: 'E-commerce Investment & Profit Calculator', item: getCanonicalUrl('/ecommerce-investment-profit-calculator') },
+    ],
+  };
+
   useSEO({
     title: `E-commerce Investment & Profit Calculator (2026) — ROI, Landed Cost & Break-Even | ${SITE_CONFIG.name}`,
-    description: 'Calculate your initial inventory capital, true landed cost per unit, monthly net profit, profit margins, ROI, and break-even sales velocity for online selling.',
+    description: `Calculate your initial inventory capital, true landed cost per unit, monthly net profit, profit margins, ROI, and break-even sales velocity with ${SITE_CONFIG.name}.`,
+    keywords: 'seller margin calculator, ecommerce investment calculator, ecommerce profit calculator, landed cost calculator, ecommerce roi calculator, break even units calculator, product launch cost calculator, inventory profit margin calculator',
     canonical: '/ecommerce-investment-profit-calculator',
-    schemaJson: [faqSchema, softwareSchema],
+    schemaJson: [faqSchema, softwareSchema, breadcrumbSchema],
   });
 
   return (

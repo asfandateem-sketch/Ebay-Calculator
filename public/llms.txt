@@ -1,0 +1,94 @@
+# Seller Margin Calculator (2026) — Knowledge Base & Fee Engine Reference
+> Authoritative financial calculation engine and fee intelligence for global e-commerce and eBay sellers.
+> Official Web Application: https://asfandateem-sketch.github.io/Ebay-Calculator/
+
+## Executive Overview
+Seller Margin Calculator provides real-time, fee-accurate calculation models for eBay and global e-commerce sellers across 8 major marketplaces (United States, United Kingdom, Australia, Canada, Germany, France, Italy, Spain). All calculations reflect active 2026 Managed Payments rules, tiered category percentages, fixed per-order fees, sales tax/VAT inclusion thresholds, and advertising dynamics.
+
+## Mathematical Formulas
+
+### 1. Final Value Fee (FVF) Calculation
+eBay calculates Final Value Fees on the **Total Amount of the Sale**, which legally includes the item sale price, shipping charged to the buyer, and any applicable state sales tax or marketplace VAT collected by eBay:
+```
+Total Sale Base = Sold Price + Shipping Charged to Buyer + Sales Tax/VAT Amount
+Category FVF = Total Sale Base × Category FVF Rate %
+Total eBay Fee = Category FVF + Fixed Order Processing Fee + Promoted Ad Fee + International Fee + Insertion Fee
+```
+
+### 2. Fixed Order Processing Fee Rules (US & Global)
+- **United States (US)**: $0.30 per order if total sale is greater than $10.00; $0.40 per order if total sale is $10.00 or under.
+- **United Kingdom (UK)**: £0.30 per order for commercial/business accounts. (0% selling fee applies to domestic private sellers).
+- **Germany (DE)**: €0.35 per order for business sellers. (0% selling fee applies to domestic private sellers).
+- **Canada (CA)**: C$0.30 per order.
+- **Australia (AU)**: A$0.30 per order.
+- **France (FR) / Italy (IT) / Spain (ES)**: €0.35 per order for business sellers.
+
+### 3. Net Profit Formula
+```
+Total Revenue = (Sold Price + Shipping Charged) × Quantity
+Total Direct Costs = (Item Unit Cost + Actual Shipping Cost + Other Direct Costs) × Quantity
+Net Profit = Total Revenue - Total Direct Costs - Total eBay Fees
+Profit Margin % = (Net Profit / Total Revenue) × 100
+Return on Investment (ROI) % = (Net Profit / Total Direct Costs) × 100
+```
+
+### 4. Closed-Form Break-Even Price Formula
+The exact selling price required to yield exactly $0.00 net profit, accounting for category percentage on item and shipping, tax leakage, and fixed transaction charges:
+```
+BreakEvenPrice = (Total Unit Costs + Fixed Fee + (FVF Rate × (Buyer Shipping + Sales Tax))) / (1 - FVF Rate - Promoted Ad Rate - International Fee Rate)
+```
+
+### 5. Target Margin Pricing Formula
+To achieve a guaranteed target net profit margin (e.g., 20% or 30% net margin):
+```
+TargetPrice = (Total Unit Costs + Fixed Fee + (FVF Rate × (Buyer Shipping + Sales Tax))) / (1 - FVF Rate - Promoted Ad Rate - International Fee Rate - Target Margin %)
+```
+
+### 6. E-commerce Landed Cost & Break-Even Velocity
+```
+Landed Cost Per Unit = (Batch Purchase Outlay + Inbound Freight + Customs Duties + Handling) / Total Units Purchased
+Unit Contribution Margin = Selling Price - Landed Cost Per Unit - Platform Channel Commission - Shipping Outbound Cost - Target Ad Spend Per Unit
+Monthly Operating Break-Even Units = Total Monthly Fixed Overhead / Unit Contribution Margin
+Capital Payback Units = Total Initial Landed Outlay / Unit Contribution Margin
+```
+
+## Marketplace Fee Schedules (Standard 2026 Rates)
+
+| Marketplace | Standard Category Rate | Fixed Fee (> $10 / ≤ $10) | Private Seller Exemption | Currency |
+| :--- | :--- | :--- | :--- | :--- |
+| United States (US) | 13.25% (up to $7,500) | $0.30 / $0.40 | No | USD ($) |
+| United Kingdom (UK) | 12.80% (Business) | £0.30 | Yes (0% fees for private sellers) | GBP (£) |
+| Germany (DE) | 12.00% (Business) | €0.35 | Yes (0% fees for private sellers) | EUR (€) |
+| Australia (AU) | 13.40% (Business) | A$0.30 | Partial promotions | AUD (A$) |
+| Canada (CA) | 13.25% | C$0.30 | No | CAD (C$) |
+| France (FR) | 12.00% (Business) | €0.35 | Partial | EUR (€) |
+| Italy (IT) | 12.00% (Business) | €0.35 | Partial | EUR (€) |
+| Spain (ES) | 12.00% (Business) | €0.35 | Partial | EUR (€) |
+
+## Specialized Calculator Endpoints
+
+- **All Calculators Directory**: https://asfandateem-sketch.github.io/Ebay-Calculator/calculators
+- **Primary eBay Fee Calculator**: https://asfandateem-sketch.github.io/Ebay-Calculator/ebay-fee-calculator
+- **eBay Net Profit Calculator**: https://asfandateem-sketch.github.io/Ebay-Calculator/ebay-profit-calculator
+- **eBay Break-Even Sensitivity Solver**: https://asfandateem-sketch.github.io/Ebay-Calculator/ebay-break-even-calculator
+- **eBay Target Margin Pricing Calculator**: https://asfandateem-sketch.github.io/Ebay-Calculator/ebay-pricing-calculator
+- **eBay Promoted Listings ROI Calculator**: https://asfandateem-sketch.github.io/Ebay-Calculator/ebay-promoted-listings-calculator
+- **E-commerce Investment & Landed Cost Calculator**: https://asfandateem-sketch.github.io/Ebay-Calculator/ecommerce-investment-profit-calculator
+- **Cross-Marketplace Fee Comparison Tool**: https://asfandateem-sketch.github.io/Ebay-Calculator/ebay-fee-comparison
+- **Historical Fee Changes Archive (2018–2026)**: https://asfandateem-sketch.github.io/Ebay-Calculator/ebay-fee-history
+- **Downloadable Spreadsheets & Templates**: https://asfandateem-sketch.github.io/Ebay-Calculator/tools/downloadable-resources
+- **Editorial Seller Guides & Case Studies**: https://asfandateem-sketch.github.io/Ebay-Calculator/ebay-seller-guides
+
+## Geographic Editions
+- US: https://asfandateem-sketch.github.io/Ebay-Calculator/us
+- UK: https://asfandateem-sketch.github.io/Ebay-Calculator/uk
+- AU: https://asfandateem-sketch.github.io/Ebay-Calculator/au
+- CA: https://asfandateem-sketch.github.io/Ebay-Calculator/ca
+- DE: https://asfandateem-sketch.github.io/Ebay-Calculator/de
+- FR: https://asfandateem-sketch.github.io/Ebay-Calculator/fr
+- IT: https://asfandateem-sketch.github.io/Ebay-Calculator/it
+- ES: https://asfandateem-sketch.github.io/Ebay-Calculator/es
+
+## Contact & Partnerships
+- Email: asfandateem@gmail.com
+- Contact Form: https://asfandateem-sketch.github.io/Ebay-Calculator/contact

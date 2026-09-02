@@ -20,7 +20,7 @@ export function useSEO({
   keywords,
   canonical,
   ogType = 'website',
-  image = `${SITE_CONFIG.url}/brand-emblem.svg`,
+  image = `${SITE_CONFIG.url}/og-image.jpg`,
   schemaJson,
   noIndex = false,
 }: SEOProps) {
@@ -108,6 +108,22 @@ export function useSEO({
         document.head.appendChild(ogImage);
       }
       ogImage.setAttribute('content', image);
+
+      let ogImageWidth = document.querySelector('meta[property="og:image:width"]');
+      if (!ogImageWidth) {
+        ogImageWidth = document.createElement('meta');
+        ogImageWidth.setAttribute('property', 'og:image:width');
+        document.head.appendChild(ogImageWidth);
+      }
+      ogImageWidth.setAttribute('content', '1200');
+
+      let ogImageHeight = document.querySelector('meta[property="og:image:height"]');
+      if (!ogImageHeight) {
+        ogImageHeight = document.createElement('meta');
+        ogImageHeight.setAttribute('property', 'og:image:height');
+        document.head.appendChild(ogImageHeight);
+      }
+      ogImageHeight.setAttribute('content', '630');
     }
 
     // Set Twitter tags

@@ -17,15 +17,20 @@ export const ResourcesPage: React.FC<PageProps> = () => {
   useSEO({
     title: `Free eBay Fee & Profit Spreadsheet Templates (Excel / Sheets) | ${SITE_CONFIG.name}`,
     description: `Download free eBay profit tracking templates, batch fee calculators, and break-even spreadsheets compatible with Excel and Google Sheets from ${SITE_CONFIG.name}.`,
-    keywords: 'free ebay fee spreadsheet, ebay profit spreadsheet template, ebay inventory tracking excel, google sheets ebay calculator',
+    keywords: 'seller margin calculator templates, free ebay fee spreadsheet, ebay profit spreadsheet template, ebay inventory tracking excel, google sheets ebay calculator, ecommerce spreadsheet templates',
     canonical: '/tools/downloadable-resources',
     schemaJson: {
       '@context': 'https://schema.org',
       '@graph': [
         {
           '@type': 'DigitalDocument',
-          name: 'eBay Inventory & Profit Master Sheet Spreadsheet Template',
+          name: `eBay Inventory & Profit Master Sheet Spreadsheet Template — ${SITE_CONFIG.name}`,
           fileFormat: 'text/csv',
+          provider: {
+            '@type': 'Organization',
+            name: SITE_CONFIG.name,
+            url: getCanonicalUrl('/'),
+          },
           offers: {
             '@type': 'Offer',
             price: '0',
@@ -36,7 +41,8 @@ export const ResourcesPage: React.FC<PageProps> = () => {
           '@type': 'BreadcrumbList',
           itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
-            { '@type': 'ListItem', position: 2, name: 'Downloadable Resources', item: getCanonicalUrl('/tools/downloadable-resources') },
+            { '@type': 'ListItem', position: 2, name: 'Resources', item: getCanonicalUrl('/tools/downloadable-resources') },
+            { '@type': 'ListItem', position: 3, name: 'Downloadable Resources', item: getCanonicalUrl('/tools/downloadable-resources') },
           ],
         },
       ],

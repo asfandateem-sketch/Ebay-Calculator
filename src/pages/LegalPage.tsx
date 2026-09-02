@@ -3,6 +3,7 @@ import { useSEO } from '../hooks/useSEO';
 import { Shield, ArrowLeft, Mail, ShieldCheck } from 'lucide-react';
 import { RouterLink } from '../components/RouterLink';
 import { SITE_CONFIG } from '../config/site';
+import { getCanonicalUrl } from '../hooks/useRouting';
 
 interface LegalPageProps {
   type: 'privacy' | 'terms' | 'disclaimer' | 'about' | 'contact';
@@ -21,7 +22,31 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type }) => {
   useSEO({
     title: `${titles[type]} — ${SITE_CONFIG.name}`,
     description: `Official ${titles[type]} for ${SITE_CONFIG.name} eBay Fee and Profit Intelligence platform.`,
+    keywords: `seller margin calculator legal, ${titles[type].toLowerCase()}, seller margin calculator terms, privacy policy seller margin calculator`,
     canonical: `/${type}`,
+    schemaJson: {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'WebPage',
+          name: `${titles[type]} — ${SITE_CONFIG.name}`,
+          description: `Official ${titles[type]} for ${SITE_CONFIG.name}.`,
+          url: getCanonicalUrl(`/${type}`),
+          provider: {
+            '@type': 'Organization',
+            name: SITE_CONFIG.name,
+            url: getCanonicalUrl('/'),
+          },
+        },
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
+            { '@type': 'ListItem', position: 2, name: titles[type], item: getCanonicalUrl(`/${type}`) },
+          ],
+        },
+      ],
+    },
   });
 
   return (

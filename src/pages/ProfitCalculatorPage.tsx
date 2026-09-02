@@ -20,17 +20,22 @@ export const ProfitCalculatorPage: React.FC<PageProps> = ({ onNavigate }) => {
 
   useSEO({
     title: `eBay Profit Calculator (2026 Free) — Net Profit Margin & ROI Solver | ${SITE_CONFIG.name}`,
-    description: 'Calculate true eBay net profit, take-home earnings, margin percentages, and return on investment (ROI) after subtracting item COGS, shipping labels, and selling fees.',
-    keywords: 'ebay profit calculator, calculate ebay profit, ebay profit margin calculator, ebay roi calculator, calculate net earnings on ebay',
+    description: `Calculate true eBay net profit, take-home earnings, margin percentages, and return on investment (ROI) after subtracting item COGS, shipping labels, and selling fees with ${SITE_CONFIG.name}.`,
+    keywords: 'seller margin calculator, ebay profit calculator, calculate ebay profit, ebay profit margin calculator, ebay roi calculator, calculate net earnings on ebay, ebay margin solver',
     canonical: '/ebay-profit-calculator',
     schemaJson: {
       '@context': 'https://schema.org',
       '@graph': [
         {
           '@type': 'SoftwareApplication',
-          name: 'eBay Profit & Margin Calculator',
+          name: `eBay Profit & Margin Calculator — ${SITE_CONFIG.name}`,
           applicationCategory: 'FinanceApplication',
           operatingSystem: 'All',
+          provider: {
+            '@type': 'Organization',
+            name: SITE_CONFIG.name,
+            url: getCanonicalUrl('/'),
+          },
           offers: {
             '@type': 'Offer',
             price: '0',
@@ -41,7 +46,8 @@ export const ProfitCalculatorPage: React.FC<PageProps> = ({ onNavigate }) => {
           '@type': 'BreadcrumbList',
           itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
-            { '@type': 'ListItem', position: 2, name: 'eBay Profit Calculator', item: getCanonicalUrl('/ebay-profit-calculator') },
+            { '@type': 'ListItem', position: 2, name: 'Calculators', item: getCanonicalUrl('/calculators') },
+            { '@type': 'ListItem', position: 3, name: 'eBay Profit Calculator', item: getCanonicalUrl('/ebay-profit-calculator') },
           ],
         },
       ],

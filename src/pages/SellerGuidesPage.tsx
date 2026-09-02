@@ -15,16 +15,22 @@ export const SellerGuidesPage: React.FC<PageProps> = ({ onNavigate }) => {
 
   useSEO({
     title: `eBay Seller Fee & Profit Intelligence Guides (2026) | ${SITE_CONFIG.name}`,
-    description: 'Expert mathematical breakdowns and actionable strategy guides on eBay final value fees, shipping margins, promoted ads ROI, and store subscriptions.',
-    keywords: 'ebay seller guides, how to calculate ebay fees, ebay seller profit strategy, ebay fee reduction guide',
+    description: `Expert mathematical breakdowns and actionable strategy guides on eBay final value fees, shipping margins, promoted ads ROI, and store subscriptions by ${SITE_CONFIG.name}.`,
+    keywords: 'seller margin calculator guides, ebay seller guides, how to calculate ebay fees, ebay seller profit strategy, ebay fee reduction guide, ecommerce seller guides, ebay selling tactics 2026',
     canonical: '/ebay-seller-guides',
     schemaJson: {
       '@context': 'https://schema.org',
       '@graph': [
         {
           '@type': 'CollectionPage',
-          name: 'eBay Seller Fee & Profit Intelligence Guides',
+          name: `eBay Seller Fee & Profit Intelligence Guides — ${SITE_CONFIG.name}`,
           description: 'Definitive guides, mathematical proofs, and frameworks for managing eBay fees and maximizing net profit.',
+          url: getCanonicalUrl('/ebay-seller-guides'),
+          provider: {
+            '@type': 'Organization',
+            name: SITE_CONFIG.name,
+            url: getCanonicalUrl('/'),
+          },
         },
         {
           '@type': 'BreadcrumbList',

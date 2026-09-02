@@ -19,17 +19,22 @@ export const BreakEvenPage: React.FC<PageProps> = ({ onNavigate }) => {
 
   useSEO({
     title: `eBay Break-Even Calculator (2026) — Find Your Minimum Floor Price | ${SITE_CONFIG.name}`,
-    description: 'Calculate the exact minimum selling price needed on eBay to avoid losses and break even ($0.00 net profit). Complete with category fee math and shipping label costs.',
-    keywords: 'ebay break even calculator, calculate ebay break even price, minimum selling price ebay, ebay floor price calculator',
+    description: `Calculate the exact minimum selling price needed on eBay to avoid losses and break even ($0.00 net profit) with ${SITE_CONFIG.name}. Complete with category fee math and shipping label costs.`,
+    keywords: 'seller margin calculator, ebay break even calculator, calculate ebay break even price, minimum selling price ebay, ebay floor price calculator, zero loss price solver',
     canonical: '/ebay-break-even-calculator',
     schemaJson: {
       '@context': 'https://schema.org',
       '@graph': [
         {
           '@type': 'SoftwareApplication',
-          name: 'eBay Break-Even Calculator',
+          name: `eBay Break-Even Calculator — ${SITE_CONFIG.name}`,
           applicationCategory: 'FinanceApplication',
           operatingSystem: 'All',
+          provider: {
+            '@type': 'Organization',
+            name: SITE_CONFIG.name,
+            url: getCanonicalUrl('/'),
+          },
           offers: {
             '@type': 'Offer',
             price: '0',
@@ -40,7 +45,8 @@ export const BreakEvenPage: React.FC<PageProps> = ({ onNavigate }) => {
           '@type': 'BreadcrumbList',
           itemListElement: [
             { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
-            { '@type': 'ListItem', position: 2, name: 'eBay Break-Even Calculator', item: getCanonicalUrl('/ebay-break-even-calculator') },
+            { '@type': 'ListItem', position: 2, name: 'Calculators', item: getCanonicalUrl('/calculators') },
+            { '@type': 'ListItem', position: 3, name: 'eBay Break-Even Calculator', item: getCanonicalUrl('/ebay-break-even-calculator') },
           ],
         },
       ],

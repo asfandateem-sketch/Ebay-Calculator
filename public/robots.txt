@@ -1,4 +1,57 @@
+# robots.txt for Seller Margin Calculator
+# https://asfandateem-sketch.github.io/Ebay-Calculator/
+
 User-agent: *
 Allow: /
+Disallow: /embed-widget
+Disallow: /404.html
 
+# Search Engine Crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# AI Answer Engines & LLM Agents (AEO / GEO Ingestion)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Sitemaps and LLMs Specification
 Sitemap: https://asfandateem-sketch.github.io/Ebay-Calculator/sitemap.xml
+# LLMs.txt for Generative & Answer Engine Optimization
+# Reference: https://asfandateem-sketch.github.io/Ebay-Calculator/llms.txt
+

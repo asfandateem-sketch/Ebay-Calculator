@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { CalculatorInputs, CalculatorResults as ResultsType } from '../../types';
 import { formatCurrency, formatPercent } from '../../utils/currency';
-import { generateCsvExport, downloadCsv, encodeInputsToUrl } from '../../utils/export';
+import { generateCsvExport, downloadCsv, encodeInputsToUrl, generateShareSummaryText } from '../../utils/export';
 import { trackEvent } from '../../utils/analytics';
 import { useCurrencyContext } from '../../context/CurrencyContext';
 import { CurrencyConversionBar } from '../Currency/CurrencyConversionBar';
-import { Copy, Check, Download, Target, ExternalLink, ArrowRightLeft } from 'lucide-react';
+import { Copy, Check, Download, Target, ExternalLink, ArrowRightLeft, Share2, FileText } from 'lucide-react';
 
 interface CalculatorResultsProps {
   inputs: CalculatorInputs;
@@ -15,6 +15,7 @@ interface CalculatorResultsProps {
 
 export const CalculatorResults: React.FC<CalculatorResultsProps> = ({ inputs, results, onNavigate }) => {
   const [copied, setCopied] = useState(false);
+  const [copiedSummary, setCopiedSummary] = useState(false);
   const {
     isConversionEnabled,
     targetCurrency,
@@ -26,6 +27,8 @@ export const CalculatorResults: React.FC<CalculatorResultsProps> = ({ inputs, re
   const rateInfo = getExchangeRateInfo(inputs.country);
   const isConversionActive = isConversionEnabled && !rateInfo.isIdentity;
 
+  const canNativeShare = typeof navigator !== 'undefined' && typeof navigator.share === 'function';
+
   const handleCopyShareLink = () => {
     if (typeof window !== 'undefined') {
       const qs = encodeInputsToUrl(inputs);
@@ -36,6 +39,40 @@ export const CalculatorResults: React.FC<CalculatorResultsProps> = ({ inputs, re
         setTimeout(() => setCopied(false), 2000);
       });
     }
+  };
+
+  const handleShareOrCopy = async () => {
+    if (typeof window === 'undefined') return;
+    const qs = encodeInputsToUrl(inputs);
+    const url = `${window.location.origin}${window.location.pathname}?${qs}`;
+    const summary = generateShareSummaryText(inputs, results, url);
+
+    if (canNativeShare) {
+      try {
+        await navigator.share({
+          title: `${inputs.country} eBay Fee & Profit Calculation`,
+          text: summary,
+          url,
+        });
+        trackEvent('share_native_success', { country: inputs.country });
+        return;
+      } catch {
+        // Fall back to link copy if user dismissed or native share errored
+      }
+    }
+    handleCopyShareLink();
+  };
+
+  const handleCopySummary = () => {
+    if (typeof window === 'undefined') return;
+    const qs = encodeInputsToUrl(inputs);
+    const url = `${window.location.origin}${window.location.pathname}?${qs}`;
+    const summary = generateShareSummaryText(inputs, results, url);
+    navigator.clipboard.writeText(summary).then(() => {
+      setCopiedSummary(true);
+      trackEvent('copy_summary_snippet', { country: inputs.country });
+      setTimeout(() => setCopiedSummary(false), 2500);
+    });
   };
 
   const handleDownloadCsv = () => {
@@ -233,17 +270,34 @@ export const CalculatorResults: React.FC<CalculatorResultsProps> = ({ inputs, re
           <div className="results-export-header">
             <span className="results-export-label">Export &amp; Share Calculation:</span>
           </div>
-          <div className="results-action-row">
+          <div className="results-action-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '8px' }}>
             <button
               id="btn-copy-share-result"
               type="button"
               className="results-action-btn"
-              onClick={handleCopyShareLink}
-              title="Copy link to this exact calculation scenario"
-              aria-label="Copy share link"
+              onClick={handleShareOrCopy}
+              title={canNativeShare ? 'Share calculation scenario via apps' : 'Copy link to this exact calculation scenario'}
+              aria-label={canNativeShare ? 'Share calculation' : 'Copy share link'}
             >
-              {copied ? <Check size={14} aria-hidden="true" /> : <Copy size={14} aria-hidden="true" />}
-              <span>{copied ? 'Link Copied!' : 'Copy Share Link'}</span>
+              {copied ? (
+                <Check size={14} aria-hidden="true" />
+              ) : canNativeShare ? (
+                <Share2 size={14} aria-hidden="true" />
+              ) : (
+                <Copy size={14} aria-hidden="true" />
+              )}
+              <span>{copied ? 'Link Copied!' : canNativeShare ? 'Share Result' : 'Copy Link'}</span>
+            </button>
+            <button
+              id="btn-copy-summary-snippet"
+              type="button"
+              className="results-action-btn"
+              onClick={handleCopySummary}
+              title="Copy formatted markdown text snippet for Reddit, Discord, or forums"
+              aria-label="Copy summary snippet"
+            >
+              {copiedSummary ? <Check size={14} aria-hidden="true" /> : <FileText size={14} aria-hidden="true" />}
+              <span>{copiedSummary ? 'Snippet Copied!' : 'Copy Summary'}</span>
             </button>
             <button
               id="btn-download-csv-result"
@@ -254,7 +308,7 @@ export const CalculatorResults: React.FC<CalculatorResultsProps> = ({ inputs, re
               aria-label="Download CSV report"
             >
               <Download size={14} aria-hidden="true" />
-              <span>Download CSV Report</span>
+              <span>Download CSV</span>
             </button>
           </div>
         </div>

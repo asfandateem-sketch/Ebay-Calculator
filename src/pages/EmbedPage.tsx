@@ -4,6 +4,7 @@ import { EmbedWidget } from '../components/Embed/EmbedWidget';
 import { Code, Copy, Check, ArrowLeft } from 'lucide-react';
 import { RouterLink } from '../components/RouterLink';
 import { SITE_CONFIG } from '../config/site';
+import { getCanonicalUrl } from '../hooks/useRouting';
 
 interface PageProps {
   onNavigate?: (path: string) => void;
@@ -15,7 +16,36 @@ export const EmbedPage: React.FC<PageProps> = () => {
   useSEO({
     title: `Free Embeddable eBay Fee Calculator Widget | ${SITE_CONFIG.name}`,
     description: `Embed the ${SITE_CONFIG.name} eBay Fee Calculator widget onto your blog, reseller forum, or e-commerce website with a single line of responsive HTML.`,
+    keywords: 'seller margin calculator widget, embed ebay fee calculator, free ebay calculator widget, ebay fee calculator iframe, ecommerce calculator widget',
     canonical: '/embed/ebay-fee-calculator',
+    schemaJson: {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'SoftwareApplication',
+          name: `Embeddable eBay Fee Calculator Widget — ${SITE_CONFIG.name}`,
+          applicationCategory: 'FinanceApplication',
+          operatingSystem: 'All',
+          provider: {
+            '@type': 'Organization',
+            name: SITE_CONFIG.name,
+            url: getCanonicalUrl('/'),
+          },
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+          },
+        },
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: getCanonicalUrl('/') },
+            { '@type': 'ListItem', position: 2, name: 'Embed Widget', item: getCanonicalUrl('/embed/ebay-fee-calculator') },
+          ],
+        },
+      ],
+    },
   });
 
   const embedCode = `<iframe \n  src="${SITE_CONFIG.url}/embed-widget" \n  width="100%" \n  height="360" \n  style="border:none; border-radius:12px; max-width:480px; box-shadow:0 4px 20px rgba(0,0,0,0.08);" \n  title="eBay Fee Calculator by ${SITE_CONFIG.name}"\n></iframe>`;
